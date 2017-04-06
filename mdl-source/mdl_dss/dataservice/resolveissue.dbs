@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="resolveissue" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>resolveissue</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="resolveissue" useConfig="mdl_psm">
+    <sql>call resolveissue(?,?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;        "response": "$response"&#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="issueid" sqlType="INTEGER" />
+    <param name="description" sqlType="STRING" />
+  </query>
+  <operation name="resolveissue">
+    <description>resolveissue</description>
+    <call-query href="resolveissue">
+      <with-param name="token" query-param="token" />
+      <with-param name="issueid" query-param="issueid" />
+      <with-param name="description" query-param="description" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="resolveissue">
+    <description>resolveissue</description>
+    <call-query href="resolveissue">
+      <with-param name="token" query-param="token" />
+      <with-param name="issueid" query-param="issueid" />
+      <with-param name="description" query-param="description" />
+    </call-query>
+  </resource>
+</data>

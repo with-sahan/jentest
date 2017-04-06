@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dashboard</title>
+	<style type="text/css" title="currentStyle">
+	@import "styles/style.css";
+	@import "styles/jquery.dataTables.min.css";
+	@import "styles/font-awesome-4.2.0/css/font-awesome.min.css";
+	</style>
+    <script src="/js/jquery-1.8.3.min.js"></script>
+     <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+<body>
+ <div class="contentWrapper">
+      <header class="grid-wrap">
+       <div class="grid-col">
+        <img src="img/scc-banner-slim.png" />
+       </div>
+       <div class="grid-col">
+        <nav>
+         <ul>
+          <li class="active"><a href="index.html">Dashboard</a></li>
+          <li><a href="ballotBox.html">Ballot Box Progress</a></li>
+          <li><a href="issues.html">Issues</a></li>
+          <li><a href="notifications.html">Notifications</a></li>
+         </ul>
+        </nav>
+       </div>
+      </header>
+  	  <section class="grid-wrap">
+       <div class="grid-col pageTitle">
+        <h1>Dashboard</h1>
+       </div>
+       <div class="grid-col content">
+        <div class="row two clearfix">
+         <div class="box">
+		  <h3>Total Ballot Papers Issued</h3>
+			<div>5934</div>
+		  </div>
+         <div class="box">
+		  <h3>Total Postal Packs</h3>
+			<div>208</div>
+         </div>
+        </div>
+        <table id="electoralArea" cellspacing="0">
+         <caption>Electoral Area</caption>
+         <thead>
+  		  <tr>
+           <th></th>
+           <th>Contests</th>
+           <th>Ballot Papers Issued</th>
+           <th>Postal Packs</th>          
+          </tr>
+         </thead>
+         <tbody>
+          <tr>
+           <td class="details-control"></td>
+           <td>Arbourthorne</td>
+           <td>1000</td>
+           <td>50</td>
+          </tr>
+          <tr>
+           <td class="details-control"></td>
+           <td>Beighton</td>
+           <td>1500</td>
+           <td>13</td>
+          </tr>
+          <tr>
+           <td class="details-control"></td>
+           <td>Firth Park</td>
+           <td>2200</td>
+           <td>89</td>       
+          </tr>
+          <tr>
+           <td class="details-control"></td>
+           <td>Hillsborough</td>
+           <td>1234</td>
+           <td>56</td>
+          </tr>
+         </tbody>
+        </table>           
+       </div>
+      </section>
+      <footer>
+       <div class="grid-wrap">
+        <div class="grid-col">
+         <div class="footerContent">
+          <p><a href="">Dashboard</a> | <a href="">Ballot Box Progress</a> | <a href="">Issues</a> | <a href="">Push Notifications</a></p>
+          <p>Copyright © 2014 Modern Democracy. All Rights Reserved.</p>
+         </div>
+         </div>
+        </div>
+      </footer>
+ </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<data name="getallnotifications" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>polling station manager service - get all notification&#13;                                &#13;                                &#13;                                </description>
+   <config id="mdl_psm">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="getallnotifications" useConfig="mdl_psm">
+      <sql>call getallnotifications(?)</sql>
+      <result outputType="json">{&#13;    "result": {&#13;        "entry": [&#13;            {&#13;                "notification_id": "$notification_id",&#13;                "message": "$message",&#13;                "att_url": "$att_url",&#13;                "generatedon": "$generatedon",&#13;                "isprivate": $isprivate,&#13;                "status": $status,&#13;                "response": "$response"&#13;            }&#13;        ]&#13;    }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="getallnotifications">
+      <description>getallnotifications&#13;                                    </description>
+      <call-query href="getallnotifications">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getallnotifications">
+      <description>getallnotifications&#13;                                    </description>
+      <call-query href="getallnotifications">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

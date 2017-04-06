@@ -1,0 +1,34 @@
+<div class="modal fade"  id="{{templateModal.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                <h4 class="modal-title"><strong>{{templateModal.header}}</strong></h4>
+            </div>
+            <div class="modal-body">
+               <div style="height: 100px;" id="csv_scuess_container">
+						<div class="form-group">
+							<div class="col-sm-9"><b><font color={{templateModal.colorchange}}> {{templateModal.validation}}</font></b></div>                                
+		                     <div class="col-sm-3">&nbsp;</div>
+		                </div>
+						<div class="form-group">
+							<div class="col-sm-3">File Name:</div>                                
+		                     <div class="col-sm-9">{{templateModal.fileinfo.name}}</div>
+		                </div>
+		                
+		                
+						<div class="form-group">
+							<div class="col-sm-3">CSV File:</div>  
+							<a href="{{templateModal.fileinfo.url}}" download>Download Report&nbsp;&nbsp;<i class="glyphicon glyphicon-download-alt"></i></a>                              
+		                     
+		                </div>
+				</div>
+            </div>
+            </div>
+            <div class="modal-footer bg-dark">
+                <button type="button" class="btn btn-white" ng-click="templateModal.close()">{{templateModal.closeCaption}}</button>
+                <button type="button" class="btn btn-primary" ng-click="templateModal.save()" ng-hide="templateModal.savehide">{{templateModal.saveCaption}}</button>
+            </div>
+        </div>
+    </div>
+</div>

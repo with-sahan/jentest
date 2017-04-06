@@ -1,0 +1,94 @@
+<!--
+ * Project: MDL Dashboard
+ * Author: Niranjan Thilakarathna
+ * Module: BOF Tendered votes
+-->
+<div class="forms-companions" ng-controller="mdl.mobileweb.controller.tenderedvotes as vm">
+    <div class="panel">
+        <div class="col-md-12 p-l-0 p-r-0">
+            <div class="panel-header">
+                <div class="p-l-0">
+                    <h3 align="left">
+                            <strong>List of Tendered votes</strong>
+                        </h3>
+                </div>
+            </div>
+        </div>
+        <div class="panel-content p-l-0 p-r-0">
+            <div class="tab-fade-in tab_left">
+                <ul id="stationName" class="nav nav-tabs" ng-class="{'nav-stacked': vertical, 'nav-justified': justified}">
+                    <li ng-repeat="station in vm.pollingStationList" ng-click="vm.setStation(station.id,station.name)" value="{{station.id}}" ng-class="{'active':station.id==vm.stationid}">
+                        <a href="">
+                            <tab-heading class="ng-scope">
+                                <b class="icons-education-science-18">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        {{station.name}}
+                                    </b>
+                            </tab-heading>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content p-t-0">
+                    <div class="tab-pane active" ng-class="{active: tab.active}" style="">
+                        <div class="tab-fade-in tab-default-behaviour">
+                            <ul class="nav nav-tabs" ng-class="{'nav-stacked': vertical, 'nav-justified': justified}">
+                                <li ng-repeat="item in vm.electionList" ng-class="{'active':item.electionid==vm.currentElection}" ng-click="vm.setElection(item.electionid)" value="{{item.electionid}}">
+                                    <a href="">
+                                        <tab-heading class="ng-scope">
+                                            <b>
+                                                    <img src="assets/global/images/icons/elections.png" style="width: 13%; margin-bottom: 7px;">
+                                                    {{item.electionname}}
+                                                </b>
+                                        </tab-heading>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="row m-0">
+                                <div class="col-md-12 form-horizontal m-0">
+
+                                    <div class="row">
+                                        <div class="col-md-12 m-t-10 m-l-0">
+                                            <form name="myForm" id="myFormId">
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Name of Voter</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control input-sm" placeholder="Voter Name" type="text" ng-model="vm.tenderedvoteslist.votername" ng-pattern="regex.words"><br>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                            Elector Number</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control input-sm" placeholder="Elector Number" type="number" min="1" ng-model="vm.tenderedvoteslist.electornumber" ng-pattern="regex.number"><br>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                            Reason</label>
+                                                    <div class="col-sm-6">
+                                                        <div class="input-group">
+                                                            <div class="icheck-inline">
+                                                                <label><input type="radio" name="radio2" applyicheck="vm.tenderedvoteslist.ismarked" ng-model="vm.tenderedvoteslist.ismarked" value="1" data-radio="iradio_square-blue">Already Marked</label><br>
+                                                                <label><input type="radio" name="radio2" applyicheck="vm.tenderedvoteslist.ismarked" ng-model="vm.tenderedvoteslist.ismarked" value="0" checked data-radio="iradio_square-blue">Postal Vote Replacement</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <button class="btn btn-success m-r-10" type="button" ng-click="vm.submitTenderedVotes(vm.tenderedvoteslist)" ng-disabled="vm.buttonDis">Submit</button>
+                                                        <a class="btn btn-danger m-r-10" ng-href="#/forms/tenderedvotes">Back</a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

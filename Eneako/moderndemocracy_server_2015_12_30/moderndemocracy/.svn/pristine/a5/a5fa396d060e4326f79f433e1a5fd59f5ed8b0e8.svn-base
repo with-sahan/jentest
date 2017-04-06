@@ -1,0 +1,51 @@
+id,council_id,text,order_id,status
+1,1,Open Station,10,false
+2,1,Polling Boxes Arrived,1,false
+3,1,Polling Staff Arrived,2,false
+4,1,All Ballot Books Arrived,3,false
+5,1,All Booths Ready,4,false
+6,1,Signage to Polling Station Visible,5,false
+7,1,Polling Station Accessible to all voters,6,false
+8,1,Low level Booths and ballot boxes installed,8,false
+9,1,Large print ballot papers clearly visible,7,false
+10,1,Hand held samples available,9,false
+11,2,Open Station,10,false
+12,2,Polling Boxes Arrived,1,false
+13,2,Polling Staff Arrived,2,false
+14,2,All Ballot Books Arrived,3,false
+15,2,All Booths Ready,4,false
+16,2,Signage to Polling Station Visible,5,false
+17,2,Polling Station Accessible to all voters,6,false
+18,2,Low level Booths and ballot boxes installed,8,false
+19,2,Large print ballot papers clearly visible,7,false
+20,2,Hand held samples available,9,false
+21,3,Open Station,10,false
+22,3,Polling Boxes Arrived,1,false
+23,3,Polling Staff Arrived,2,false
+24,3,All Ballot Books Arrived,3,false
+25,3,All Booths Ready,4,false
+26,3,Signage to Polling Station Visible,5,false
+27,3,Polling Station Accessible to all voters,6,false
+28,3,Low level Booths and ballot boxes installed,8,false
+29,3,Large print ballot papers clearly visible,7,false
+30,3,Hand held samples available,9,false
+31,4,Open Station,10,false
+32,4,Polling Boxes Arrived,1,false
+33,4,Polling Staff Arrived,2,false
+34,4,All Ballot Books Arrived,3,false
+35,4,All Booths Ready,4,false
+36,4,Signage to Polling Station Visible,5,false
+37,4,Polling Station Accessible to all voters,6,false
+38,4,Low level Booths and ballot boxes installed,8,false
+39,4,Large print ballot papers clearly visible,7,false
+40,4,Hand held samples available,9,false
+41,5,Open Station,10,false
+42,5,Polling Boxes Arrived,1,false
+43,5,Polling Staff Arrived,2,false
+44,5,All Ballot Books Arrived,3,false
+45,5,All Booths Ready,4,false
+46,5,Signage to Polling Station Visible,5,false
+47,5,Polling Station Accessible to all voters,6,false
+48,5,Low level Booths and ballot boxes installed,8,false
+49,5,Large print ballot papers clearly visible,7,false
+50,5,Hand held samples available,9,false

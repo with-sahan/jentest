@@ -1,0 +1,351 @@
+package com.moderndemocracy.dao;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.anaeko.error.AnaekoRuntimeException;
+import com.anaeko.utils.jdbc.CacheableQuery;
+import com.anaeko.utils.jdbc.CacheableUpdate;
+import com.anaeko.utils.jdbc.KeyExtractor;
+import com.anaeko.utils.jdbc.ParameterDelegate;
+import com.moderndemocracy.pojo.StationClose;
+import com.moderndemocracy.pojo.StationSetupList;
+
+public class StationSetupStatusDao {
+	
+
+	protected static final Logger logger = LogManager.getLogger(StationSetupStatusDao.class);
+
+
+	/********/
+	/* SQL */
+	/******/
+	private static final String SQL_INSERT_STATION_PROGRESS = 
+			"UPDATE STATION set "					
+			+ " ballot_papers_issued=?, "				
+			+ " postal_packs_received=? "					
+			+ " WHERE id = ? ";
+															
+	private static final String SQL_UPDATE_STATION_CLOSE =
+			"UPDATE station set "
+			+ " ordinary_total_issued=?, "
+			+ " ordinary_number_of_replacements=?, "
+			+ " ordinary_cals_issued_and_not_spoilt=?, "
+			+ " ordinary_total_unused=?, "
+			+ " tendered_total_issued=?, "
+			+ " tendered_total_spoilt=?, "
+			+ " tendered_total_unused=? "
+			+ " WHERE id=?";
+	
+	private static final String SQL_INSERT_DISPATCH_TIME = 
+			"UPDATE STATION set "
+			+ " dispatch_time=now() "
+			+ " WHERE id = ? ";
+
+	private static final String SQL_INSERT_ARRIVAL_TIME = 
+			"UPDATE STATION set "
+			+ " deliver_time=now() "
+			+ " WHERE id = ? ";
+	
+	private static final String SQL_SELECT_BY_STATION_ID = StationSetupStatusExtractor.SQL
+			+ " WHERE SSS.station_setup_list_id=SSL.id and "
+			+ " SSS.station_id=? "
+			+ " ORDER by order_id";
+	
+	private static final String SQL_UPDATE = "update station_setup_status "
+			+ " set status=? "
+			+ " WHERE id=? and station_id=?";
+	
+	private DataSource pool;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param pool
+	 *            The datasource.
+	 */
+	public StationSetupStatusDao(DataSource pool) {
+		if (null == pool)
+			throw new AnaekoRuntimeException(
+					"Cannot create a DAO without a database connection");
+		this.pool = pool;
+	}
+
+	/**
+	 * Insert Station ProgressUpdate
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean insertProgressUpdate( DataSource source, int stationId, int numberPapersIssued, int numberPostalPacksReceived ) throws SQLException {
+
+		CacheableUpdate createQuery = new CacheableUpdate(pool);
+		
+		// Params for SQL
+		SetProgressUpdateInsertParams params = new SetProgressUpdateInsertParams( stationId, numberPapersIssued, numberPostalPacksReceived );
+		
+		logger.debug("About to insert progress update");
+		int effected = createQuery.execute( SQL_INSERT_STATION_PROGRESS, params );
+		
+		if( effected > 0 ) {
+			logger.debug("Progress update insertion success");
+			return true;
+		} else {
+			logger.error("Progress update insertion fail");
+			return false;
+		}
+	}
+	
+	/**
+	 * Insert Station ClosingUpdate
+	 * 
+	 * @param source
+	 * @param stationId
+	 * @param ordinary_total_ballot_papers_issued
+	 * @param ordinary_number_of_spoilt_ballot_papers
+	 * @param ordinary_total_ballot_papers_issued_and_unspoilt
+	 * @param tendered_total_ballow_papers_marked
+	 * @param tendered_number_of_spoilt_ballot_papers
+	 * @param tendered_total_unused_ballow_papers
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean insertClosingUpdate( DataSource source, int stationId, StationClose stationClose) 
+					throws SQLException {
+
+		CacheableUpdate createQuery = new CacheableUpdate(pool);
+		
+		// Params for SQL
+		SetClosingUpdateInsertParams params = new SetClosingUpdateInsertParams( 
+				stationId, 
+				stationClose.getOrdinary().getOrdinaryTotalIssued(), 
+				stationClose.getOrdinary().getOrdinaryNumberOfReplacements(), 
+				stationClose.getOrdinary().getOrdinaryCalsIssuedAndNotSpoilt(),
+				stationClose.getOrdinary().getOrdinaryTotalUnused(),
+				stationClose.getTendered().getTenderedTotalIssued(),
+				stationClose.getTendered().getTenderedTotalSpoilt(),
+				stationClose.getTendered().getTenderedTotalUnused());
+		
+		logger.debug("About to insert ClosingProgress into Station "+stationId);
+		int effected = createQuery.execute( SQL_UPDATE_STATION_CLOSE, params );
+		
+		if( effected > 0 ) {
+			logger.debug("Successfully insert ClosingProgress into Station "+stationId);
+			return true;
+		} else {
+			logger.error("Failed to insert ClosingProgress into Station "+stationId);
+			return false;
+		}
+	}
+	
+	/**
+	 * Insert Dispatched Time
+	 * 
+	 * @param source
+	 * @param stationId
+	 * @param dispatchTime
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean insertDispatchedTime( DataSource source, int stationId ) throws SQLException {
+
+		CacheableUpdate createQuery = new CacheableUpdate(pool);
+		
+		// Params for SQL
+		SetDispatchTimeInsertParams params = new SetDispatchTimeInsertParams( stationId );
+		
+		logger.debug("About to insert dispatch time");
+		int effected = createQuery.execute( SQL_INSERT_DISPATCH_TIME, params );
+		
+		if( effected > 0 ) {
+			logger.debug("Successfully inserted dispatch time into station "+stationId);
+			return true;
+		} else {
+			logger.error("Failed to insert dispatch time into station "+stationId);
+			return false;
+		}
+	}
+	
+	/**
+	 * Insert Delivered Time
+	 * 
+	 * @param source
+	 * @param stationId
+	 * @param dispatchTime
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean insertDeliveredTime( DataSource source, int stationId ) throws SQLException {
+
+		CacheableUpdate createQuery = new CacheableUpdate(pool);
+		
+		// Params for SQL
+		SetDeliveredTimeInsertParams params = new SetDeliveredTimeInsertParams( stationId);
+		
+		logger.debug("About to insert deliver time for station "+stationId);
+		int effected = createQuery.execute( SQL_INSERT_ARRIVAL_TIME, params );
+		
+		if( effected > 0 ) {
+			logger.debug("Successfully inserted deliver time into station "+stationId);
+			return true;
+		} else {
+			logger.error("Failed to insert deliver time into station "+stationId);
+			return false;
+		}
+	}
+	
+	/**
+	 * Get StationSetupStatus by StationId
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<StationSetupList> getStationSetupStateByStationId(final int stationId) throws SQLException {
+		CacheableQuery<StationSetupList> query = new CacheableQuery<StationSetupList>(pool);
+	
+		List<StationSetupList> found = query.execute(SQL_SELECT_BY_STATION_ID,
+				new StationSetupListExtractor(), new ParameterDelegate() {
+					@Override
+					public void setParameters(PreparedStatement statement) throws SQLException {
+						statement.setInt(1, stationId);
+					}
+				});
+		
+		if (found.isEmpty()) {
+			return null;
+		} else {
+			return found;
+		}
+	}
+	
+
+	/**
+	 * Update StationSetupStatus by StationId
+	 * 
+	 * @param stationId
+	 * @param stationSetupLists
+	 * @throws SQLException
+	 */
+	public void updateStatus(final int stationId, final List<StationSetupList> stationSetupLists) throws SQLException {
+		
+        CacheableUpdate insert = new CacheableUpdate(pool);
+        KeyExtractor keyExtractor = new KeyExtractor();
+        
+        for (final StationSetupList stationSetupList : stationSetupLists) {
+        	
+        	logger.debug("StationSetupListId="+stationSetupList.getId()+", StationId="+stationId+", Status="+stationSetupList.getStatus());
+        	
+            insert.execute(SQL_UPDATE, new ParameterDelegate() {
+                @Override
+                public void setParameters(PreparedStatement statement)
+                                throws SQLException {
+                	
+                		statement.setBoolean(1, stationSetupList.getStatus());
+                        statement.setInt(2, stationSetupList.getId());
+                        statement.setInt(3, stationId);
+                }
+            }, keyExtractor);
+        	
+        }
+	}
+	
+	
+	
+	
+	private final class SetProgressUpdateInsertParams implements ParameterDelegate {
+		
+		int stationId;
+		int numberPapersIssued;
+        int numberPostalPacksReceived;
+        
+        public SetProgressUpdateInsertParams(int stationId, int numberPapersIssued, int numberPostalPacksReceived) {
+        	this.stationId = stationId;
+        	this.numberPapersIssued = numberPapersIssued;
+            this.numberPostalPacksReceived = numberPostalPacksReceived;
+        }
+
+        @Override
+        public void setParameters(PreparedStatement statement) throws SQLException {
+        	statement.setInt(1, numberPapersIssued);     
+            statement.setInt(2, numberPostalPacksReceived);
+            statement.setInt(3, stationId);
+        }
+    }
+	
+	private final class SetClosingUpdateInsertParams implements ParameterDelegate {
+		
+		int stationId;
+		int ordinaryTotalIssued;
+		int ordinaryNumberOfReplacements;
+		int ordinaryCalsIssuedAndNotSpoilt;
+		int ordinaryTotalUnused;
+		int tenderedTotalIssued;
+		int tenderedTotalSpoilt;
+		int tenderedTotalUnused;
+		
+        
+        public SetClosingUpdateInsertParams(
+        		int stationId, 
+        		int ordinaryTotalIssued, int ordinaryNumberOfReplacements, int ordinaryCalsIssuedAndNotSpoilt, int ordinaryTotalUnused,
+    			int tenderedTotalIssued, int tenderedTotalSpoilt, int tenderedTotalUnused) {
+        	
+        	this.stationId = stationId;
+        	this.ordinaryTotalIssued = ordinaryTotalIssued;
+        	this.ordinaryNumberOfReplacements = ordinaryNumberOfReplacements;
+            this.ordinaryCalsIssuedAndNotSpoilt = ordinaryCalsIssuedAndNotSpoilt;
+            this.ordinaryTotalUnused = ordinaryTotalUnused;
+            this.tenderedTotalIssued = tenderedTotalIssued;
+            this.tenderedTotalSpoilt = tenderedTotalSpoilt;
+            this.tenderedTotalUnused = tenderedTotalUnused;
+        }
+
+        @Override
+        public void setParameters(PreparedStatement statement) throws SQLException {
+        	
+        	statement.setInt(1, ordinaryTotalIssued);     
+            statement.setInt(2, ordinaryNumberOfReplacements);
+            statement.setInt(3, ordinaryCalsIssuedAndNotSpoilt);
+            statement.setInt(4, ordinaryTotalUnused);
+            statement.setInt(5, tenderedTotalIssued);
+            statement.setInt(6, tenderedTotalSpoilt);
+            statement.setInt(7, tenderedTotalUnused);
+            
+            statement.setInt(8, stationId);
+        }
+    }
+	
+	private final class SetDispatchTimeInsertParams implements ParameterDelegate {
+		
+		int stationId;
+        
+        public SetDispatchTimeInsertParams(int stationId) {
+        	this.stationId = stationId;
+        }
+
+        @Override
+        public void setParameters(PreparedStatement statement) throws SQLException {
+            statement.setInt(1, stationId);
+        }
+    }
+	
+	private final class SetDeliveredTimeInsertParams implements ParameterDelegate {
+		
+		int stationId;
+        
+        public SetDeliveredTimeInsertParams(int stationId) {
+        	this.stationId = stationId;
+        }
+
+        @Override
+        public void setParameters(PreparedStatement statement) throws SQLException {
+            statement.setInt(1, stationId);
+        }
+    }
+	
+}

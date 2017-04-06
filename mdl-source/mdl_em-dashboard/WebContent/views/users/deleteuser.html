@@ -1,0 +1,61 @@
+<!-- 
+Project: MDL Dashboard Admin
+Author: Akarshani Amarasinghe
+Module: Delete User HTML
+-->
+
+<div class="panel">
+    <div class="panel-header">
+        <h3><i class="fa fa-table"></i> <strong>Delete User</strong></h3>
+    </div>
+    <div class="panel-content" ng-controller="mdl.dashboard.controller.manageusers as vm">
+        <div class="row stationlist">
+        <div class="col-md-12">
+            <form class="form-horizontal ng-pristine ng-valid" role="form" value="{{vm.oneOfElections.electionid}}">
+				<div class="form-group">
+                    <label class="col-sm-3 control-label">First Name</label>
+                    <div class="col-sm-9">
+                        {{vm.newUser.firstname}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Last Name</label>
+                    <div class="col-sm-9">
+                        {{vm.newUser.lastname}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Email</label>
+                    <div class="col-sm-9" ng-show="(vm.newUser.email).length>0">
+                        {{vm.newUser.email}}
+                    </div>
+                    <div class="col-sm-9" ng-hide="(vm.newUser.email).length>0">
+                        -
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">User Name</label>
+                    <div class="col-sm-9">
+                        {{vm.newUser.username}}
+                    </div>
+                </div>
+                
+                <input type="hidden" id="hiduserid" ng-model="vm.newUser.userid" />
+                
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button class="btn btn-success m-r-10" type="button" 
+                        ng-disabled="vm.saveDisabledDelete" ng-click="vm.deleteUser(vm.newUser.userid);">
+                            Delete
+                        </button>
+                        <button class="btn btn-danger m-r-10" type="button" ng-click="vm.gotoManageScreen();">
+                            Cancel
+                        </button>
+                    </div>
+                </div>  
+                	                    
+			</form>
+        </div>
+    	</div>
+    </div>
+</div>

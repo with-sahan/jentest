@@ -1,0 +1,102 @@
+package com.moderndemocracy.json;
+
+import java.io.IOException;
+import java.util.List;
+
+import com.anaeko.utils.data.mime.json.DefaultJsonMarshaler;
+import com.anaeko.utils.io.MarshalerException;
+import com.anaeko.utils.json.JsonWriter;
+import com.moderndemocracy.pojo.DashboardSocialshares;
+import com.moderndemocracy.pojo.DashboardTotal;
+import com.moderndemocracy.pojo.DashboardUsers;
+
+public final class DashboardSocialsharesMarshaler extends DefaultJsonMarshaler {	
+	
+	DashboardChartMarshaler dashboardChartMarshaler = new DashboardChartMarshaler();
+	DashboardTotalMarshaler dashboardTotalMarshaler = new DashboardTotalMarshaler();
+	DashboardAgeMarshaler dashboardAgeMarshaler = new DashboardAgeMarshaler();
+	DashboardGenderMarshaler dashboardGenderMarshaler = new DashboardGenderMarshaler();
+	
+	SocialsharesMarshaler socialsharesMarshaler = new SocialsharesMarshaler();
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void marshal(Object object, JsonWriter writer)
+			throws IOException, MarshalerException {
+
+		if (object instanceof List) {
+			
+			writer.writeStartArray();
+
+			for (DashboardSocialshares dashboardSocialshares : (Iterable<DashboardSocialshares>) object) {
+				marshalDashboardSocialshares(dashboardSocialshares, writer);
+			}
+
+			writer.writeEndArray();
+			
+		} else {
+			marshalDashboardSocialshares((DashboardSocialshares) object, writer);
+		}
+	}
+
+	private void marshalDashboardSocialshares(DashboardSocialshares dashboardSocialshares, JsonWriter writer)
+			throws IOException {
+
+		writer.writeStartObject();
+		
+		// Chart
+		if (dashboardSocialshares.getDashboardChart()!=null) {
+			writer.writeFieldName(DashboardSocialshares.CHART);
+			dashboardChartMarshaler.marshal(dashboardSocialshares.getDashboardChart(), writer);
+		}
+
+		// Total
+		if (dashboardSocialshares.getDashboardTotal()!=null) {
+			writer.writeField(DashboardSocialshares.TOTAL, dashboardSocialshares.getDashboardTotal().getTotal());
+		}
+
+		// Age
+		if (dashboardSocialshares.getDashboardAge()!=null) {
+			writer.writeFieldName(DashboardSocialshares.AGE);
+			dashboardAgeMarshaler.marshal(dashboardSocialshares.getDashboardAge(), writer);
+		}
+		
+		// Gender
+		if (dashboardSocialshares.getDashboardGender()!=null) {
+			writer.writeFieldName(DashboardSocialshares.GENDER);
+			dashboardGenderMarshaler.marshal(dashboardSocialshares.getDashboardGender(), writer);
+		}
+		
+		
+		/*************************/
+		/* Track Social Network */
+		/***********************/
+		
+		// News
+		if (dashboardSocialshares.getNews()!=null) {
+			writer.writeFieldName(DashboardSocialshares.NEWS);
+			socialsharesMarshaler.marshal(dashboardSocialshares.getNews(), writer);
+		}
+		
+		// Events
+		if (dashboardSocialshares.getEvents()!=null) {
+			writer.writeFieldName(DashboardSocialshares.EVENTS);
+			socialsharesMarshaler.marshal(dashboardSocialshares.getEvents(), writer);
+		}
+		
+		// Candidates
+		if (dashboardSocialshares.getCandidates()!=null) {
+			writer.writeFieldName(DashboardSocialshares.CANDIDATES);
+			socialsharesMarshaler.marshal(dashboardSocialshares.getCandidates(), writer);
+		}
+		
+		// Registers
+		if (dashboardSocialshares.getRegisters()!=null) {
+			writer.writeFieldName(DashboardSocialshares.REGISTERS);
+			socialsharesMarshaler.marshal(dashboardSocialshares.getRegisters(), writer);
+		}
+		
+		writer.writeEndObject();
+	}
+	
+}

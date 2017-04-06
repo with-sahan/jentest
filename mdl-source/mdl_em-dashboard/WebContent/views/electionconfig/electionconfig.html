@@ -1,0 +1,54 @@
+<div class="panel"
+	ng-controller="mdl.mobileweb.controller.electionconfig as vm">
+	<div class="row">
+		<div class="col-md-12 form-horizontal form-group">
+			<div class="row">
+				<div class="col-md-12">
+					<h3 class="col-md-12">
+						<i class="icon-target"></i> <strong>Election
+							Configuration</strong>
+					</h3>
+					<div class="panel-content">
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<td>Election Name:</td>
+									<td><input type="text" class="col-md-6"
+										style="float: center" ng-model="vm.electionconfig.ename"></td>
+								</tr>
+								<tr>
+									<td>Election Date:</td>
+									<td><input type="date" class="col-md-6"
+										style="float: center" ng-model="vm.electionconfig.edate"></td>
+								</tr>
+								<tr>
+									<td>Election Start Time:</td>
+									<td><input type="time" class="col-md-6"
+										style="float: center" ng-model="vm.electionconfig.starttime"></td>
+								</tr>
+								<tr>
+									<td>Election End Time:</td>
+									<td><input type="time" class="col-md-6"
+										style="float: center" ng-model="vm.electionconfig.endtime"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12 form-horizontal form-group">
+
+			<div class="row">
+				<div class="col-md-12">
+					<button class="btn btn-success m-r-10" type="button"
+						ng-click="vm.save(vm.electionconfig)">Save</button>
+					<button class="btn btn-danger m-r-10" type="button"
+						ng-click="vm.cancel()">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

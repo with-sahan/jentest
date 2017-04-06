@@ -1,0 +1,201 @@
+<div class="dashboard em-dashboard dashboard-summary">
+	<div class="row" style="display: none">
+		<div class="col-md-12">
+			<div class="panel bg-dark widget-map">
+				<div class="panel-header">
+					<h3>
+						<i class="icon-globe-alt"></i> <strong>Interactif</strong> Map
+					</h3>
+				</div>
+				<div class="panel-content widget-full">
+					<div class="row">
+						<div class="col-md-12">
+							<div id="map"></div>
+						</div>
+						<div class="col-md-3 c-white">
+							<div id="listdiv"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="panel no-bd bd-3 panel-stat m-b-10">
+			<div class="panel-header m-10">
+				<h3 class="m-0">
+					<strong style="margin-right: 10px">Filter by</strong> <select
+						class="issue_select_dropdown defaultWidth geofilter"
+						ng-model="selectedHrc" wb-select2>
+						<option ng-repeat="option in geoArray" value="{{option.id}}">{{option.name}}</option>
+					</select>
+				</h3>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+
+		<div class="row" ng-repeat="election in allElections">
+			<div class="col-md-3">
+				<div class="panel m-b-10">
+					<div class="panel-content widget-info elect-name">
+						<div>
+							<h3 class="m-0" style="font-weight: bold; font-size: 14px;">{{election.sumstats.electionname}}</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="panel m-b-10">
+					<div class="panel-content widget-info">
+						<div class="row">
+							<div class="left">
+								<i class="fa fa-clipboard bg-green"></i>
+							</div>
+							<div class="right">
+								<p class="number countup" data-from="0" data-to="52000">{{election.sumstats.ballotPapers}}</p>
+								<p class="text">Ballot Papers</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="panel m-b-10">
+					<div class="panel-content widget-info">
+						<div class="row">
+							<div class="left">
+								<i class="fa fa-line-chart bg-blue"></i>
+							</div>
+							<div class="right">
+								<p class="number countup" data-from="0" data-to="52000">{{election.sumstats.voterturnout.toFixed(2)}}
+									%</p>
+								<p class="text">Voter Turnout</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="panel m-b-10">
+					<div class="panel-content widget-info">
+						<div class="row">
+							<div class="left">
+								<i class="fa fa-suitcase bg-aero"></i>
+							</div>
+							<div class="right">
+								<p class="number countup" data-from="0" data-to="52000">{{election.sumstats.packestobecollected}}</p>
+								<p class="text">Postal Packs (TBC)</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="col-md-2" style="width: 210px;">
+					<div class="panel">
+						<div class="panel-content widget-info">
+							<div class="row">
+								<div class="left">
+									<i class="fa fa-suitcase bg-aero"></i>
+								</div>
+								<div class="right">
+									<p class="number countup" data-from="0" data-to="52000">{{election.sumstats.opencount}}-{{election.sumstats.closecount}}</p>
+									<p class="text">Stations Open-Close</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> -->
+
+		</div>
+		<div class="panel no-bd bd-3 panel-stat p-15">
+			<!-- <div class="row">
+				<div class="col-md-12">
+					<div class="panel">
+						<div class="panel-content widget-info">
+							<div class="row">
+								<div class="left">
+									<i class="fa icon-bulb  bg-red"></i>
+								</div>
+								<div class="right">
+									<a class="number" ng-href="#/all_issues">{{pending_issues_v2}}</a><br>
+									<a class="text" ng-href="#/all_issues">Pending Issues</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> -->
+
+			<!-- <div class="gallery">
+                <a href="assets/global/images/gallery/2.jpg">View</a>
+                <a href="assets/global/images/gallery/3.jpg" style="display:none">Open popup 2</a>
+                <a href="assets/global/images/gallery/1.jpg" style="display:none">Open popup 3</a>
+            </div> -->
+			<div class="panel-body">
+				<accordion class="panel-group panel-accordion" close-others="true">
+				<accordion-group is-open="open" ng-repeat="election in allElections">
+				<accordion-heading> {{election.electionName}}<i
+					class="pull-right glyphicon"
+					ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}">
+				</i> </accordion-heading>
+				<div class="tbl_scroll_x">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Place</th>
+								<th>Polling Station</th>
+								<th>Ballot Papers Issued</th>
+								<th>Postal Packs Collected/Received</th>
+								<th>Station Status</th>
+								<th>Attachment</th>
+								<th>Open Station</th>
+								<th>Close Station</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="e_stat in election.stats">
+								<td>{{e_stat.parentHierarchyName}}</td>
+								<td>{{e_stat.stationName}}</td>
+								<td>{{e_stat.ballotPapersIssued}}</td>
+								<td>{{e_stat.postalPackesCollected}} /
+									{{e_stat.postalPackesRecevied}}</td>
+								<td>{{((e_stat.openStatus>0) && (e_stat.closeStatus<1)) ?
+									"Open" : ( ((e_stat.openStatus>0) && (e_stat.closeStatus>0)) ?
+									"Closed" : "Not Open" )}}</td>
+
+								<!--  <td><h3 class="title" ng-show="e_stat.photoUrl.length >0">
+									<a href="{{appendUrl}}{{e_stat.photoUrl}}" download>view&nbsp;&nbsp;<i
+										class="fa fa-camera"></i></a>
+								</h3></td>  -->
+								<!-- <td><div class="gallery">
+		                            <a href="assets/global/images/gallery/2.jpg">View</a>
+		                            <a href="assets/global/images/gallery/3.jpg" style="display:none">Open popup 2</a>
+		                            <a href="assets/global/images/gallery/1.jpg" style="display:none">Open popup 3</a>
+		                        </div></td> -->
+								<td>
+									<div class="gallery">
+										<span load-image="e_photo" ng-show="e_stat.photoUrl.length >0"
+											ng-repeat="e_photo in e_stat.photoUrl"> <!-- <a href="{{appendUrl}}{{e_photo}}">View</a> -->
+											<a href="" ng-hide="$index > 0">Views</a>
+										</span>
+									</div>
+								</td>
+								<td>
+									<!-- <a class="edit btn btn-sm btn-default"  href="javascript:;"><i class="icon-lock"></i></a> -->
+									<a class="edit btn btn-sm btn-default"
+									ng-href="#/openstation?id={{e_stat.stationid}}"
+									href="javascript:;"><i class="icon-note"></i></a>
+								</td>
+								<td><a class="edit btn btn-sm btn-default"
+									ng-href="#/closestation?id={{e_stat.stationid}}&electionId={{election.id}}"
+									href="javascript:;"><i class="icon-note"></i></a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				</accordion-group> </accordion>
+			</div>
+		</div>
+	</div>
+</div>

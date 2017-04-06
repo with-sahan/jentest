@@ -1,0 +1,32 @@
+<data name="completeprogresssequence" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>completeprogresssequence</description>
+   <config id="mdl-psm">
+      <property name="carbon_datasource_name">mdl-psm-ds</property>
+   </config>
+   <query id="completeprogresssequence" useConfig="mdl-psm">
+      <sql>call psm.completeprogresssequence(?,?,?,?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": {&#13;      "response": $reply&#13;    }&#13;  }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="stationid" sqlType="INTEGER"/>
+      <param name="longtitude" sqlType="DOUBLE"/>
+      <param name="latitude" sqlType="DOUBLE"/>
+   </query>
+   <operation name="completeprogresssequence">
+      <description>completeprogresssequence&#13;                                    </description>
+      <call-query href="completeprogresssequence">
+         <with-param name="token" query-param="token"/>
+         <with-param name="stationid" query-param="stationid"/>
+         <with-param name="longtitude" query-param="longtitude"/>
+         <with-param name="latitude" query-param="latitude"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="completeprogresssequence">
+      <description>completeprogresssequence&#13;                                    </description>
+      <call-query href="completeprogresssequence">
+         <with-param name="token" query-param="token"/>
+         <with-param name="stationid" query-param="stationid"/>
+         <with-param name="longtitude" query-param="longtitude"/>
+         <with-param name="latitude" query-param="latitude"/>
+      </call-query>
+   </resource>
+</data>

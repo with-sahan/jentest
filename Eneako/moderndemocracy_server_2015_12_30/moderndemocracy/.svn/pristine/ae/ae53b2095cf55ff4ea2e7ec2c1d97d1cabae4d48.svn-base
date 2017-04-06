@@ -1,0 +1,49 @@
+package com.moderndemocracy.json;
+
+import java.io.IOException;
+import java.util.List;
+
+import com.anaeko.utils.data.mime.json.DefaultJsonMarshaler;
+import com.anaeko.utils.io.MarshalerException;
+import com.anaeko.utils.json.JsonWriter;
+import com.moderndemocracy.pojo.News;
+
+public final class NewsMarshaler extends DefaultJsonMarshaler {	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void marshal(Object object, JsonWriter writer)
+			throws IOException, MarshalerException {
+
+		if (object instanceof List) {
+			
+			writer.writeStartArray();
+
+			for (News news : (Iterable<News>) object) {
+				marshalNews(news, writer);
+			}
+
+			writer.writeEndArray();
+			
+		} else {
+			marshalNews((News) object, writer);
+		}
+	}
+
+	private void marshalNews(News news, JsonWriter writer)
+			throws IOException {
+
+		writer.writeStartObject();
+
+		writer.writeField(News.ID, news.getId());
+		writer.writeField(News.TITLE, news.getTitle());
+		writer.writeField(News.SUMMARY, news.getSummary());
+		writer.writeField(News.CONTENT, news.getContent());
+		writer.writeField(News.TITLE_IMAGE, news.getTitleImage());
+		writer.writeField(News.CONTENT_IMAGE, news.getContentImage());
+		writer.writeField(News.CREATED, news.getCreated());
+
+		writer.writeEndObject();
+	}
+	
+}

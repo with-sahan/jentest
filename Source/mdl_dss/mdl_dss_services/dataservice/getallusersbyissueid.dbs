@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getallusersbyissueid" serviceNamespace="www.moderndemocracy.com/services/security" transports="http https">
+  <description>getallusersbyissueid</description>
+  <config id="mdl_security">
+    <property name="carbon_datasource_name">mdl-security-ds</property>
+  </config>
+  <query id="getallusersbyissueid" useConfig="mdl_security">
+    <sql>call getallusersbyissueid(?,?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "id": "$id",&#xD;                "firstname": "$firstname",&#xD;                "lastname": "$lastname",&#xD;                "fullname": "$fullname",&#xD;                "email": "$email",&#xD;                "username": "$username",&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="issueid" sqlType="INTEGER" />
+  </query>
+  <operation name="getallusersbyissueid">
+    <description>getallusersbyissueid</description>
+    <call-query href="getallusersbyissueid">
+      <with-param name="token" query-param="token" />
+      <with-param name="issueid" query-param="issueid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getallusersbyissueid">
+    <description>getallusersbyissueid</description>
+    <call-query href="getallusersbyissueid">
+      <with-param name="token" query-param="token" />
+      <with-param name="issueid" query-param="issueid" />
+    </call-query>
+  </resource>
+</data>

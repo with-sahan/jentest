@@ -1,0 +1,49 @@
+
+
+<div class="panel">
+    <div class="panel-header">
+        <h3><i class="fa fa-table"></i> <strong>Manage Roles</strong></h3>
+    </div>
+    <div class="panel-content" ng-controller="mdl.dashboard.controller.manageroles as vm">
+                    <!-- <table class="table table-hover table-dynamic filter-head"> -->
+                    <div class="row">
+                    <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Role Name </th>
+                        <th>Description</th>
+                        <th>Manage</th>
+                        <th>Delete</th>
+                       <!-- <th class="text-right">Action</th> --> 
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="role in vm.roleList">
+                        <td>{{role.name}}</td>
+                        <td>{{role.description}}</td>
+                        <td>
+                        	<!-- <a class="edit btn btn-sm btn-default"  href="javascript:;"><i class="icon-lock"></i></a> -->
+                        	<a class="edit btn btn-sm btn-default"   ng-href="#/editrole?id={{role.id}}" href="javascript:;"><i class="icon-note"></i></a>
+                        	</td>
+                        	<td>
+                        	<a class="delete btn btn-sm btn-danger" ng-href="#/deleterole?id={{role.id}}" href="javascript:;"><i class="icons-office-52"></i></a>
+                        </td>
+                        
+                      </tr>
+                      
+                      
+                    </tbody>
+                  </table>  
+                  </div>
+                  <div class="row">
+                  <div class="form-group">
+                  	<button class="btn btn btn-primary m-r-10" ng-click="vm.addNewRole()" type="button">Add New Role</button>
+					<!-- <div class="col-sm-3"></div>                                
+                        <div class="col-sm-9">
+                        	 <button class="btn btn-danger g_fr" ng-click="vm.addNewRole()" type="button">Add New Role</button>
+                        </div> -->
+                	</div>  
+                </div>
+    </div>
+</div>

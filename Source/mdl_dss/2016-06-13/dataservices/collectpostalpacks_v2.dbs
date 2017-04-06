@@ -1,0 +1,32 @@
+<data name="collectpostalpacks_v2" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>collectpostalpacks_v2&#13;                                </description>
+   <config id="mdl_psm">
+      <property name="carbon_datasource_name">mdl-psm-ds</property>
+   </config>
+   <query id="collectpostalpacks_v2" useConfig="mdl_psm">
+      <sql>call psm.collectpostalpacks_v2 (?, ?, ?, ?)</sql>
+      <result outputType="json">{&#13; "result":{&#13;  "entry":[&#13;   {"response":$response&#13;   }&#13;  ]&#13; }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="stationdid" sqlType="INTEGER"/>
+      <param name="electionid" sqlType="INTEGER"/>
+      <param name="person_name" sqlType="STRING"/>
+   </query>
+   <operation name="collectpostalpacks_v2">
+      <description>collectpostalpacks_v2&#13;                                    </description>
+      <call-query href="collectpostalpacks_v2">
+         <with-param name="token" query-param="token"/>
+         <with-param name="stationdid" query-param="stationdid"/>
+         <with-param name="electionid" query-param="electionid"/>
+         <with-param name="person_name" query-param="person_name"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="collectpostalpacks_v2">
+      <description>collectpostalpacks_v2&#13;                                    </description>
+      <call-query href="collectpostalpacks_v2">
+         <with-param name="token" query-param="token"/>
+         <with-param name="stationdid" query-param="stationdid"/>
+         <with-param name="electionid" query-param="electionid"/>
+         <with-param name="person_name" query-param="person_name"/>
+      </call-query>
+   </resource>
+</data>

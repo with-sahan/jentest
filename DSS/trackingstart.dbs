@@ -1,0 +1,26 @@
+<data name="trackingstart" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>polling station manager service - start tracking&#13;                                </description>
+   <config id="mdl_psm">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="trackingstart" useConfig="mdl_psm">
+      <sql>call starttrack(?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": [&#13;      {&#13;        "response": "$response",&#13;        &#13;      }&#13;    ]&#13;  }&#13;}&#13;</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="trackingstart">
+      <description>trackingstart                                                                        &#13;                                    </description>
+      <call-query href="trackingstart">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="trackingstart">
+      <description>       trackingstart                             &#13;                                    &#13;                                    </description>
+      <call-query href="trackingstart">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <color name="standard_background">#ffd9d9d9</color>
+  <color name="odd">#ffffff</color>
+  <color name="even">#f3f3f3</color>
+  <color name="headers">#282828</color>
+  <color name="tableText">#808080</color>
+  <color name="secondVisit">#e58d02</color>
+  <color name="thirdVisit">#dd1a00</color>
+  <color name="highlight">#a4ffc8</color>
+  <color name="highlight1">#8033ff99</color>
+  <color name="highlight2">#8066ff99</color>
+  
+</resources>

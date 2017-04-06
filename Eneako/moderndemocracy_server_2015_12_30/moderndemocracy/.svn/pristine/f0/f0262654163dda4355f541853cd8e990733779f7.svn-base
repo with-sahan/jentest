@@ -1,0 +1,63 @@
+[
+    {
+        "id": 11, 
+        "orderId": 1, 
+        "status": false, 
+        "text": "Polling Boxes Arrived"
+    }, 
+    {
+        "id": 12, 
+        "orderId": 2, 
+        "status": true, 
+        "text": "Pollling Staff Arrived"
+    }, 
+    {
+        "id": 13, 
+        "orderId": 3, 
+        "status": false, 
+        "text": "All Ballot Books Arrived"
+    }, 
+    {
+        "id": 14, 
+        "orderId": 4, 
+        "status": false, 
+        "text": "All Booths Ready"
+    }, 
+    {
+        "id": 15, 
+        "orderId": 5, 
+        "status": false, 
+        "text": "Signage to Polling Station Visible"
+    }, 
+    {
+        "id": 16, 
+        "orderId": 6, 
+        "status": false, 
+        "text": "Polling Station Accessible to all voters"
+    }, 
+    {
+        "id": 17, 
+        "orderId": 7, 
+        "status": false, 
+        "text": "Low level Booths and ballot boxes installed"
+    }, 
+    {
+        "id": 18, 
+        "orderId": 8, 
+        "status": false, 
+        "text": "Large print ballot papers clearly visible"
+    }, 
+    {
+        "id": 19, 
+        "orderId": 9, 
+        "status": false, 
+        "text": "Hand held samples available"
+    }, 
+    {
+        "id": 20, 
+        "orderId": 10, 
+        "status": false, 
+        "text": "Station Open"
+    }
+]
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="updateprepollingactivity" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>updateprepollingactivity</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="updateprepollactivity" useConfig="mdl_psm">
+    <sql>call updateprepollactivity (?,?,?,?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="pollingstationid" sqlType="INTEGER" />
+    <param name="activityid" sqlType="INTEGER" />
+    <param name="status" sqlType="INTEGER" />
+  </query>
+  <operation name="updateprepollingactivity">
+    <description>updateprepollingactivity</description>
+    <call-query href="updateprepollactivity">
+      <with-param name="token" query-param="token" />
+      <with-param name="pollingstationid" query-param="pollingstationid" />
+      <with-param name="activityid" query-param="activityid" />
+      <with-param name="status" query-param="status" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="updateprepollingactivity">
+    <description>updateprepollingactivity</description>
+    <call-query href="updateprepollactivity">
+      <with-param name="token" query-param="token" />
+      <with-param name="pollingstationid" query-param="pollingstationid" />
+      <with-param name="activityid" query-param="activityid" />
+      <with-param name="status" query-param="status" />
+    </call-query>
+  </resource>
+</data>

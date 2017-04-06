@@ -1,0 +1,47 @@
+### AUTHENTICATION ###
+http -v --session=user -form POST http://localhost:8080/pub/login?user=true login.user.name=user1 login.user.password=password
+http -a "user1":password http://localhost:8080/api/me
+
+### UPDATE USER STATION ###
+http -a "user1":password POST localhost:8080/api/updateuserstation < tests/httpie/json/userStationUpdate.json
+
+### STATION SETUP LIST ###
+http -a "user1":password http://localhost:8080/api/stationsetuplist
+
+### ISSUE LIST ###
+http -a "user1":password http://localhost:8080/api/issuelist
+
+### BALLOT PAPER ACCOUNT ###
+http -a "user1":password http://localhost:8080/api/ballotpaperaccount
+
+### NOTIFICATION LIST ###
+http -a "admin1":password http://localhost:8080/api/notificationlist
+
+### WARD - WEB ###
+http -a "admin1":password GET localhost:8080/api/wardretrieve
+
+### STATION ###
+http -a "user1":password GET localhost:8080/api/stationopen
+http -a "admin1":password GET localhost:8080/api/stationopen?stationId=6
+http -a "user1":password POST localhost:8080/api/stationopen < tests/httpie/json/stationOpen.json 
+http -a "user1":password POST localhost:8080/api/stationclose < tests/httpie/json/stationClose.json
+
+### STATION PROGRESS ###
+http -a "user1":password GET localhost:8080/api/stationprogress
+http -a "user1":password POST localhost:8080/api/stationprogress < tests/httpie/json/stationProgress.json 
+
+### ISSUE ###
+http -a "user1":password POST localhost:8080/api/issueopen < tests/httpie/json/issueOpen.json 
+http -a "user1":password GET localhost:8080/api/issueretrieve
+http PUT localhost:8080/pub/issueclose < tests/httpie/json/issueClose.json 
+
+### NOTIFICATION ###
+http -a "admin1":password POST localhost:8080/api/notificationopen < tests/httpie/json/notificationOpen.json 
+http -a "user1":password GET localhost:8080/api/notificationretrieve
+http -a "user1":password PUT http://localhost:8080/api/notificationstatusupdate < tests/httpie/json/notificationStatusUpdate.json
+
+### TRACKING ###
+http -a "user1":password POST localhost:8080/api/trackingsend < tests/httpie/json/tracking.json
+http -a "user1":password GET localhost:8080/api/trackingretrieve
+
+

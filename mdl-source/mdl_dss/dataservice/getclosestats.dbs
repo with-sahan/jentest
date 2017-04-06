@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getclosestats" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>polling station manager service - read close station stats</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getclosestats" useConfig="mdl_psm">
+    <sql>call getclosestats(?,?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;         "tot_ballots":$tot_ballots,&#xD;         "tot_spolied_issued":$tot_spolied_issued,&#xD; "tot_spolied_issued2":$tot_spolied_issued2,&#xD;        "tot_unused":$tot_unused,&#xD;          "tot_tend_ballots":$tot_tend_ballots,&#xD;         "tot_tend_spoiled":$tot_tend_spoiled,&#xD;          "tot_tend_unused":$tot_tend_unused,&#xD;         "tot_ballots2":$tot_ballots2,&#xD;             "tot_unused2":$tot_unused2,&#xD;          "tot_tend_ballots2":$tot_tend_ballots2,&#xD;         "tot_tend_spoiled2":$tot_tend_spoiled2,&#xD;          "tot_tend_unused2":$tot_tend_unused2,&#xD;          "response":"$response"&#xD;&#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="electionid" sqlType="INTEGER" />
+    <param name="pollingstationid" sqlType="INTEGER" />
+  </query>
+  <operation name="getclosestats">
+    <call-query href="getclosestats">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="pollingstationid" query-param="pollingstationid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getclosestats">
+    <description>getclosestats</description>
+    <call-query href="getclosestats">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="pollingstationid" query-param="pollingstationid" />
+    </call-query>
+  </resource>
+</data>

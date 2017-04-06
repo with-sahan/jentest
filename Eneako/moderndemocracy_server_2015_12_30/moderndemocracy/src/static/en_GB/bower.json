@@ -1,0 +1,40 @@
+{
+	"name": "moderndemocracy",
+	"version": "0.0.1",
+	"description": "Package management for Modern Democracy project",
+	"main": "js/app.js",
+	"keywords": [
+		"modern", "democracy"
+	],
+	"authors": [
+		"Anaeko Ltd."
+	],
+	"license": "Commercial",
+	"homepage": "www.moderndemocracy.com",
+	"private": true,
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"js/libs",
+		"test",
+		"tests"
+	],
+	"dependencies": {
+		"angular": "latest",
+		"angular-animate": "latest",
+		"angular-route": "latest",
+		"angular-ui-router": "latest",
+		"angular-resource": "latest",
+		"angular-sanitize": "latest",
+		"angular-moment": "latest",
+		"ng-table": "latest",
+		"moment": "latest",
+		"modernizr": "latest",
+		"underscore": "latest",
+		"angular-bindonce": "latest",
+		"jquery": "latest",
+		"angular-bootstrap": "latest",
+		"bootstrap": "latest"
+	}
+}

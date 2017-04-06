@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getissueresolvegraphstats" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getissueresolvegraphstats</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getissueresolvegraphstats" useConfig="mdl_psm">
+    <sql>call getissueresolvegraphstats(?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;        "issuehour": "$issuehour",&#xD;        "reported": "$reported",&#xD;        "avgresolvetime": "$avgresolvetime",&#xD;        "response": "$response"&#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="getissueresolvegraphstats">
+    <description>getissueresolvegraphstats</description>
+    <call-query href="getissueresolvegraphstats">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getissueresolvegraphstats">
+    <description>getissueresolvegraphstats</description>
+    <call-query href="getissueresolvegraphstats">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

@@ -1,0 +1,107 @@
+#------------------------------------------------------------------------------
+# service manager options
+#------------------------------------------------------------------------------
+servicemanager.main.class=com.moderndemocracy.jetty.ModernDemocracyService
+
+http.trace=true
+aes.password=XXXXXXXXXXX
+page.view.archive=60
+
+#------------------------------------------------------------------------------
+# Define the base path of secured handlers
+#------------------------------------------------------------------------------
+path.public=pub
+path.protected=api
+
+#------------------------------------------------------------------------------
+# Install custom handlers into the public URL realm, e.g. /pub
+# typically public requests are for password resets
+#------------------------------------------------------------------------------
+
+
+#------------------------------------------------------------------------------
+# Install custom handlers into the API URL realm, i.e. /api
+#------------------------------------------------------------------------------
+
+# /me Service
+protected.handler.me.class=com.moderndemocracy.jetty.handler.AuthenticatedUserHandler
+protected.handler.me.pattern=me
+
+# /user Service
+protected.handler.user.class=com.moderndemocracy.jetty.handler.UserHandler
+protected.handler.user.pattern=user
+
+#------------------------------------------------------------------------------
+# optional directory to use for storing transient service data
+#------------------------------------------------------------------------------
+#anaeko.system.dir=[a safe location (full path)]
+
+#------------------------------------------------------------------------------
+# service URI
+#------------------------------------------------------------------------------
+service.port=8080
+service.name=moderndemocracy
+service.host=localhost
+
+#------------------------------------------------------------------------------
+# task services configuration - threadpool sizes (default = CPUs * 2)
+#------------------------------------------------------------------------------
+#taskservices.pool.size=8
+#taskservices.pool.timeout=60000
+
+#------------------------------------------------------------------------------
+# turn on statistics gathering
+#------------------------------------------------------------------------------
+service.statistics=true
+
+#------------------------------------------------------------------------------
+# Disable DNS caching (positive values set a timeout in seconds)
+#------------------------------------------------------------------------------
+networkaddress.cache.ttl=0
+
+#------------------------------------------------------------------------------
+# SLAMMER database definition
+#------------------------------------------------------------------------------
+jdbc.skip.conn.tests=true
+jdbc.pool.provider=com.anaeko.utils.jdbc.Tomcat
+jdbc.driver=org.postgresql.Driver
+jdbc.url=jdbc:postgresql://localhost:5432/moderndemocracy
+jdbc.user=slammer
+jdbc.password=:M0b1l1ty
+
+#------------------------------------------------------------------------------
+# Optional performance watch criteria (in milliseconds)
+# comment these out to reset to default warning levels
+#------------------------------------------------------------------------------
+jdbc.slow.select.nodata=100
+jdbc.slow.select=150
+jdbc.slow.update=150
+jdbc.slow.batch.select=200
+jdbc.slow.batch.udpate=200
+
+#------------------------------------------------------------------------------
+# email template directory
+#------------------------------------------------------------------------------
+# NB : This dir is appended with the locale of the server 'eg: data/email/en_GB'
+#      when looking for templates
+email.templates.dir=data/email/
+
+#------------------------------------------------------------------------------
+# Email options for use with the Java Mail service
+#------------------------------------------------------------------------------
+mail.smtp.user=admin@moderndemocracy.com
+mail.smtp.host=mailtrap.io
+mail.smtp.port=2525
+mail.from=admin@moderndemocracy.com
+mail.debug=true
+mail.bcc=
+mail.username=moderndemocracy-dbc71c1f1e00e016
+mail.password=0f11562c6eecadce
+mail.smtp.starttls.enable=false
+mail.smtp.ssl.enable=false
+
+#------------------------------------------------------------------------------
+# Mobile App
+#------------------------------------------------------------------------------
+#mobile.test=true
+#mobile.testdomain=http://localhost:8000

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffffff"
+    android:id="@+id/requestITR"
+    android:padding="4dp"
+    android:layout_gravity="center">
+    <TextView
+        android:text="First Name"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/firstnameTitle"
+        android:textColor="#ff000000" />
+    <EditText
+        android:inputType="textMultiLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/firstnameEdit" />
+    <TextView
+        android:text="Surname"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/surnameTitle"
+        android:textColor="#ff000000" />
+    <EditText
+        android:inputType="textMultiLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/surnameEdit" />
+    <RadioGroup
+        android:id="@+id/itrType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+        <RadioButton
+            android:id="@+id/radioRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Requested"
+            android:tag="ITR-R" />
+        <RadioButton
+            android:id="@+id/radioDelivered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="ITR-D"
+            android:text="Delivered" />
+        <RadioButton
+            android:id="@+id/radioOnline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="ITR-O"
+            android:text="Online" />
+    </RadioGroup>
+</LinearLayout>

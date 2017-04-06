@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getallusers" serviceNamespace="www.moderndemocracy.com/services/security" transports="http https">
+  <description>getallusers</description>
+  <config id="mdl_security">
+    <property name="carbon_datasource_name">mdl-security-ds</property>
+  </config>
+  <query id="getallusers" useConfig="mdl_security">
+    <sql>call getallusers(?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "id": "$id",&#xD;                "firstname": "$firstname",&#xD;                "lastname": "$lastname",&#xD;                "fullname": "$fullname",&#xD;                "email": "$email",&#xD;                "username": "$username",&#xD;                "is_deleted": "$is_deleted",&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="getallusers">
+    <description>getallusers</description>
+    <call-query href="getallusers">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getallusers">
+    <description>getallusers</description>
+    <call-query href="getallusers">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

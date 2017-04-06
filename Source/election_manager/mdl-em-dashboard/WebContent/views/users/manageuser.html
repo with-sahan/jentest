@@ -1,0 +1,58 @@
+<!-- 
+ * Project: MDL
+ * Author: Rushan Arunod
+ * Modified By: Akarshani Amarasinghe
+ * Module: Manage User HTML
+ -->
+
+<div class="panel">
+    <div class="panel-header">
+        <h3><i class="fa fa-table"></i> <strong>Manage Users</strong></h3>
+    </div>
+    <div class="panel-content" ng-controller="mdl.dashboard.controller.manageusers as vm">
+              <div class="row">
+                    <table class="table table-hover">
+                    <thead>
+                      <tr>
+                      	<th>User Id</th>
+                        <th>User Name</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Manage</th>
+                        <th>Delete</th>
+                        <!-- <th class="text-right">Action</th> -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="user in vm.userList">
+                        <td>{{user.id}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.fullname}}</td>
+                        <td>{{user.email | onlyEmails}}</td>
+                        <td>
+                        	<a class="edit btn btn-sm btn-default" ng-href="#/edituser?id={{user.id}}" href="javascript:;"><i class="icon-note"></i></a>
+                        </td>
+                        <td>
+                        	<a class="delete btn btn-sm btn-danger" ng-href="#/deleteuser?id={{user.id}}" href="javascript:;"><i class="icons-office-52"></i></a>
+                        </td>
+                        <!-- <td class="text-right">
+                        	<a class="edit btn btn-sm btn-default"   ng-href="#/edituser?id={{user.id}}" href="javascript:;"><i class="icon-note"></i></a>
+                        	<a class="delete btn btn-sm btn-danger" ng-href="#/deleterole?id={{user.id}}" href="javascript:;"><i class="icons-office-52"></i></a>
+                        </td> -->
+                        
+                      </tr>
+                      
+                      
+                    </tbody>
+                  </table>  
+                  </div>
+                  <div class="row">
+                  	<div class="form-group">                              
+                      <div class="col-sm-12">
+                      	 <!-- <button class="btn btn-danger g_fr" ng-click="vm.addNewUser()" type="button">Add New User</button> -->
+                      	 <button class="btn btn-primary m-r-10" ng-click="vm.addNewUser()" type="button">Add New User</button>
+                      </div>
+                	</div>  
+                 </div>    
+    </div>
+</div>

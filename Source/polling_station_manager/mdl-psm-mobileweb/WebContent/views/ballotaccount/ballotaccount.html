@@ -1,0 +1,130 @@
+<div class="panel" ng-controller="mdl.mobileweb.controller.ballotaccount as vm">
+	<div class="panel-header panel-controls">
+		<h3>
+			<i class="icon-target"></i> <strong>Ballot</strong> Accounts
+		</h3>
+	</div>
+	<div class="row stationlist" >
+		<div class="col-md-12">
+			<tabset class="tab-fade-in"> <tab
+				ng-repeat="station in vm.pollstationlist"
+				ng-click="vm.stationcheck(station.id)"> <tab-heading>
+			<b class="icons-education-science-18">&nbsp;&nbsp;&nbsp;&nbsp;
+				{{station.name}} </b> </tab-heading>
+			<table cellspacing="0" class="stationStats" border="0px solid black" style="width:100%; border-collapse:separate; border-spacing: 1em;">
+			<div class="row">
+				<div class="form-horizontal">
+					<div class="col-md-12">
+						<div class="row">					
+							<div class="col-md-12">					
+								<div class="form-group">
+									<div>
+										<label class="col-sm-3 control-label">Select Election</label>
+										<select class="defaultWidth" id="singleSelectId" name="singleSelect" ng-change="vm.loadPaperCount(item.electionid,station.id)" ng-model="item.electionid">
+											<option value="">--- Select an option ---</option>
+											<option ng-repeat="item in vm.electionlist" value="{{item.electionid}}" ng-click="vm.loadPaperCount(item.electionid,station.id);">{{item.electionname}}</option>
+										</select>
+									</div>
+									<div class="row col-sm-12">
+										<tbody>
+												<tr>
+													<th style="text-align: left;"> <i class="fa fa-file-text p-r-10 f-18"></i> Ordinary Ballot Papers</th>
+													<th style="text-align: right;"></th>
+												</tr>
+								
+												<tr>
+													<td  style="text-align: left;">Total ballot papers issued</td>
+													<td  style="text-align: right;" class="ng-binding"><span ng-init="vm.closedstation.tot_ballots='0'">{{vm.closedstation.tot_ballots}}</span></td>
+												</tr>
+												
+												<tr>
+													<td style="text-align: left;" id="problem1">How many spoilt ballot papers did you issue replacements for?</td>
+													<td style="text-align: right;" class="ng-binding"><span ng-init="vm.closedstation.tot_spoiled_replaced='0'">{{vm.closedstation.tot_spoiled_replaced}}</span>
+													</td>
+												</tr>
+												
+												<tr>
+													<td style="text-align: left;" id="problem2">Total ballot papers issued and not spoilt</td>
+													<td style="text-align: right;" class="ng-binding"><span>{{(vm.closedstation.tot_ballots) - (vm.closedstation.tot_spoiled_replaced)}}</span></td>
+												</tr>
+												
+												<tr>
+													<td style="text-align: left;" id="problem3">Total unused ballot papers</td>
+													<td style="text-align: right;" class="ng-binding">
+													<span ng-init="vm.closedstation.tot_unused='0'">{{vm.closedstation.tot_unused}}</span>
+													</td>
+												</tr>
+											
+												<tr>
+													<th style="text-align: left;"> <i class="fa fa-file-text p-r-10 f-18"></i> Tendered Ballot Papers</th>
+													<th style="text-align: right;"></th>
+												</tr>
+								
+												<tr>
+													<td style="text-align: left;">Total ballot papers issued</td>
+													<td style="text-align: right;" class="ng-binding">
+													<span ng-init="vm.closedstation.tot_tend_ballots='0'">{{vm.closedstation.tot_tend_ballots}}</span>
+													</td>
+												</tr>
+												
+												<tr>
+													<td style="text-align: left;">Total spoilt tenderd ballot papers</td>
+													<td style="text-align: right;" class="ng-binding">
+													<span ng-init="vm.closedstation.tot_tend_spoiled='0'">{{vm.closedstation.tot_tend_spoiled}}</span>
+													</td>
+												</tr>
+												
+												<tr>
+													<td style="text-align: left;">Total unused tenderd ballot papers</td>
+													<td style="text-align: right;" class="ng-binding">
+													<span ng-init="vm.closedstation.tot_tend_unused='0'">{{vm.closedstation.tot_tend_unused}}</span>
+													</td>
+												</tr><tr></tr>
+												<tr>
+													<td></td>
+													<td></td>
+													
+												</tr></tbody>
+												</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			
+			</table>
+			<!-- 
+			<accordion-group is-open="open2"> <accordion-heading>
+			Entrance and Parking facilities<i class="pull-right glyphicon"
+				ng-class="{'glyphicon-chevron-down': open2, 'glyphicon-chevron-right': !open2}">
+			</i> </accordion-heading>
+			<div class="panel-body">.</div>
+			</accordion-group> <accordion-group is-open="open3"> <accordion-heading>
+			Inside Building<i class="pull-right glyphicon"
+				ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}">
+			</i> </accordion-heading>
+			<div class="panel-body">.</div>
+			</accordion-group> <accordion-group is-open="open3"> <accordion-heading>
+			General Observation<i class="pull-right glyphicon"
+				ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}">
+			</i> </accordion-heading>
+			<div class="panel-body">Anim pariatur cliche reprehenderit,
+				enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
+				moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+				quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+				aliqua put a bird on it squid single-origin coffee nulla assumenda
+				shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes
+				anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
+				butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw
+				denim aesthetic synth nesciunt you probably haven't heard of them
+				accusamus labore sustainable VHS.</div>
+			</accordion-group> </accordion> </tab> 
+			 --></tabset>
+		</div>
+
+	</div>
+	
+	
+</div>

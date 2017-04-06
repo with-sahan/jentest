@@ -1,0 +1,31 @@
+<data name="getclosestats" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>polling station manager service - read close station stats&#13;                                &#13;                                </description>
+   <config id="mdl_psm">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="getclosestats" useConfig="mdl_psm">
+      <sql>call getclosestats(?,?,?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": [&#13;      {&#13;         "tot_ballots":$tot_ballots,&#13;         "tot_spoiled_replaced":$tot_spoiled_replaced,&#13;         "tot_unused":$tot_unused,&#13;          "tot_tend_ballots":$tot_tend_ballots,&#13;         "tot_tend_spoiled":$tot_tend_spoiled,&#13;          "tot_tend_unused":$tot_tend_unused,&#13;          "response":"$response"&#13;&#13;      }&#13;    ]&#13;  }&#13;}&#13;</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="electionid" sqlType="INTEGER"/>
+      <param name="pollingstationid" sqlType="INTEGER"/>
+   </query>
+   <operation name="getclosestats">
+      <call-query href="getclosestats">
+         <with-param name="token" query-param="token"/>
+         <with-param name="electionid" query-param="electionid"/>
+         <with-param name="pollingstationid" query-param="pollingstationid"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getclosestats">
+      <description>getclosestats &#13;                                    &#13;                                    </description>
+      <call-query href="getclosestats">
+         <with-param name="token" query-param="token"/>
+         <with-param name="electionid" query-param="electionid"/>
+         <with-param name="pollingstationid" query-param="pollingstationid"/>
+      </call-query>
+   </resource>
+</data>

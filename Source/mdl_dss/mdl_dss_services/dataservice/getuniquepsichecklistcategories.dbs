@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getuniquepsichecklistcategories" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getuniquepsichecklistcategories</description>
+  <config id="getuniquepsichecklistcategories">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getuniquepsichecklistcategories" useConfig="getuniquepsichecklistcategories">
+    <sql>call psm.getuniquepsichecklistcategories(?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": {&#xD;           "categoryname" : $categoryname,&#xD;           "response" : $response&#xD;                }&#xD;            }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="place_id" sqlType="INTEGER" />
+  </query>
+  <operation name="getuniquepsichecklistcategories">
+    <description>getuniquepsichecklistcategories</description>
+    <call-query href="getuniquepsichecklistcategories">
+      <with-param name="token" query-param="token" />
+      <with-param name="place_id" query-param="place_id" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getuniquepsichecklistcategories">
+    <description>getuniquepsichecklistcategories</description>
+    <call-query href="getuniquepsichecklistcategories">
+      <with-param name="token" query-param="token" />
+      <with-param name="place_id" query-param="place_id" />
+    </call-query>
+  </resource>
+</data>

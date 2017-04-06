@@ -1,0 +1,69 @@
+<data description="multiple services per each table" enableBatchRequests="false" enableBoxcarring="false" name="user_election_DataService" serviceNamespace="ddd" serviceStatus="active">
+   <config id="default">
+      <property name="carbon_datasource_name">mdl_psm_std</property>
+   </config>
+   <query id="delete_user_election_query" useConfig="default">
+      <sql>DELETE FROM user_election WHERE id=?</sql>
+      <param name="id" ordinal="1" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+   </query>
+   <query id="update_user_election_query" useConfig="default">
+      <sql>UPDATE user_election SET organization_id=?,user_id=?,election_id=? WHERE id=?</sql>
+      <param name="organization_id" ordinal="1" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="user_id" ordinal="2" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="election_id" ordinal="3" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="id" ordinal="4" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+   </query>
+   <query id="insert_user_election_query" useConfig="default">
+      <sql>INSERT INTO user_election(organization_id,user_id,election_id) VALUES(?,?,?)</sql>
+      <param name="organization_id" ordinal="1" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="user_id" ordinal="2" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="election_id" ordinal="3" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+   </query>
+   <query id="select_all_user_election_query" useConfig="default">
+      <sql>SELECT id, organization_id, user_id, election_id FROM user_election</sql>
+      <result element="user_electionCollection" rowName="user_election">
+         <element column="id" name="id" xsdType="xs:integer"/>
+         <element column="organization_id" name="organization_id" xsdType="xs:integer"/>
+         <element column="user_id" name="user_id" xsdType="xs:integer"/>
+         <element column="election_id" name="election_id" xsdType="xs:integer"/>
+      </result>
+   </query>
+   <query id="select_with_key_user_election_query" useConfig="default">
+      <sql>SELECT id, organization_id, user_id, election_id FROM user_election WHERE id=?</sql>
+      <param name="id" ordinal="1" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <result element="user_electionCollection" rowName="user_election">
+         <element column="id" name="id" xsdType="xs:integer"/>
+         <element column="organization_id" name="organization_id" xsdType="xs:integer"/>
+         <element column="user_id" name="user_id" xsdType="xs:integer"/>
+         <element column="election_id" name="election_id" xsdType="xs:integer"/>
+      </result>
+   </query>
+   <operation name="insert_user_election_operation">
+      <call-query href="insert_user_election_query">
+         <with-param name="organization_id" query-param="organization_id"/>
+         <with-param name="election_id" query-param="election_id"/>
+         <with-param name="user_id" query-param="user_id"/>
+      </call-query>
+   </operation>
+   <operation name="select_all_user_election_operation">
+      <call-query href="select_all_user_election_query"/>
+   </operation>
+   <operation name="delete_user_election_operation">
+      <call-query href="delete_user_election_query">
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </operation>
+   <operation name="update_user_election_operation">
+      <call-query href="update_user_election_query">
+         <with-param name="id" query-param="id"/>
+         <with-param name="organization_id" query-param="organization_id"/>
+         <with-param name="election_id" query-param="election_id"/>
+         <with-param name="user_id" query-param="user_id"/>
+      </call-query>
+   </operation>
+   <operation name="select_with_key_user_election_operation">
+      <call-query href="select_with_key_user_election_query">
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </operation>
+</data>

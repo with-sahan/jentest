@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getballotissuegraphstats" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getballotissuegraphstats</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getballotissuegraphstats" useConfig="mdl_psm">
+    <sql>call getballotissuegraphstats(?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;        "electionname": "$electionname",&#xD;        "issuehour": "$issuehour",&#xD;        "ballotpaperissued": "$ballotpaperissued",&#xD;        "response": "$response"&#xD;      }&#xD;      &#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="getballotissuegraphstats">
+    <description>getballotissuegraphstats</description>
+    <call-query href="getballotissuegraphstats">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getballotissuegraphstats">
+    <description>getballotissuegraphstats</description>
+    <call-query href="getballotissuegraphstats">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

@@ -1,0 +1,19 @@
+<div ng-include="'/templates/_header.html'"></div>
+<section class="grid-wrap">
+	<div class="grid-col content">
+		<table id="boxProgress" ng-table="tableParams" class="table" cellspacing="0" class="boxProgress">
+			<tr ng-repeat="progress in data" ng-class="{active: progress.id == data.id}">
+				<td data-title="'Ballot Box'">{{progress.ballotBoxNumber}}</td>
+
+				<td data-title="'Dispatch Time'" class="dateTime">{{progress.dispatchTime ? (progress.dispatchTime | amDateFormat:'ddd, MMM Do YYYY, h:mm:ss a') : '-'}}</td>
+				<td data-title="'ETA'" class="dateTime">{{progress.eta ? (progress.eta | amDateFormat:'ddd, MMM Do YYYY, h:mm:ss a') : '-' }}</td>
+				<td data-title="'Arrival Time'" class="dateTime">{{progress.deliverTime ? (progress.deliverTime | amDateFormat:'ddd, MMM Do YYYY, h:mm:ss a') : '-'}}</td>
+				<td data-title="'Current Position'" class="mapIcon"><a ng-click="viewMap(progress.lat, progress.lng)">View Map</a></td>
+			</tr>
+		</table>
+		<div class="grid-col col-full mapWrapper">
+			<div id="map-canvas"></div>
+		</div>
+	</div>
+</section>
+<div ng-include="'/templates/_footer.html'"></div>

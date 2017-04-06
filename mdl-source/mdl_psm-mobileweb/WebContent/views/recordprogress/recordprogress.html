@@ -1,0 +1,383 @@
+<div class="panel cus_recordprogress"
+     ng-controller="mdl.mobileweb.controller.recordprogressNew as vm">
+    <ng-include src="template"></ng-include>
+    <ng-include src="vm.template2"></ng-include>
+    <div class="panel-header panel-controls">
+        <h3>
+            <i class="icon-target"></i> <strong>Record</strong> Progress
+        </h3>
+    </div>
+    <div class="row stationlist">
+        <div class="col-md-12">
+            <tabset class="tab-fade-in tab_left">
+                <tab ng-repeat="station in vm.pollingStationList"
+                     ng-click="vm.stationcheck(station.id)"
+                     value="{{station.id}}">
+                    <tab-heading>
+                        <b class="icons-education-science-18">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {{station.name}}
+                        </b>
+                    </tab-heading>
+                    <tabset class="tab-fade-in tab-default-behaviour" ng-if="vm.stationstatus">
+                        <tab ng-repeat="item in vm.electionlist"
+                             ng-click="vm.getProgress(item.electionid,station.id)"
+                             value="{{item.electionid}}">
+                            <tab-heading>
+                                <b class="icons-education-science-18">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    {{item.electionname}}
+                                </b>
+                            </tab-heading>
+                            <div ng-if="item.electionid == vm.electionId && station.id == vm.stationId" ng-hide="vm.checkElectionClosed==1">
+                                <div class="row" ng-show="vm.mainballowStats">
+                                    <div class="col-md-12 form-horizontal form-group">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button class="btn btn-primary m-r-10" type="button" ng-click="vm.tenderedControl(true)">Tendered</button>
+                                                <button type="button"
+                                                        ng-click="vm.postalPackCollected(item.electionid,station.id)"
+                                                        class="btn btn-primary m-r-10">
+                                                    Collect Packs
+                                                </button>
+                                                <button type="submit"
+                                                        ng-click="vm.save(station.id,vm.progressSummery,false)"
+                                                        class="btn btn-primary m-r-10">
+                                                    Save
+                                                </button>
+                                                <button class="btn btn-danger m-r-10" type="button"
+                                                        ng-click="callConfirmation(item.electionid,station.id)">
+                                                    Complete Progress
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="panel-content">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>
+                                                                    <div class="panel-content widget-info p-0">
+                                                                        <div class="row">
+                                                                            <div class="left col-xs-6">
+                                                                                <i class="fa fa-clipboard bg-green"></i>
+                                                                            </div>
+                                                                            <div class="right col-xs-6">
+                                                                                <p class="number countup ng-binding" data-from="0" data-to="52000">{{vm.getTotals().ballotIssuedTotal}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </th>
+                                                                <th>
+                                                                    <div class="panel-content widget-info p-0">
+                                                                        <div class="row">
+                                                                            <div class="left col-xs-6">
+                                                                                <i class="fa fa-trash-o bg-red"></i>
+                                                                            </div>
+                                                                            <div class="right col-xs-6">
+                                                                                <p class="number countup ng-binding" data-from="0" data-to="52000">{{vm.getTotals().spoiltBallotsTotal}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </th>
+                                                                <th>
+                                                                    <div class="panel-content widget-info p-0">
+                                                                        <div class="row">
+                                                                            <div class="left">
+                                                                                <i class="fa fa-suitcase bg-blue"></i>
+                                                                            </div>
+                                                                            <div class="right">
+                                                                                <p class="number countup ng-binding" data-from="0" data-to="52000">{{vm.getTotals().postalPacksCollectedTotal}}/{{vm.getTotals().postalPacksTotal}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </th>
+                                                                <th ng-show="vm.typeResult.typecount==2">
+                                                                    <div class="panel-content widget-info p-0">
+                                                                        <div class="row">
+                                                                            <div class="left col-xs-6">
+                                                                                <i class="fa fa-clipboard bg-green"></i>
+                                                                            </div>
+                                                                            <div class="right col-xs-6">
+                                                                                <p class="number countup ng-binding" data-from="0" data-to="52000">{{vm.getTotals().ballotIssuedTotal2}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </th>
+                                                                <th ng-show="vm.typeResult.typecount==2">
+                                                                    <div class="panel-content widget-info p-0">
+                                                                        <div class="row">
+                                                                            <div class="left col-xs-6">
+                                                                                <i class="fa fa-trash-o bg-red"></i>
+                                                                            </div>
+                                                                            <div class="right col-xs-6">
+                                                                                <p class="number countup ng-binding" data-from="0" data-to="52000">{{vm.getTotals().spoiltBallotsTotal2}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <thead ng-show="vm.typeResult.typecount==2">
+                                                            <tr>
+                                                                <th colspan="4">{{vm.bpNames.paper1}}</th>
+                                                                <th colspan="4">{{vm.bpNames.paper2}}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Time</th>
+                                                                <th>{{(vm.typeResult.typecount==2) ? "Last ballot number issued" : "Ballot Papers Issued" }}</th>
+                                                                <th>{{(vm.typeResult.typecount==2) ? "Number of spoilt ballot papers" : "Spoilt Ballot Papers" }}</th>
+                                                                <th>{{(vm.typeResult.typecount==2) ? "Number of postal packs" : "Postal Packs" }}</th>
+                                                                <th ng-show="vm.typeResult.typecount==2">Last ballot number issued</th>
+                                                                <th ng-show="vm.typeResult.typecount==2">Number of spoilt ballot papers</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody ng-hide="vm.BPA_identifier=='1'">
+                                                            <tr ng-repeat="(key1,record) in vm.progressSummery">
+                                                                <td>{{record.time}}</td>
+                                                                <td>
+                                                                    <input type="number" class="defaultWidth" min="0"
+                                                                           ng-model="vm.progressSummery[key1].ballotpapers"
+                                                                           ng-disabled="vm.fieldDisabled" focusctrl>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" class="defaultWidth" min="0"
+                                                                           ng-model="vm.progressSummery[key1].spoiltballots"
+                                                                           ng-disabled="vm.fieldDisabled" focusctrl>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" class="defaultWidth" min="0"
+                                                                           ng-model="vm.progressSummery[key1].postalpacks"
+                                                                           ng-disabled="vm.fieldDisabled" value="{{vm.progressSummery[key1].postalpacks==0 ? '' : vm.progressSummery[key1].postalpacks}}" focusctrl>
+                                                                </td>
+                                                                <td ng-show="vm.typeResult.typecount==2">
+                                                                    <input type="number" class="defaultWidth" min="0"
+                                                                           ng-model="vm.progressSummery[key1].ballotpapers2"
+                                                                           ng-disabled="vm.fieldDisabled" focusctrl>
+                                                                </td>
+                                                                <td ng-show="vm.typeResult.typecount==2">
+                                                                    <input type="number" class="defaultWidth" min="0"
+                                                                           ng-model="vm.progressSummery[key1].spoiltballots2"
+                                                                           ng-disabled="vm.fieldDisabled" focusctrl>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+
+                                                        <tbody ng-show="vm.BPA_identifier=='1'">
+                                                            <tr ng-repeat="(key1,record) in vm.progressSummery">
+                                                                <div>
+                                                                    <td>{{record.time}}</td>
+                                                                    <td>
+                                                                        <input type="number" class="defaultWidth" min="0"
+                                                                               ng-model="vm.progressSummery[key1].ballotpapers"
+                                                                               ng-disabled="vm.fieldDisabled" ng-blur="vm.checkNumberValidity(vm.progressSummery[key1].ballotpapers, key1)" focusctrl>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="number" class="defaultWidth" min="0"
+                                                                               ng-model="vm.progressSummery[key1].spoiltballots"
+                                                                               ng-disabled="vm.fieldDisabled" focusctrl>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="number" class="defaultWidth" min="0"
+                                                                               ng-model="vm.progressSummery[key1].postalpacks"
+                                                                               ng-disabled="vm.fieldDisabled" value="{{vm.progressSummery[key1].postalpacks==0 ? '' : vm.progressSummery[key1].postalpacks}}" focusctrl>
+                                                                    </td>
+                                                                    <td ng-show="vm.typeResult.typecount==2">
+                                                                        <input type="number" class="defaultWidth" min="0"
+                                                                               ng-model="vm.progressSummery[key1].ballotpapers2"
+                                                                               ng-disabled="vm.fieldDisabled" focusctrl>
+                                                                    </td>
+                                                                    <td ng-show="vm.typeResult.typecount==2">
+                                                                        <input type="number" class="defaultWidth" min="0"
+                                                                               ng-model="vm.progressSummery[key1].spoiltballots2"
+                                                                               ng-disabled="vm.fieldDisabled" focusctrl>
+                                                                    </td>
+
+                                                                </div>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button class="btn btn-primary m-r-10" type="button" ng-click="vm.tenderedControl(true)">Tendered</button>
+                                                <button type="button"
+                                                        ng-click="vm.postalPackCollected(item.electionid,station.id)"
+                                                        class="btn btn-primary m-r-10">
+                                                    Collect Packs
+                                                </button>
+                                                <button type="submit"
+                                                        ng-click="vm.save(station.id,vm.progressSummery,false)"
+                                                        class="btn btn-primary m-r-10">
+                                                    Save
+                                                </button>
+                                                <button class="btn btn-danger m-r-10" type="button"
+                                                        ng-click="callConfirmation(item.electionid,station.id)">
+                                                    Complete Progress
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="vm.tenderedShow">
+                                    <div class="col-md-12 form-horizontal form-group">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button type="submit"
+                                                        ng-click="vm.save(station.id,vm.progressSummery,true)"
+                                                        class="btn btn-primary m-r-10">
+                                                    Save
+                                                </button>
+                                                <button class="btn btn-primary m-r-10" type="button"
+                                                        ng-click="vm.tenderedControl(false)">
+                                                    Back
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="panel-content">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>
+                                                                    <div class="panel-content widget-info p-0">
+                                                                        <div class="row">
+                                                                            <div class="left col-xs-6">
+                                                                                <i class="fa fa-clipboard bg-green"></i>
+                                                                            </div>
+                                                                            <div class="right col-xs-6">
+                                                                                <p class="number countup ng-binding" data-from="0" data-to="52000">{{vm.getTotals().tendredballotIssuedTotal}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </th>
+                                                                <th>
+                                                                    <div class="panel-content widget-info p-0">
+                                                                        <div class="row">
+                                                                            <div class="left col-xs-6">
+                                                                                <i class="fa fa-trash-o bg-red"></i>
+                                                                            </div>
+                                                                            <div class="right col-xs-6">
+                                                                                <p class="number countup ng-binding" data-from="0" data-to="52000">{{vm.getTotals().tendredspoiltBallotsTotal}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </th>
+                                                                <th ng-show="vm.typeResult.typecount==2">
+                                                                    <div class="panel-content widget-info p-0">
+                                                                        <div class="row">
+                                                                            <div class="left col-xs-6">
+                                                                                <i class="fa fa-clipboard bg-green"></i>
+                                                                            </div>
+                                                                            <div class="right col-xs-6">
+                                                                                <p class="number countup ng-binding" data-from="0" data-to="52000">{{vm.getTotals().tendredballotIssuedTotal2}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </th>
+                                                                <th ng-show="vm.typeResult.typecount==2">
+                                                                    <div class="panel-content widget-info p-0">
+                                                                        <div class="row">
+                                                                            <div class="left col-xs-6">
+                                                                                <i class="fa fa-trash-o bg-red"></i>
+                                                                            </div>
+                                                                            <div class="right col-xs-6">
+                                                                                <p class="number countup ng-binding" data-from="0" data-to="52000">{{vm.getTotals().tendredspoiltBallotsTotal2}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Time</th>
+                                                                <th>Tendered Ballot Papers Issued</th>
+                                                                <th>Tendered Spoilt Ballot Papers</th>
+                                                                <th ng-show="vm.typeResult.typecount==2">Tendered Ballot Papers Issued2</th>
+                                                                <th ng-show="vm.typeResult.typecount==2">Tendered Spoilt Ballot Papers2</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody ng-hide="vm.BPA_identifier=='1'">
+                                                            <tr ng-repeat="(key1,record) in vm.progressSummery">
+                                                                <td>{{record.time}}</td>
+                                                                <td>
+                                                                    <input type="number" class="defaultWidth" min="0"
+                                                                           ng-model="vm.progressSummery[key1].tenballotpapers"
+                                                                           focusctrl>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" class="defaultWidth" min="0"
+                                                                           ng-model="vm.progressSummery[key1].tenspoiltballots" focusctrl>
+                                                                </td>
+                                                                <td ng-show="vm.typeResult.typecount==2">
+                                                                    <input type="number" class="defaultWidth" min="0"
+                                                                           ng-model="vm.progressSummery[key1].tenballotpapers2"
+                                                                           focusctrl>
+                                                                </td>
+                                                                <td ng-show="vm.typeResult.typecount==2">
+                                                                    <input type="number" class="defaultWidth" min="0"
+                                                                           ng-model="vm.progressSummery[key1].tenspoiltballots2" focusctrl>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+
+                                                        <tbody ng-show="vm.BPA_identifier=='1'">
+                                                            <tr ng-repeat="(key1,record) in vm.progressSummery">
+                                                                <td>{{record.time}}</td>
+                                                                <td>
+                                                                    <input type="number" class="defaultWidth" min="0"
+                                                                           ng-model="vm.progressSummery[key1].tenballotpapers"
+                                                                           ng-blur="vm.checkNumberValidity2(vm.progressSummery[key1].tenballotpapers, key1)" focusctrl>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" class="defaultWidth" min="0"
+                                                                           ng-model="vm.progressSummery[key1].tenspoiltballots" focusctrl>
+                                                                </td>
+                                                                <td ng-show="vm.typeResult.typecount==2">
+                                                                    <input type="number" class="defaultWidth" min="0"
+                                                                           ng-model="vm.progressSummery[key1].tenballotpapers2"
+                                                                           focusctrl>
+                                                                </td>
+                                                                <td ng-show="vm.typeResult.typecount==2">
+                                                                    <input type="number" class="defaultWidth" min="0"
+                                                                           ng-model="vm.progressSummery[key1].tenspoiltballots2" focusctrl>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button type="submit"
+                                                        ng-click="vm.save(station.id,vm.progressSummery,true)"
+                                                        class="btn btn-primary m-r-10">
+                                                    Save
+                                                </button>
+                                                <button class="btn btn-primary m-r-10" type="button"
+                                                        ng-click="vm.tenderedControl(false)">
+                                                    Back
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+</tabset>
+            </tabset>
+        </div>
+        <p ng-show="vm.checkElectionClosed==1" style="color:blue;">Record progress for this station has been completed.</p>
+    </div>
+</div>
+
+</div>

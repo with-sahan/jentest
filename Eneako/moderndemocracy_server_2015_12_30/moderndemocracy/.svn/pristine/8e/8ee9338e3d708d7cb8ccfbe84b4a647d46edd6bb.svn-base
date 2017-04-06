@@ -1,0 +1,115 @@
+<div class="contentWrapper">
+    <div ng-include="'/templates/_header.html'"></div>
+
+    <section class="grid-wrap">
+        <div class="grid-col content">
+            <div class="dashrow two clearfix">
+
+                <div class="box">
+                    <h3>Total Ballot Papers Issued</h3>
+                    <div>{{wardData.totalBallotPapersIssued}}</div>
+                </div>
+
+                <div class="box">
+                    <h3>Total Postal Packs</h3>
+                    <div>{{wardData.totalPostalPacks}}</div>
+                </div>
+
+            </div>
+
+
+            <div id="electoralArea" cellspacing="0" class="dashboardTable">
+                <div class="tableHead clearfix">
+                    <h4 class="grid-col-nopad col-small-col"></h4>
+                    <h4 class="grid-col-nopad col-main-col">Contests</h4>
+                    <h4 class="grid-col-nopad col-main-col">Ballot Papers Issued</h4>
+                    <h4 class="grid-col-nopad col-main-col">Postal Packs</h4>
+                </div>
+
+                <div>
+                    <div ng-repeat="ward in wardData.wards"  class="tableRow clearfix">
+                        <div class="grid-col-nopad col-small-col" ng-click="toggleWardVisibility(ward);"  ng-class="{'details-control-expanded': ward.visible == true, 'details-control': ward.visible != true}"></div>
+                        <div class="grid-col-nopad col-main-col" ng-click="toggleWardVisibility(ward);" >{{ward.wardName}}</div>
+                        <div class="grid-col-nopad col-main-col" ng-click="toggleWardVisibility(ward);" >{{ward.totalBallotPaperIssued}}</div>
+                        <div class="grid-col-nopad col-main-col" ng-click="toggleWardVisibility(ward);" >{{ward.totalPostalPacks}}</div>
+                        <div class="breakdownTable ng-hide" ng-show="ward.visible == true">
+                            <ul class="poll-list noselect" >
+                                <li  ng-class="{'details-control-expanded-li': district.visible == true, 'details-control-li': district.visible != true}" ng-repeat="district in ward.districts" ng-click="toggleDistrictVisibility(district);"  >{{district.districtName}}
+                                    <ul class="poll-list" ng-show="district.visible == true" >
+                                        <li style="list-style-image: none;" ng-repeat="place in district.places"  >{{place.placeName}}
+                                            <table cellspacing="0" class="dashboard long sticky-header">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="polling">Polling Station</th>
+                                                        <th class="ballot">Ballot Papers Issued</th>
+                                                        <th class="postal">Postal Packs</th>
+                                                        <th class="postal">Checklist</th>
+                                                        <th class="station">Station Open</th>
+                                                        <th class="photo">Photo</th>
+                                                        <th class="status">Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- ngRepeat: station in ward.stations -->
+                                                    <tr ng-repeat="station in place.stations" class="ng-scope">
+                                                        <td>{{place.placeName}} ({{station.stationName}})</td>
+                                                        <td>{{station.ballotPapersIssued}}</td>
+                                                        
+                                                        
+                                                        <!-- DISABLED TEMPORARILY -->
+                                                        <!-- CONDITIONALLY DISPLAY POSTAL PACKS AWAITING COLLECTION IF THERE ARE ANY AWAITING COLLECTION -->
+                                                       	<!--
+                                                       	<td ng-show="station.postalPacksAwaitingCollection == 0">{{station.postalPacksReceived}}</td>
+                                                        <td ng-show="station.postalPacksAwaitingCollection > 0">{{station.postalPacksReceived}} ({{ station.postalPacksAwaitingCollection }} uncollected)</td>
+                                                        -->
+                                                        
+                                                        <!-- REMOVE THIS IF RE-ENABLING THE ABOVE -->
+                                                        <td>{{station.postalPacksReceived}}</td>
+                                                                                                                
+                                                        <td data-toggle="modal" ng-click="showStatusPopup(station);setDistrictVisible(district);"><a href="#">VIEW</a></td>
+
+                                                        <td ng-show="station.stationOpen">OPEN</td>
+                                                        <td ng-show="!station.stationOpen">CLOSED</td>
+                                                        <td class="image">
+                                                            <a target="_blank" ng-click="setDistrictVisible(district);"  href="{{ward.wardImage}}_{{station.stationId}}.jpg?={{imgtimestamp}}" class="swipebox" title="{{station.stationName}}">
+                                                                <img  ng-src="{{ward.wardImage}}_{{station.stationId}}_tn.jpg?={{imgtimestamp}}"  on-error="../img/no-image.png" alt="">
+                                                            </a>
+                                                        </td>
+                                                        <td class="{{station.stationStatus}}" data-toggle="modal" ></td>
+                                                    </tr>
+
+
+                                                </tbody>
+                                            </table>
+                                        </li>
+                                    </ul>
+
+                                </li>
+
+                            </ul>
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+        <!-- Modal -->
+
+
+    </section>
+
+
+    <div ng-include="'/templates/_footer.html'"></div>
+
+   
+</div>
+ 

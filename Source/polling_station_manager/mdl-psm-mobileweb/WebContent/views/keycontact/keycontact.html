@@ -1,0 +1,59 @@
+<!-- 
+Project: MDL
+Author: Akarshani Amarasinghe
+Module: Key contact details HTML 
+-->
+
+<div class="panel issue_list">
+	<div class="panel-header">
+		<h3>
+			<i class="fa fa-table"></i> <strong>Key </strong>Contact
+		</h3>
+	</div>
+	<div class="panel-content"
+		ng-controller="mdl.mobileweb.controller.keycontact as vm">
+		
+		<div class="row tbl_scroll_x">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Polling Station</th>
+						<th>Contact Name</th>
+						<th>Phone</th>
+						<th>Mobile</th>
+						<th>Key Holder</th>
+						<th>Phone</th>
+						<th>Mobile</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="keycontact in vm.keyContact" value="{{keycontact.id}}">
+						<td>{{keycontact.pollingstation_name}}</td>
+						<td>{{keycontact.name1.length>0 ? keycontact.name1 : '-'}}</td>
+						<td>{{keycontact.phone1.length>0 ? keycontact.phone1 : '-'}}</td>
+						<td>{{keycontact.mobile1.length>0 ? keycontact.mobile1 : '-'}}</td>
+						<td>{{keycontact.name2.length>0 ? keycontact.name2 : '-'}}</td>
+						<td>{{keycontact.phone2.length>0 ? keycontact.phone2 : '-'}}</td>
+						<td>{{keycontact.mobile2.length>0 ? keycontact.mobile2 : '-'}}</td>
+						
+						<!-- If "primary_contact" = 0 -->
+						<!-- <td ng-show="keycontact.primary_contact==0">-</td>
+						<td ng-show="keycontact.primary_contact==0">-</td>
+						<td ng-show="keycontact.primary_contact==0">-</td>
+						<td ng-show="keycontact.primary_contact==0">{{keycontact.name}}</td>
+						<td ng-show="keycontact.primary_contact==0">{{keycontact.phone}}</td>
+						<td ng-show="keycontact.primary_contact==0">{{keycontact.mobile}}</td> -->
+						
+						<!-- If "primary_contact" = 1 -->
+						<!-- <td ng-show="keycontact.primary_contact==1">{{keycontact.name}}</td>
+						<td ng-show="keycontact.primary_contact==1">{{keycontact.phone}}</td>
+						<td ng-show="keycontact.primary_contact==1">{{keycontact.mobile}}</td>
+						<td ng-show="keycontact.primary_contact==1">-</td>
+						<td ng-show="keycontact.primary_contact==1">-</td>
+						<td ng-show="keycontact.primary_contact==1">-</td> -->
+					</tr>
+				</tbody>			
+			</table>
+		</div>	
+	</div>
+</div>

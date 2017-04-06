@@ -1,0 +1,40 @@
+package com.moderndemocracy.jetty.handler;
+
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.moderndemocracy.pojo.AuthenticatedUser;
+
+public class AuthenticatedUserHandler extends ModernDemocracyHandler {
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.anaeko.jetty.handler.ChainedHandler#getSupportedMethods()
+	 */
+	@Override
+	protected String getSupportedMethods() {
+		return "GET";
+	}
+
+	@Override
+	protected void handleGet(
+			String target, 
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		
+		// Get session ID
+		String id = read(request).sessionId();
+		logger.debug("Session ID = " + id);
+
+		// Get DefaultUser object for this user.
+		AuthenticatedUser currentUser = (AuthenticatedUser) getServiceContext().getUser(id);
+
+		logger.debug("Current User = > " + currentUser.toString());
+
+		send(request, response).json(currentUser);
+	}
+
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getpsichecklist" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getpsichecklist</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getpsichecklist" useConfig="mdl_psm">
+    <sql>call psm.getpsichecklist (?,?)</sql>
+    <result outputType="json">{&#xD; "result":{&#xD;  "entry":[&#xD;   {"id":$id,&#xD;    "activity":$activity,&#xD;    "category":$category,&#xD;          "iscompleted":$iscompleted,&#xD;   "place_id":$place_id,&#xD;    "response":$response&#xD;   }&#xD;  ]&#xD; }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="place_id" sqlType="INTEGER" />
+  </query>
+  <operation name="getpsichecklist">
+    <description>getpsichecklist</description>
+    <call-query href="getpsichecklist">
+      <with-param name="token" query-param="token" />
+      <with-param name="place_id" query-param="place_id" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getpsichecklist">
+    <description>getpsichecklist</description>
+    <call-query href="getpsichecklist">
+      <with-param name="token" query-param="token" />
+      <with-param name="place_id" query-param="place_id" />
+    </call-query>
+  </resource>
+</data>

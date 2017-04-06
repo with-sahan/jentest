@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getprepollactivities_v2" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getprepollactivities_v2</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getprepollactivities_v2" useConfig="mdl_psm">
+    <sql>call getprepollactivities_v2(?,?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "id": "$id",&#xD;                "activity": "$activity",&#xD;                "category": "$category",&#xD;                "iscompleted": "$iscompleted",&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="polling_station_id" sqlType="INTEGER" />
+  </query>
+  <operation name="getprepollactivities_v2">
+    <description>getprepollactivities_v2</description>
+    <call-query href="getprepollactivities_v2">
+      <with-param name="token" query-param="token" />
+      <with-param name="polling_station_id" query-param="polling_station_id" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getprepollactivities_v2">
+    <description>getprepollactivities_v2</description>
+    <call-query href="getprepollactivities_v2">
+      <with-param name="token" query-param="token" />
+      <with-param name="polling_station_id" query-param="polling_station_id" />
+    </call-query>
+  </resource>
+</data>

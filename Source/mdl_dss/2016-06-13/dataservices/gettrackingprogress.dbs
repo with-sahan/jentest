@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="gettrackingprogress" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>gettrackingprogress</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="gettrackingprogress" useConfig="mdl_psm">
+    <sql>call gettrackingprogress(?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": {&#xD;            "response": "$response",&#xD;            "stationid": "$stationid",&#xD;            "ballot_box_number": "$ballot_box_number",&#xD;            "longtitude": "$longtitude",&#xD;            "latitude": "$latitude",&#xD;            "counting_center_id": "$counting_center_id",&#xD;            "destination_latitude": "$destination_latitude",&#xD;            "destination_longtitude": "$destination_longtitude",&#xD;            "polling_station": "$polling_station",&#xD;            "arrivaltime": "$arrivaltime"&#xD;        }&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="gettrackingprogress">
+    <description>gettrackingprogress</description>
+    <call-query href="gettrackingprogress">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="gettrackingprogress">
+    <description>gettrackingprogress</description>
+    <call-query href="gettrackingprogress">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

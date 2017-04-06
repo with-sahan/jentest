@@ -1,0 +1,145 @@
+<!--
+Project: MDL PSM
+Modified by: Akarshani Amarasinghe
+Module: PSM Openstation
+ -->
+
+<div class="panel" ng-controller="mdl.mobileweb.controller.openstation as vm">
+	<ng-include src="vm.template"></ng-include>
+    <div class="panel-header panel-controls">
+        <h3>
+            <i class="icon-target"></i> <strong>Open</strong> Station
+        </h3>
+    </div>
+    <div class="row stationlist">
+        <div class="col-md-12">
+            <tabset class="tab-fade-in tab_left">
+                <tab ng-repeat="station in vm.pollingStationList"
+                     ng-click="vm.stationcheck(station.id)"
+                     value="{{station.id}}">
+                    <tab-heading>
+                        <b class="icons-education-science-18">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {{station.name}}
+                        </b>
+                    </tab-heading>
+
+                    <div ng-if="station.id == vm.stationId">
+                        <div class="row">
+                            <div class="col-lg-12 portlets">
+                                <div class="panel">
+                                    <div class="panel-content">
+                                        <div class="row">
+                                            <div class="col-md-12">
+
+                                                <div class="row chk_selectall">
+                                                    <div class="col-md-12">
+                                                        <div class="input-group">
+                                                            <div class="icheck-list">
+                                                                <label>
+                                                                    <input id="selectall" type="checkbox"
+                                                                           ng-true-value="1"
+                                                                           ng-false-value="0"
+                                                                           ng-model="vm.selectedAll"
+                                                                           ng-change="vm.checkAll()"
+                                                                           applyicheck="vm.selectedAll">
+                                                                    Select All
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <accordion class="panel-group panel-accordion" close-others="true">
+                                                    <accordion-group is-open="open"
+                                                                     ng-repeat="prePollActivityGroup in vm.prePollActivityGroups"
+                                                                     value="{{prePollActivityGroup.category}}">
+                                                        <accordion-heading>
+                                                            <div class="input-group">
+                                                                <div class="icheck-list">
+                                                                    <label>
+                                                                        <input type="checkbox"
+                                                                               ng-true-value="1"
+                                                                               ng-false-value="0"
+                                                                               ng-model="prePollActivityGroup.status"
+                                                                               ng-change="vm.checkGroup(prePollActivityGroup.status,prePollActivityGroup)"
+                                                                               applyicheck="prePollActivityGroup.status">
+                                                                        {{vm.removeUnwantedStrings(prePollActivityGroup.category)}}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+
+                                                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}" style="margin-top: -3%;"> </i>
+                                                        </accordion-heading>
+                                                        <div class="panel-body"
+                                                             ng-repeat="prePollActivity in vm.prePollActivities | filter:prePollActivityGroup.category">
+                                                            <div class="input-group">
+                                                                <div class="icheck-list">
+                                                                    <input type="checkbox"
+                                                                           ng-model="prePollActivity.iscompleted"
+                                                                           ng-true-value="1"
+                                                                           ng-false-value="0"
+                                                                           data-checkbox="icheckbox_flat-blue"
+                                                                           applyicheck="prePollActivity.iscompleted"
+                                                                           ng-change="vm.setGroupChecked(prePollActivityGroup)">
+                                                                    <span class="openstation_para">{{prePollActivity.activity}}</span>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </accordion-group>
+                                                </accordion>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="panel-body">
+                        <div class="form-group">
+                            <div class="row chk_selectall">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <div class="icheck-list">
+                                            <label> <input id="selectall" type="checkbox"
+                                                ng-model="vm.selectedAll" ng-change="vm.checkAll(selectedAll)" applyicheck>
+                                                Select All
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row select_target">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <div class="icheck-list">
+                                            <label ng-repeat="item in vm.activityList"> <input
+                                                type="checkbox" ng-model="item.status" ng-true-value="1"
+                                                ng-false-value="0" data-checkbox="icheckbox_flat-blue" applyicheck="item.status">{{item.activity}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary m-r-10" type="button"
+                                    ng-click="vm.openStation(station.id);" ng-disabled="vm.buttonHidedisable">
+                                {{vm.buttonLable}}
+                            </button>
+                            <button class="btn btn-success m-r-10" type="button"
+                                    ng-click="vm.saveStation(station.id);">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+            </tabset>
+        </div>
+    </div>
+</div>

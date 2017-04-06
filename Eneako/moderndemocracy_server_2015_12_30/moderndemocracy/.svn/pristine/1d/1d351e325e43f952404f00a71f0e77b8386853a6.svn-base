@@ -1,0 +1,70 @@
+package com.moderndemocracy.dao;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.anaeko.error.AnaekoRuntimeException;
+import com.anaeko.utils.jdbc.CacheableQuery;
+import com.anaeko.utils.jdbc.ParameterDelegate;
+import com.moderndemocracy.pojo.Socialshares;
+
+public class SocialsharesDao {
+	
+
+	protected static final Logger logger = LogManager.getLogger(SocialsharesDao.class);
+
+	public static final String NEWS_FEED = "news";
+	public static final String EVENTS_FEED = "events";
+	public static final String CANDIDATES_FEED = "candidates";
+	public static final String REGISTERS_FEED = "registers";
+	
+	//private static final String[] feeds = {"news","events","candidates","registers"};
+	
+	private DataSource pool;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param pool
+	 *            The datasource.
+	 */
+	public SocialsharesDao(DataSource pool) {
+		if (null == pool)
+			throw new AnaekoRuntimeException(
+					"Cannot create a DAO without a database connection");
+		this.pool = pool;
+	}
+	
+	public List<Socialshares> getSocialTrackings(
+			final String feedName,
+			final Integer councilId,
+			final Timestamp start,
+			final Timestamp end ) throws SQLException {
+		
+		CacheableQuery<Socialshares> query = new CacheableQuery<Socialshares>(pool);
+	
+		List<Socialshares> found = query.execute(SocialsharesExtractor.SQL1 + feedName + SocialsharesExtractor.SQL2,
+		new SocialsharesExtractor(), new ParameterDelegate() {
+					@Override
+					public void setParameters(PreparedStatement statement) throws SQLException {
+						statement.setString(1, feedName);
+						statement.setInt(2, councilId);
+						statement.setTimestamp(3, start);
+						statement.setTimestamp(4, end);
+					}
+				});
+		
+		if (found.isEmpty()) {
+			return null;
+		} else {
+			return found;
+		}
+	}
+}

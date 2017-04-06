@@ -1,0 +1,97 @@
+<!-- 
+Project: MDL Dashboard
+Author: Akarshani Amarasinghe
+Module: EM notification HTML
+-->
+
+<div class="panel">
+    <div class="panel-header">
+        <h3 style="display:inline-block"><i class="fa fa-table"></i> <strong>All</strong> Notifications</h3>	    
+        <a class="create_notification_button btn btn-primary m-10" href="#/notifications/create">
+		   		Create
+		</a>
+    </div>    
+    <div class="panel-content m-t-10" ng-controller="mdl.em.controller.emnotification as vm">
+    	<div class="row">
+			<div class="form-group">
+				<div class="col-sm-2 g_fl">Filter by area</div>     
+				<select style="width: 40%" class="col-sm-2  issue_select_dropdown defaultWidth" ng-model="vm.selectedHrc" ng-change="vm.filterData()" ng-options="o|split:'|':1 as o|split:'|':0 for o in vm.geoHierarchy"></select>          
+           </div>
+	    </div>
+	    <div class="row">
+	    	<div class="notifications">
+	        <table class="table table-hover">
+	        <thead>
+	          <tr>
+	            
+	            <th>Sent</th>
+	            <th>Status</th>
+	            <th>Text</th>
+	            <th>Attachment</th>
+	            <th></th>
+	          </tr>
+	        </thead>
+	        <!-- <thead>
+	          <tr>
+	            
+	            <th></th>
+	            <th></th>
+	            <th></th>
+	            <th></th>
+	            <th></th>
+	          </tr>
+	        </thead> -->
+	        <tbody>
+	        <!-- ng-repeat="notificationData in vm.notification | orderBy: 'senton':true | pagination: (vm.curPage-1) * vm.pageSize | limitTo: vm.pageSize" -->
+	        <!-- ng-repeat="notificationData in (filtered = (vm.notification | filter:station.name |orderBy: 'senton':true)) | pagination: (vm.curPage-1) * vm.pageSize | limitTo: vm.pageSize"  -->
+	          <tr ng-repeat="notificationData in (filtered = (vm.notification | filter:station.name |orderBy: 'senton':true)) | pagination: (vm.curPage-1) * vm.pageSize | limitTo: vm.pageSize" 
+	          	ng-model="notificationDetails" value="{{notificationData.id}}">
+	           	
+	            <td>{{notificationData.senton | date:"yyyy-MM-dd 'at' h:mma"}}</td>
+	            <td>{{notificationData.status}}</td>
+	            <td>{{notificationData.message}}</td>
+	            <td><span ng-show="notificationData.attachtment !='null'"><a href="{{vm.appendUrl}}{{notificationData.attachtment}}" download>Attachment</a>&nbsp;&nbsp;<i class="glyphicon glyphicon-download-alt"></i></span></td>
+	            <td><a class="edit btn btn-sm btn-default" href="#/notifications/manage/{{notificationData.id}}">
+	            		<i class="icon-note"></i>
+	            	</a>
+	            </td>
+	          </tr>
+	        </tbody>
+	      </table>   
+      </div>
+      <!-- Modified by Vindya --> 
+      <div>
+      	<table class="table table-striped">
+			<tr>
+				<td>
+		 			<pagination total-items="filtered.length" ng-model="vm.curPage" max-size="3" class="pagination-sm" ng-show="(filtered.length/vm.pageSize)>1" boundary-links="true" rotate="false"><pagination>
+	  			</td>
+	  			<td align="right">
+		 			Number of Notifications: {{filtered.length}}
+		 		</td>
+	  		</tr>
+	  	</table>
+	  </div>
+		<!-- <div class="pagination-div" ng-show="vm.notification.length">
+			<div class="btn-group g_fr">
+				<button type="button" class="btn btn-primary" ng-disabled="vm.curPage == 0"
+					ng-click="vm.curPage=vm.curPage-1">Previous</button>
+				<button type="button" class="btn btn-primary"
+					ng-disabled="vm.curPage >= vm.notification.length/vm.pageSize - 1"
+					ng-click="vm.curPage = vm.curPage+1">{{vm.curPage + 1}}</button>
+				<button type="button" class="btn btn-primary"
+					ng-disabled="vm.curPage >= vm.notification.length/vm.pageSize - 1"
+					ng-click="vm.curPage = vm.curPage+2">{{vm.curPage + 2}}</button>
+				<button type="button" class="btn btn-primary"
+					ng-disabled="vm.curPage >= vm.notification.length/vm.pageSize - 1"
+					ng-click="vm.curPage = vm.curPage+3">{{vm.curPage + 3}}</button>
+				<button type="button" class="btn btn-primary"
+					ng-disabled="vm.curPage >= vm.notification.length/vm.pageSize - 1"
+					ng-click="vm.curPage = vm.curPage+1">Next</button>
+			</div>
+			<div class="spacer_1px"></div>
+		</div> -->      
+    </div>
+	    </div>
+    	
+</div>

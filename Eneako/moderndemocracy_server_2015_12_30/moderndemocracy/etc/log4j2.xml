@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="anaeko" packages="org.apache.logging.log4j.test" monitorInterval="30">
+  
+  <Filter type="ThresholdFilter" level="debug"/>
+ 
+  <Appenders>
+    <Console name="STDOUT">
+      <PatternLayout pattern="%d %p  %m%n" />
+    </Console>    
+    <RollingRandomAccessFile name="FILE"  immediateFlush="false" fileName="logs/console.log" filePattern="logs/$${date:yyyy-MM}/%d{yyyy-MM-dd}-console.log.%i">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} %p %C{1.} [%t] %m%n" />
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+    </RollingRandomAccessFile>
+    <RollingRandomAccessFile name="HTTP_SERVER_FILE"  immediateFlush="false" fileName="logs/incoming.log" filePattern="logs/$${date:yyyy-MM}/%d{yyyy-MM-dd}-incoming.log.%i">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} %m%n" />
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+    </RollingRandomAccessFile>
+    <RollingRandomAccessFile name="HTTP_CLIENT_FILE"  immediateFlush="false" fileName="logs/outgoing.log" filePattern="logs/$${date:yyyy-MM}/%d{yyyy-MM-dd}-outgoing.log.%i">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} %m%n" />
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+    </RollingRandomAccessFile>
+    <RollingRandomAccessFile name="SQL_FILE"  immediateFlush="false" fileName="logs/sql.log" filePattern="logs/$${date:yyyy-MM}/%d{yyyy-MM-dd}-sql.log.%i">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} %m%n" />
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="20 MB"/>
+      </Policies>
+    </RollingRandomAccessFile>
+    <RollingRandomAccessFile name="CLIENT_WIRE_FILE" fileName="logs/wire.log" filePattern="logs/$${date:yyyy-MM}/%d{yyyy-MM-dd}-wire.log.%i">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} %m%n" />
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="100 MB"/>
+      </Policies>
+    </RollingRandomAccessFile>
+    <RollingRandomAccessFile name="CRON_FILE" fileName="logs/cron.log" filePattern="logs/$${date:yyyy-MM}/%d{yyyy-MM-dd}-cron.log.%i">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} %m%n" />
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+    </RollingRandomAccessFile>
+  </Appenders>
+ 
+  <Loggers>
+	  <Logger name="com.anaeko" level="debug" additivity="false">
+      <AppenderRef ref="FILE"/>
+      <AppenderRef ref="STDOUT"/>
+    </Logger>
+ 
+    <!-- 
+    During development it is useful to log low level service configuration on startup
+    -->
+    <Logger name="com.anaeko.jetty.JettyService" level="debug" additivity="false">
+      <AppenderRef ref="FILE"/>
+    </Logger>
+ 
+    <!-- 
+    Low level utilities - default to WARN/ERROR 
+    -->
+    <Logger name="com.anaeko.utils.data" level="error" additivity="true">
+        <AppenderRef ref="FILE"/>
+      </Logger>
+    <Logger name="com.anaeko.utils.commandline" level="warn" additivity="true">
+        <AppenderRef ref="FILE"/>
+    </Logger>
+    <Logger name="com.anaeko.utils.io.LocaleFileResolver" level="warn" additivity="true">
+      <AppenderRef ref="FILE"/>
+    </Logger>
+    <Logger name="com.anaeko.utils.app" level="warn" additivity="true">
+      <AppenderRef ref="FILE"/>
+    </Logger>
+    
+      <!-- 
+      HTTP services log incoming requests and optionally outgoing responses (and timings)
+      -->
+    <Logger name="com.anaeko.jetty.handler.response" level="info" additivity="true">
+         <AppenderRef ref="HTTP_SERVER_FILE"/>
+         <AppenderRef ref="STDOUT"/>
+      </Logger>
+        
+      <Logger name="com.anaeko.jetty.handler.request" level="info" additivity="false">
+         <AppenderRef ref="HTTP_SERVER_FILE"/>
+      </Logger>
+        
+        
+    <!-- 
+    Low level JDBC switch to debug to see SQL queries (and timings) 
+    -->
+    <Logger name="com.anaeko.utils.jdbc.Query.Select" level="debug" additivity="false">
+         <AppenderRef ref="SQL_FILE"/>
+         <AppenderRef ref="STDOUT"/>
+    </Logger>
+    <Logger name="com.anaeko.utils.jdbc.Query.Update" level="debug" additivity="false">
+        <AppenderRef ref="SQL_FILE"/>
+        <AppenderRef ref="STDOUT"/>
+    </Logger>
+ 
+    <!-- 
+    Request logging for outgoing HTTP requests 
+    -->
+    <Logger name="com.anaeko.service.http.BasicRequest" level="debug" additivity="false">
+      <AppenderRef ref="HTTP_CLIENT_FILE"/>
+    </Logger>
+    
+    <!-- 
+    Low level wire logging for outgoing HTTP requests (default is WARN) 
+    -->
+    <Logger name="org.apache.http" level="debug" additivity="false">
+      <AppenderRef ref="CLIENT_WIRE_FILE"/>
+    </Logger>
+    
+    <!-- 
+    Server Authentication 
+    -->
+    <Logger name="com.anaeko.jetty.handler.SessionHandler" level="warn" additivity="false">
+       <AppenderRef ref="FILE"/>
+    </Logger>
+    <Logger name="com.anaeko.jetty.handler.LoginHandler" level="warn" additivity="false">
+       <AppenderRef ref="FILE"/>
+    </Logger>
+     	<Logger name="com.anaeko.jetty.slam.auth" level="warn" additivity="false">
+       <AppenderRef ref="FILE"/>
+    </Logger>
+    <Logger name="com.anaeko.service.auth" level="warn" additivity="false">
+       <AppenderRef ref="FILE"/>
+    </Logger>
+    
+    <Root level="debug">
+      <AppenderRef ref="FILE"/>
+    </Root>
+  </Loggers>
+ 
+</Configuration>

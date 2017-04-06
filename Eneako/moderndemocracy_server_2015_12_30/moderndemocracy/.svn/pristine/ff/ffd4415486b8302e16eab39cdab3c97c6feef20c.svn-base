@@ -1,0 +1,41 @@
+package com.moderndemocracy.jetty.handler;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+
+import com.anaeko.utils.http.Code;
+import com.anaeko.utils.io.MarshalerException;
+import com.moderndemocracy.dao.IssueListDao;
+import com.moderndemocracy.pojo.IssueList;
+
+public class IssueListHandler extends ModernDemocracyHandler {
+
+	private static final Logger logger = Logger.getLogger(IssueListHandler.class);
+
+	@Override
+	protected String getSupportedMethods() {
+		return "GET";
+	}
+
+	@Override
+	protected void handleGet(String target, HttpServletRequest request,
+			HttpServletResponse response) throws MarshalerException,
+			IOException {
+		
+		IssueListDao issueListDao = new IssueListDao(getDataSource());
+		
+		try {
+			List<IssueList> res = issueListDao.getAll();
+			logger.debug("Retrieved IssueList: " + res);
+			send(request, response).json(res);
+		} catch (Exception e) {
+			logger.error("Unexpected Exception", e);
+			send(request, response).status(Code.SERVER_ERROR_INTERNAL);
+		}
+	}
+}

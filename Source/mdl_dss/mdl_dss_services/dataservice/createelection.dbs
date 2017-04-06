@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="createelection" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>createelection</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="createelection" useConfig="mdl_psm">
+    <sql>call psm.createelection(?,?,?,?,?,?,?,?,?,?,?)</sql>
+    <result outputType="json">{&#xD;    "entries": {&#xD;        "entry": [&#xD;            {&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="ename" sqlType="STRING" />
+    <param name="election_date" sqlType="STRING" />
+    <param name="start_time" sqlType="STRING" />
+    <param name="end_time" sqlType="STRING" />
+    <param name="counting_center_name" sqlType="STRING" />
+    <param name="counting_center_address" sqlType="STRING" />
+    <param name="counting_center_latitude" sqlType="STRING" />
+    <param name="counting_center_longitude" sqlType="STRING" />
+    <param name="BPA_identifier" sqlType="INTEGER" />
+    <param name="ballot_type_count" sqlType="INTEGER" />
+  </query>
+  <operation name="createelection">
+    <description>createelection</description>
+    <call-query href="createelection">
+      <with-param name="token" query-param="token" />
+      <with-param name="ename" query-param="ename" />
+      <with-param name="election_date" query-param="election_date" />
+      <with-param name="start_time" query-param="start_time" />
+      <with-param name="end_time" query-param="end_time" />
+      <with-param name="counting_center_name" query-param="counting_center_name" />
+      <with-param name="counting_center_address" query-param="counting_center_address" />
+      <with-param name="counting_center_latitude" query-param="counting_center_latitude" />
+      <with-param name="counting_center_longitude" query-param="counting_center_longitude" />
+      <with-param name="BPA_identifier" query-param="BPA_identifier" />
+      <with-param name="ballot_type_count" query-param="ballot_type_count" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="createelection">
+    <description>createelection</description>
+    <call-query href="createelection">
+      <with-param name="token" query-param="token" />
+      <with-param name="ename" query-param="ename" />
+      <with-param name="election_date" query-param="election_date" />
+      <with-param name="start_time" query-param="start_time" />
+      <with-param name="end_time" query-param="end_time" />
+      <with-param name="counting_center_name" query-param="counting_center_name" />
+      <with-param name="counting_center_address" query-param="counting_center_address" />
+      <with-param name="counting_center_latitude" query-param="counting_center_latitude" />
+      <with-param name="counting_center_longitude" query-param="counting_center_longitude" />
+      <with-param name="BPA_identifier" query-param="BPA_identifier" />
+      <with-param name="ballot_type_count" query-param="ballot_type_count" />
+    </call-query>
+  </resource>
+</data>

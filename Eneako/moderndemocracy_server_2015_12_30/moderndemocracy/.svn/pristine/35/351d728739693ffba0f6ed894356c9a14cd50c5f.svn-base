@@ -1,0 +1,29 @@
+<div ng-include="'/templates/_header.html'"></div>
+<section class="grid-wrap">
+	<div class="grid-col content">
+		<div class="dashrow">
+			<form>
+				<div class="group">
+					<label>Select Ward</label>
+					<select ng-model="selectedWard" ng-options="ward.id as ward.name for ward in wardList">
+					</select>
+				</div>
+				<div ng-if="selectedWard != 0" class="group">
+					
+					<label>Select Station</label>
+					<select ng-init="updateSelectedStation(1);" ng-if="selectedWard == 1" ng-model="selectedStation" ng-change="updateSelectedStation(selectedStation);" ng-options="station1.id as station1.name for station1 in stationList1">
+					</select>
+					<select ng-init="updateSelectedStation(4);" ng-if="selectedWard == 2" ng-model="selectedStation" ng-change="updateSelectedStation(selectedStation);" ng-options="station2.id as station2.name for station2 in stationList2">
+					</select>
+				</div>
+				<div class="group">
+					<textarea ng-model="notificationText" rows="8"></textarea>
+				</div>
+				<div class="group buttonBar">
+					<a class="formBtn" ng-click="sendNotification();">SEND</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</section>
+<div ng-include="'/templates/_footer.html'"></div>

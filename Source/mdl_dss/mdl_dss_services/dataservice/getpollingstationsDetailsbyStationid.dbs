@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getpollingstationsDetailsbyStationid" serviceNamespace="getpollingstationsDetailsbyStationid" transports="http https">
+  <description>getpollingstationsDetailsbyStationid</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getpollingstationsDetailsbyStationid" useConfig="mdl_psm">
+    <sql>call psm.getpollingstationsDetailsbyStationid(?,?)</sql>
+    <result outputType="json">{&#xD;  "entries": {&#xD;    "entry": [&#xD;      {&#xD;        "response" : $response,&#xD;        "ballotrange" : $ballotrange,&#xD;        "stationid" : $stationid,&#xD;        "boxnumber" : $boxnumber,&#xD;        "psmname" : $psmname,&#xD;        "tenderedrange" : $tenderedrange,&#xD;        "stationname" : $stationname,&#xD;        "place" : $place&#xD;       }&#xD;     ]&#xD;   }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="stationid" sqlType="INTEGER" />
+  </query>
+  <operation name="getpollingstationsDetailsbyStationid">
+    <description>getpollingstationsDetailsbyStationid</description>
+    <call-query href="getpollingstationsDetailsbyStationid">
+      <with-param name="token" query-param="token" />
+      <with-param name="stationid" query-param="stationid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getpollingstationsDetailsbyStationid">
+    <description>getpollingstationsDetailsbyStationid</description>
+    <call-query href="getpollingstationsDetailsbyStationid">
+      <with-param name="token" query-param="token" />
+      <with-param name="stationid" query-param="stationid" />
+    </call-query>
+  </resource>
+</data>

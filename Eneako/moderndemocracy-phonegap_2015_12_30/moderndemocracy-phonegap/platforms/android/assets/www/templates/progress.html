@@ -1,0 +1,47 @@
+<ion-view title="Progress" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	<a href="#/app/home"><button class="button button-icon icon ion-ios-home"></button></a>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+  </ion-nav-buttons>
+
+  <ion-content>
+    <div class="contentWrapper" style="margin-top: -10px;">
+    <h4 style="margin-bottom : -1px; font-size : 130%;">Progress updates</h4>
+    <p style="margin-bottom : 15px; font-size : 100%; line-height: 18px;">Please enter the Number of Ballot Papers Issued and Number of Postal Packs Received. These should be saved every hour. Click Postal Packs Collected when the postal packs are collected.</p>
+	<div class="content list" style="padding:-15px;">
+		<polling-stations disable="closed" data="data"></polling-stations>
+		<label class="item item-input" style="margin-bottom : -20px;" ng-if="data.station">
+			<span class="input-label">Number of Ballot Papers Issued since last updated:</span>
+			<input type="tel" ng-model="data.numberPapersIssuedBOX">
+		</label>
+		<label class="item item-input" style="margin-bottom : -20px;" ng-if="data.station">
+			<span class="input-label">Total Ballot Papers Issued:</span>
+			<ion-item style = "min-width:300px; text-align: right;font-size: 110%;"><b>{{data.numberPapersIssued}}</b></ion-item>
+		</label>
+
+		<label class="item item-input" style="margin-bottom : -20px;" ng-if="data.station">
+			<span class="input-label">Number of Postal Packs Received since last updated:</span>
+			<input type="tel" ng-model="data.numberPostalPacksReceivedBOX" >
+		</label>
+		<label class="item item-input" style="margin-bottom : -20px;" ng-if="data.station">
+			<span class="input-label">Total Postal Packs Received:</span>
+			<ion-item style = "min-width:300px; text-align: right;font-size: 110%;"><b>{{data.numberPostalPacksReceived}}</b></ion-item>
+		</label>
+		<label class="item item-input" style="margin-bottom : -20px;" ng-if="data.station">
+			<span class="input-label">Total Postal Packs Collected:</span>
+			<ion-item style = "min-width:300px; text-align: right;font-size: 110%;"><b>{{CollectedPostalPackCount}} of {{data.numberPostalPacksReceived}} have been collected</b></ion-item>
+		</label>
+
+	</div>
+
+
+	<div class="content list buttonBar row"  style="margin-top : -1px;  z-index:99999;" ng-if="data.station">
+		<button class="col button button-energized onesie" ng-click="resetBallotProgress();">Postal Packs Collected</button>
+		<button class="col button button-modern onesie" ng-click="saveBallotProgress();">Save</button>
+
+	</div>
+   </div>
+  </ion-content>
+</ion-view>

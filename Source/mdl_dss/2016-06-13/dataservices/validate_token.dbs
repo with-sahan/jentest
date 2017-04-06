@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="validate_token" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>validate_token</description>
+  <config id="mdl_security">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="validate_token" useConfig="mdl_security">
+    <sql>call validate_token(?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": "$response"&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="validate_token">
+    <description>validate_token</description>
+    <call-query href="validate_token">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+</data>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getfilereport" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getfilereport</description>
+  <config id="getfilereport">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getfilereport" useConfig="getfilereport">
+    <sql>call psm.getfilereport(?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": &#xD;      {&#xD;          "response": $response,&#xD;          "reportpath": $reportpath,&#xD;          "filestatus": $filestatus&#xD;    }&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="electionId" sqlType="STRING" />
+  </query>
+  <operation name="getfilereport">
+    <description>getfilereport</description>
+    <call-query href="getfilereport">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionId" query-param="electionId" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getfilereport">
+    <description>getfilereport</description>
+    <call-query href="getfilereport">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionId" query-param="electionId" />
+    </call-query>
+  </resource>
+</data>

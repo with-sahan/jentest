@@ -1,0 +1,105 @@
+<!-- 
+ * Project: MDL
+ * Author: Rushan Arunod
+ * Modified By: Akarshani Amarasinghe
+ * Module: Edit User HTML
+ -->
+
+<div class="panel">
+	<div class="panel-header">
+		<h3>
+			<i class="fa fa-table"></i> <strong>Edit Users</strong>
+		</h3>
+	</div>
+	<div class="panel-content"
+		ng-controller="mdl.dashboard.controller.manageusers as vm">
+
+		<div class="row stationlist">
+			<div class="col-md-12">
+				<form class="form-horizontal ng-pristine ng-valid" role="form">
+
+					<div class="form-group">
+						<div class="col-sm-3">First Name</div>
+						<div class="col-sm-9">
+							<input type="text" placeholder="FirstName"
+								ng-model="vm.newUser.firstname">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-3">Last Name</div>
+						<div class="col-sm-9">
+							<input type="text" placeholder="LastName"
+								ng-model="vm.newUser.lastname">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-3">Email</div>
+						<div class="col-sm-9">
+							<input type="text" placeholder="Email"
+								ng-model="vm.newUser.email">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-3">User Name</div>
+						<div class="col-sm-9">
+							<input type="text" placeholder="UserName"
+								ng-model="vm.newUser.username">
+						</div>
+					</div>
+
+					 <div class="row">
+						<div class="panel no-bd bd-3 panel-stat m-b-10">
+							<div class="panel-header p-b-0 m-10">
+								<h3 class="m-0">
+									<strong style="margin-right: 10px">Choose a role</strong> <select
+										class="issue_select_dropdown defaultWidth geofilter"
+										ng-model="selectedRole" wb-select2>
+										<option ng-repeat="role in vm.roleList" value="{{role.id}}">{{role.name}}</option>
+									</select>
+								</h3>
+							</div>
+						</div>
+					</div> 
+
+					<input type="hidden" id="hiduserid" ng-model='vm.newUser.userid' />
+
+					<!-- <div class="form-group">
+						<div class="col-sm-3"></div>
+						<div class="col-sm-9">
+							<button class="btn btn-danger g_fr"
+								ng-click="vm.gotoManageScreen()" type="button">Close</button>
+						</div>
+						<div class="col-sm-9">
+							<button class="btn btn-danger g_fr"
+								ng-click="vm.updateData(vm.newUser)" type="submit">Update</button>
+						</div>
+
+					</div> -->
+					<div class="form-group">
+						<label class="col-sm-12 control-label"><a
+							href="#/changepass?id={{vm.newUser.userid}}">Change Password</a></label>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<button class="btn btn-success m-r-10"
+								ng-click="vm.updateData(vm.newUser)" type="submit">Update</button>
+							<button class="btn btn-danger m-r-10"
+								ng-click="vm.gotoManageScreen()" type="button">Close</button>
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+

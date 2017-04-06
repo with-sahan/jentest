@@ -1,0 +1,11 @@
+id,text,order_id,status
+1,Open Station,10,false
+2,Polling Boxes Arrived,1,false
+3,Polling Staff Arrived,2,false
+4,All Ballot Books Arrived,3,false
+5,All Booths Ready,4,false
+6,Signage to Polling Station Visible,5,false
+7,Polling Station Accessible to all voters,6,false
+8,Low level Booths and ballot boxes installed,8,false
+9,Large print ballot papers clearly visible,7,false
+10,Hand held samples available,9,false

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="addrole" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/addrole.dbs</file>
+    </artifact>
+    <artifact name="adduser" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/adduser.dbs</file>
+    </artifact>
+    <artifact name="assignissue" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/assignissue.dbs</file>
+    </artifact>
+    <artifact name="chatresolveissue" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/chatresolveissue.dbs</file>
+    </artifact>
+    <artifact name="closeelection" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/closeelection.dbs</file>
+    </artifact>
+    <artifact name="closepollingstation" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/closepollingstation.dbs</file>
+    </artifact>
+    <artifact name="collectpostalpacks" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/collectpostalpacks.dbs</file>
+    </artifact>
+    <artifact name="createelection" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/createelection.dbs</file>
+    </artifact>
+    <artifact name="createvoter" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/createvoter.dbs</file>
+    </artifact>
+    <artifact name="deleteelection" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/deleteelection.dbs</file>
+    </artifact>
+    <artifact name="deleterole" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/deleterole.dbs</file>
+    </artifact>
+    <artifact name="deletevoter" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/deletevoter.dbs</file>
+    </artifact>
+    <artifact name="generatebpa" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/generatebpa.dbs</file>
+    </artifact>
+    <artifact name="getallapplications" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getallapplications.dbs</file>
+    </artifact>
+    <artifact name="getallclosestats" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getallclosestats.dbs</file>
+    </artifact>
+    <artifact name="getallclosestatssummary" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getallclosestatssummary.dbs</file>
+    </artifact>
+    <artifact name="getallissues" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getallissues.dbs</file>
+    </artifact>
+    <artifact name="getallnotifications" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getallnotifications.dbs</file>
+    </artifact>
+    <artifact name="getallroles" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getallroles.dbs</file>
+    </artifact>
+    <artifact name="getallusers" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getallusers.dbs</file>
+    </artifact>
+    <artifact name="getallusersbyissueid" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getallusersbyissueid.dbs</file>
+    </artifact>
+    <artifact name="getballotissuegraphstats" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getballotissuegraphstats.dbs</file>
+    </artifact>
+    <artifact name="getbpastatus" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getbpastatus.dbs</file>
+    </artifact>
+    <artifact name="getbpastatusbystation" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getbpastatusbystation.dbs</file>
+    </artifact>
+    <artifact name="getchat" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getchat.dbs</file>
+    </artifact>
+    <artifact name="getchatcountalert" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getchatcountalert.dbs</file>
+    </artifact>
+    <artifact name="getclosestats" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getclosestats.dbs</file>
+    </artifact>
+    <artifact name="getelection" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getelection.dbs</file>
+    </artifact>
+    <artifact name="getelectionbyid" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getelectionbyid.dbs</file>
+    </artifact>
+    <artifact name="getelectionfileuploaddetails" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getelectionfileuploaddetails.dbs</file>
+    </artifact>
+    <artifact name="getelectionsbystationid" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getelectionsbystationid.dbs</file>
+    </artifact>
+    <artifact name="getelectionstatus" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getelectionstatus.dbs</file>
+    </artifact>
+    <artifact name="getglobalnotifications" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getglobalnotifications.dbs</file>
+    </artifact>
+    <artifact name="getissuebyid" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getissuebyid.dbs</file>
+    </artifact>
+    <artifact name="getissuecategorygraphstats" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getissuecategorygraphstats.dbs</file>
+    </artifact>
+    <artifact name="getissuecountgraphstats" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getissuecountgraphstats.dbs</file>
+    </artifact>
+    <artifact name="getissuelist" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getissuelist.dbs</file>
+    </artifact>
+    <artifact name="getissueresolvegraphstats" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getissueresolvegraphstats.dbs</file>
+    </artifact>
+    <artifact name="getnewnotificationpulse" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getnewnotificationpulse.dbs</file>
+    </artifact>
+    <artifact name="getnewnotifications" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getnewnotifications.dbs</file>
+    </artifact>
+    <artifact name="getnotificationbyid" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getnotificationbyid.dbs</file>
+    </artifact>
+    <artifact name="getnotificationcountgraphstats" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getnotificationcountgraphstats.dbs</file>
+    </artifact>
+    <artifact name="getorginfo" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getorginfo.dbs</file>
+    </artifact>
+    <artifact name="getpollingstationclosedstatus" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getpollingstationclosedstatus.dbs</file>
+    </artifact>
+    <artifact name="getpollingstations" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getpollingstations.dbs</file>
+    </artifact>
+    <artifact name="getpollingstationstatus" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getpollingstationstatus.dbs</file>
+    </artifact>
+    <artifact name="getpollingsummary" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getpollingsummary.dbs</file>
+    </artifact>
+    <artifact name="getpostalcollectgraphstats" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getpostalcollectgraphstats.dbs</file>
+    </artifact>
+    <artifact name="getpostpollactivities" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getpostpollactivities.dbs</file>
+    </artifact>
+    <artifact name="getprepollactivities" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getprepollactivities.dbs</file>
+    </artifact>
+    <artifact name="getprepollactivities_v2" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getprepollactivities_v2.dbs</file>
+    </artifact>
+    <artifact name="getprogress" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getprogress.dbs</file>
+    </artifact>
+    <artifact name="getrecordclosebuttonshow" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getrecordclosebuttonshow.dbs</file>
+    </artifact>
+    <artifact name="getrolebyid" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getrolebyid.dbs</file>
+    </artifact>
+    <artifact name="gettopnotifications" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/gettopnotifications.dbs</file>
+    </artifact>
+    <artifact name="gettrackingprogress" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/gettrackingprogress.dbs</file>
+    </artifact>
+    <artifact name="gettrackingstatus" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/gettrackingstatus.dbs</file>
+    </artifact>
+    <artifact name="getuserbyid" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getuserbyid.dbs</file>
+    </artifact>
+    <artifact name="getvoter" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/getvoter.dbs</file>
+    </artifact>
+    <artifact name="login" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/login.dbs</file>
+    </artifact>
+    <artifact name="openstation" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/openstation.dbs</file>
+    </artifact>
+    <artifact name="readnotification" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/readnotification.dbs</file>
+    </artifact>
+    <artifact name="reportissue" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/reportissue.dbs</file>
+    </artifact>
+    <artifact name="resolveissue" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/resolveissue.dbs</file>
+    </artifact>
+    <artifact name="trackingclose" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/trackingclose.dbs</file>
+    </artifact>
+    <artifact name="trackingstart" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/trackingstart.dbs</file>
+    </artifact>
+    <artifact name="trackingupdate" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/trackingupdate.dbs</file>
+    </artifact>
+    <artifact name="updateclosestats" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/updateclosestats.dbs</file>
+    </artifact>
+    <artifact name="updateelection" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/updateelection.dbs</file>
+    </artifact>
+    <artifact name="updateissue" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/updateissue.dbs</file>
+    </artifact>
+    <artifact name="updatepostpollactivity" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/updatepostpollactivity.dbs</file>
+    </artifact>
+    <artifact name="updateprepollingactivity" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/updateprepollingactivity.dbs</file>
+    </artifact>
+    <artifact name="updateprogress" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/updateprogress.dbs</file>
+    </artifact>
+    <artifact name="updateprogress_v2" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/updateprogress_v2.dbs</file>
+    </artifact>
+    <artifact name="updaterole" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/updaterole.dbs</file>
+    </artifact>
+    <artifact name="updateuser" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/updateuser.dbs</file>
+    </artifact>
+    <artifact name="user_election_DataService" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/user_election_DataService.dbs</file>
+    </artifact>
+    <artifact name="validate_token" groupId="com.mdl.wso2.mdl_dss_services.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/validate_token.dbs</file>
+    </artifact>
+</artifacts>

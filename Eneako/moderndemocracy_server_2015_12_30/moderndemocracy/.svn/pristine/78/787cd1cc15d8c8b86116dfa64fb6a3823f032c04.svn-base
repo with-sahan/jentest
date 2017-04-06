@@ -1,0 +1,13 @@
+#------------------------------------------------------------------------------
+# This configuration is normally used for testing or cron jobs that are run
+# outside of the standard service, which should have mail configuration as part 
+# of its servicemenager.properties config.
+#
+# database definition
+#------------------------------------------------------------------------------
+jdbc.skip.conn.tests=true
+jdbc.pool.provider=com.anaeko.utils.jdbc.Tomcat
+jdbc.driver=org.postgresql.Driver
+jdbc.url=jdbc:postgresql://localhost:5432/moderndemocracy
+jdbc.user=slammer
+jdbc.password=:M0b1l1ty

@@ -1,0 +1,46 @@
+<ion-view title="Report Issue" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+   <a href="#/app/home"><button class="button button-icon icon ion-ios-home"></button></a>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+  </ion-nav-buttons>
+
+  <ion-content>
+   <div class="contentWrapper" style="margin-top: -10px;">
+    <h4 style="margin-bottom : -1px; font-size : 160%;">Please use this area to report any problems or issues at your polling station.</h4>
+    <p style="margin-bottom : 15px; font-size : 120%; line-height: 20px;">Select the issue from the defined list and assign priority to it before submitting it.  If your issue is not shown on the list , select other and describe the issue in the box provided and again assign priority before submitting it.</p>
+    <div class="content list" style="padding:-5px;">
+      <polling-stations data="data"></polling-stations>
+    	<label class="item item-input item-select" style="margin-bottom : -20px;">
+			<div class="input-label">
+				Reason:
+			</div>
+			<select ng-model="data.reason" style="width: 350px;" ng-options="reason.text as reason.text for reason in reasons">
+			</select>
+		</label>
+
+		<label class="item item-input item-select" style="margin-bottom : -20px;">
+			<div class="input-label">
+				Priority:
+			</div>
+			<select ng-model="data.priority" style="width: 350px;" ng-options="priority.text as priority.text for priority in priorities">
+			</select>
+		</label>
+
+		<label class="item item-input message" style="margin-bottom : -20px;">
+			<div class="input-label">
+				Description:
+			</div>
+			<textarea cols="50" style="width: 350px;" ng-model="data.description"></textarea>
+		</label>
+
+    </div>
+
+    <div class="content list buttonBar" style="margin-top : 0px;  z-index:99999;">
+     <button class="button button-full button-modern" ng-click="submitIssue();">Submit</button>
+    </div>
+
+   </div>
+  </ion-content>
+</ion-view>

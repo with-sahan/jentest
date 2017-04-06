@@ -1,0 +1,29 @@
+{
+  "name": "ModernDemocracy",
+  "version": "0.0.1",
+  "description": "Package management for ProProject project",
+  "main": "scripts/app.js",
+  "keywords": [
+    "Voting",
+    "vote"
+  ],
+  "authors": [
+    "Anaeko Ltd."
+  ],
+  "license": "Commercial",
+  "homepage": "none",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "scripts/libs",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.1.0",
+    "angular-resource": "latest",
+    "angular-local-storage": "latest"
+  }
+}

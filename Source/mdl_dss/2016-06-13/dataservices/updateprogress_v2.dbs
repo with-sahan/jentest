@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="updateprogress_v2" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>updateprogress_v2</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="updateprogress_v2" useConfig="mdl_psm">
+    <sql>call updateprogress_v2(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="electionid" sqlType="INTEGER" />
+    <param name="pollingstationid" sqlType="INTEGER" />
+    <param name="ballotpapers" sqlType="INTEGER" />
+    <param name="postalpacks" sqlType="INTEGER" />
+    <param name="postalpackscollected" sqlType="INTEGER" />
+    <param name="spoiltballots" sqlType="INTEGER" />
+    <param name="tenballotpapers" sqlType="INTEGER" />
+    <param name="tenspoiltballots" sqlType="INTEGER" />
+    <param name="updatetime" sqlType="INTEGER" />
+    <param name="ballotpapers2" sqlType="INTEGER" />
+    <param name="postalpacks2" sqlType="INTEGER" />
+    <param name="postalpackscollected2" sqlType="INTEGER" />
+    <param name="spoiltballots2" sqlType="INTEGER" />
+    <param name="tenballotpapers2" sqlType="INTEGER" />
+    <param name="tenspoiltballots2" sqlType="INTEGER" />
+  </query>
+  <operation name="updateprogress_v2">
+    <call-query href="updateprogress_v2">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="pollingstationid" query-param="pollingstationid" />
+      <with-param name="ballotpapers" query-param="ballotpapers" />
+      <with-param name="postalpacks" query-param="postalpacks" />
+      <with-param name="postalpackscollected" query-param="postalpackscollected" />
+      <with-param name="spoiltballots" query-param="spoiltballots" />
+      <with-param name="tenballotpapers" query-param="tenballotpapers" />
+      <with-param name="tenspoiltballots" query-param="tenspoiltballots" />
+      <with-param name="updatetime" query-param="updatetime" />
+      <with-param name="ballotpapers2" query-param="ballotpapers2" />
+      <with-param name="postalpacks2" query-param="postalpacks2" />
+      <with-param name="postalpackscollected2" query-param="postalpackscollected2" />
+      <with-param name="spoiltballots2" query-param="spoiltballots2" />
+      <with-param name="tenballotpapers2" query-param="tenballotpapers2" />
+      <with-param name="tenspoiltballots2" query-param="tenspoiltballots2" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="updateprogress_v2">
+    <description>updateprogress_v2</description>
+    <call-query href="updateprogress_v2">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="pollingstationid" query-param="pollingstationid" />
+      <with-param name="ballotpapers" query-param="ballotpapers" />
+      <with-param name="postalpacks" query-param="postalpacks" />
+      <with-param name="postalpackscollected" query-param="postalpackscollected" />
+      <with-param name="spoiltballots" query-param="spoiltballots" />
+      <with-param name="tenballotpapers" query-param="tenballotpapers" />
+      <with-param name="tenspoiltballots" query-param="tenspoiltballots" />
+      <with-param name="updatetime" query-param="updatetime" />
+      <with-param name="ballotpapers2" query-param="ballotpapers2" />
+      <with-param name="postalpacks2" query-param="postalpacks2" />
+      <with-param name="postalpackscollected2" query-param="postalpackscollected2" />
+      <with-param name="spoiltballots2" query-param="spoiltballots2" />
+      <with-param name="tenballotpapers2" query-param="tenballotpapers2" />
+      <with-param name="tenspoiltballots2" query-param="tenspoiltballots2" />
+    </call-query>
+  </resource>
+</data>

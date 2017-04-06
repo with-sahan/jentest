@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:local="http://schemas.android.com/apk/res-auto">
+
+	<item
+          android:id="@+id/menu_address"
+          local:showAsAction="always|withText"
+          android:title=""
+          android:enabled="true"
+           />
+  <item
+          android:id="@+id/menu_confirm"
+          android:icon="@drawable/ic_menu_accept"
+          local:showAsAction="always|withText"
+          android:title="Confirm" />
+        
+   <item
+          android:id="@+id/menu_reset"
+          android:icon="@drawable/ic_menu_reset"
+          local:showAsAction="always|withText"
+          android:title="Reset" />
+
+  <item
+          android:id="@+id/menu_email"
+          android:icon="@drawable/ic_menu_user"
+          local:showAsAction="always|withText"
+          android:title=""> 
+
+    <menu>
+    <item android:id="@+id/logout" android:title="Logout"></item>
+   </menu>
+   </item>
+
+</menu>

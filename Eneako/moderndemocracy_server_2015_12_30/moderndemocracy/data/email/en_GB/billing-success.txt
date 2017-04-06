@@ -1,0 +1,7 @@
+Email address: {email} successfully paid for ProProject meeting
+Cost Billed: {bookingcost}
+
+Thank You 
+
+ProProject
+

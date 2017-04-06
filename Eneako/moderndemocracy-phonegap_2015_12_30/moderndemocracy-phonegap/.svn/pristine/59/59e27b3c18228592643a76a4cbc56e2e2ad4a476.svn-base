@@ -1,0 +1,2 @@
+#! /bin/bash
+sass --watch main.scss:../main.css --sourcemap

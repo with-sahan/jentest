@@ -1,0 +1,32 @@
+<data name="closepollingstation" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>polling station manager service - close polling station&#13;                                </description>
+   <config id="mdl_psm">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="closepollingstation" useConfig="mdl_psm">
+      <sql>call closepollingstation(?,?,?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": [&#13;      {&#13;        "response": "$response",&#13;        &#13;      }&#13;    ]&#13;  }&#13;}&#13;</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="pollingstationid" sqlType="INTEGER"/>
+      <param name="electionid" sqlType="INTEGER"/>
+   </query>
+   <operation name="closepollingstation">
+      <description>closepollingstation</description>
+      <call-query href="closepollingstation">
+         <with-param name="token" query-param="token"/>
+         <with-param name="pollingstationid" query-param="pollingstationid"/>
+         <with-param name="electionid" query-param="electionid"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="closepollingstation">
+      <description>closepollingstation</description>
+      <call-query href="closepollingstation">
+         <with-param name="token" query-param="token"/>
+         <with-param name="pollingstationid" query-param="pollingstationid"/>
+         <with-param name="electionid" query-param="electionid"/>
+      </call-query>
+   </resource>
+</data>

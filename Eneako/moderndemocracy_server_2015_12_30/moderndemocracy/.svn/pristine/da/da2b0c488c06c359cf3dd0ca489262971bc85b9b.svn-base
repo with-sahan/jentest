@@ -1,0 +1,200 @@
+package com.moderndemocracy.dao;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.anaeko.error.AnaekoRuntimeException;
+import com.anaeko.utils.jdbc.CacheableQuery;
+import com.anaeko.utils.jdbc.ParameterDelegate;
+import com.moderndemocracy.pojo.DashboardTotal;
+
+public class DashboardTotalDao {
+	
+
+	protected static final Logger logger = LogManager.getLogger(DashboardTotalDao.class);
+
+
+	/********/
+	/* SQL */
+	/******/
+	private static final String SQL_SELECT_DOWNLOADS = DashboardTotalExtractor.SQL +
+			"from track_install " +
+			"where created_on >= ? and created_on <= ? and "+
+			"council_id=? ";
+	
+	private static final String SQL_SELECT_USERS = DashboardTotalExtractor.SQL +
+			"from users " +
+			"where updated_on >= ? and updated_on <= ? and " +
+			"users.role_id=1 and " +
+			"council_id=? ";
+	
+	private static final String SQL_SELECT_REGISTRATIONS = DashboardTotalExtractor.SQL +
+			"from track_register t, users " +
+			"where t.created_on >= ? and t.created_on <= ? and " +
+			"t.user_id=users.id and " +
+			"users.role_id=1 and " +
+			"t.council_id=? ";
+	
+	private static final String SQL_SELECT_SOCIALSHARES = DashboardTotalExtractor.SQL +
+			"from track_socialnetwork t, users " +
+			"where t.created_on >= ? and t.created_on <= ? and "+
+			"t.user_id=users.id and " +
+			"users.role_id=1 and " +
+			"t.council_id=? ";
+	
+	private DataSource pool;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param pool
+	 *            The datasource.
+	 */
+	public DashboardTotalDao(DataSource pool) {
+		if (null == pool)
+			throw new AnaekoRuntimeException(
+					"Cannot create a DAO without a database connection");
+		this.pool = pool;
+	}
+
+	
+	/**
+	 * Get Total info on Downloads
+	 * 
+	 * @param start
+	 * @param end
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<DashboardTotal> getDownloads(
+			final Integer councilId,
+			final Timestamp start, 
+			final Timestamp end) throws SQLException {
+		
+		CacheableQuery<DashboardTotal> query = new CacheableQuery<DashboardTotal>(pool);
+		
+		List<DashboardTotal> found = query.execute(SQL_SELECT_DOWNLOADS, 
+				new DashboardTotalExtractor(), new ParameterDelegate() {
+			@Override
+			public void setParameters(PreparedStatement statement) throws SQLException {
+				statement.setTimestamp(1, start);
+				statement.setTimestamp(2, end);
+				statement.setInt(3, councilId);
+			}
+		});
+		
+		
+		if (found.isEmpty()) {
+			return null;
+		} else {
+			return found;
+		}
+	}
+	
+	/**
+	 * Get Total info on Users
+	 * 
+	 * @param start
+	 * @param end
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<DashboardTotal> getUsers(
+			final Integer councilId,
+			final Timestamp start, 
+			final Timestamp end) throws SQLException {
+		
+		CacheableQuery<DashboardTotal> query = new CacheableQuery<DashboardTotal>(pool);
+		
+		List<DashboardTotal> found = query.execute(SQL_SELECT_USERS, 
+				new DashboardTotalExtractor(), new ParameterDelegate() {
+			@Override
+			public void setParameters(PreparedStatement statement) throws SQLException {
+				statement.setTimestamp(1, start);
+				statement.setTimestamp(2, end);
+				statement.setInt(3, councilId);
+			}
+		});
+		
+		
+		if (found.isEmpty()) {
+			return null;
+		} else {
+			return found;
+		}
+	}
+	
+	/**
+	 * Get Total info on Registrations
+	 * 
+	 * @param start
+	 * @param end
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<DashboardTotal> getRegistrations(
+			final Integer councilId,
+			final Timestamp start, 
+			final Timestamp end) throws SQLException {
+		
+		CacheableQuery<DashboardTotal> query = new CacheableQuery<DashboardTotal>(pool);
+		
+		List<DashboardTotal> found = query.execute(SQL_SELECT_REGISTRATIONS, 
+				new DashboardTotalExtractor(), new ParameterDelegate() {
+			@Override
+			public void setParameters(PreparedStatement statement) throws SQLException {
+				statement.setTimestamp(1, start);
+				statement.setTimestamp(2, end);
+				statement.setInt(3, councilId);
+			}
+		});
+		
+		
+		if (found.isEmpty()) {
+			return null;
+		} else {
+			return found;
+		}
+	}
+	
+	/**
+	 * Get Total info on Socialshares
+	 * 
+	 * @param start
+	 * @param end
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<DashboardTotal> getSocialshares(
+			final Integer councilId,
+			final Timestamp start, 
+			final Timestamp end) throws SQLException {
+		
+		CacheableQuery<DashboardTotal> query = new CacheableQuery<DashboardTotal>(pool);
+		
+		List<DashboardTotal> found = query.execute(SQL_SELECT_SOCIALSHARES, 
+				new DashboardTotalExtractor(), new ParameterDelegate() {
+			@Override
+			public void setParameters(PreparedStatement statement) throws SQLException {
+				statement.setTimestamp(1, start);
+				statement.setTimestamp(2, end);
+				statement.setInt(3,councilId);
+			}
+		});
+		
+		
+		if (found.isEmpty()) {
+			return null;
+		} else {
+			return found;
+		}
+	}
+	
+}

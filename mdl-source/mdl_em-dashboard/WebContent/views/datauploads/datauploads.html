@@ -1,0 +1,33 @@
+<div class="panel"
+	ng-controller="mdl.mobileweb.controller.datauploads as vm">
+	<div class="row">
+		<div class="col-md-12 form-horizontal form-group">
+			<div class="row">
+				<div class="col-md-12">
+					<h3 class="col-md-12">
+						<i class="icon-target"></i> <strong>Data Configuration</strong>
+					</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+				<form class="upload-form">
+					<input type="file" ngf-select ng-model="vm.picFile" name="file"
+						data-max-size="10485760" class="upload-file" required>
+				</form>
+	<!-- <ng-csv-import content="csv.content" header="csv.header"
+		separator="csv.separator" result="csv.result" accept="csv.accept"></ng-csv-import> -->
+
+	<div class="row">
+		<div class="col-md-12 form-horizontal form-group">
+
+			<div class="row">
+				<div class="col-md-12">
+					<!-- <button class="btn btn-success m-r-10" type="button"
+						ng-click="vm.fileupload(vm.picFile,35)">Save</button> -->
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

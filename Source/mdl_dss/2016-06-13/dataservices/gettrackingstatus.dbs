@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="gettrackingstatus" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>polling station manager service - get tracking status</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="gettrackingstatus" useConfig="mdl_psm">
+    <sql>call gettrackingstatus(?,?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;        "response": "$response",&#xD;        "status": "$status" &#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="electionid" sqlType="INTEGER" />
+    <param name="stationid" sqlType="INTEGER" />
+  </query>
+  <operation name="gettrackingstatus">
+    <description>gettrackingstatus</description>
+    <call-query href="gettrackingstatus">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="stationid" query-param="stationid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="gettrackingstatus">
+    <description>gettrackingstatus</description>
+    <call-query href="gettrackingstatus">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="stationid" query-param="stationid" />
+    </call-query>
+  </resource>
+</data>

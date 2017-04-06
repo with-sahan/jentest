@@ -1,0 +1,88 @@
+<!--
+ * Project: MDL Dashboard
+ * Author: Jarlath Woollams
+ * Module: Companions Form Page
+ 	-->
+<div class="forms-companions" ng-controller="mdl.mobileweb.controller.hourlyanalysis as vm">
+    <div class="panel">
+        <div class="col-md-12 p-l-0 p-r-0">
+            <div class="panel-header">
+              <div class="row">
+                <div class="col-md-12 p-l-15">
+                    <h3 title="Please complete this form throughout polling day. This purpose of this form is to collate detail of the number of voters at each station and the times the station is busiest. Noting the number of ballots will help you with keep track of the numbers. ">
+              				<strong>VOTING ANALYSIS SHEET </strong>
+              			</h3>
+                </div>                
+              </div>                
+                <div class="row">
+                  <div class="col-md-8 col-xs-5 p-l-15">
+                    <h3>
+              				<strong>WARD: {{vm.ward}}</strong>
+              			</h3>
+                  </div>
+                  <div class="col-md-4 col-xs-7 p-r-15">
+                      <h3 class="p-r-0" align="right">
+                      				<strong>Polling Station Number:
+                      					{{vm.stationname}}</strong>
+                      </h3>
+                  </div>
+                </div>
+            </div>            
+            <br/>
+        </div>
+
+        <div class="panel-content p-l-0 p-r-0">
+            <div class="tab-fade-in tab_left">
+                <ul id="stationName" class="nav nav-tabs" ng-class="{'nav-stacked': vertical, 'nav-justified': justified}">
+                    <li ng-repeat="station in vm.pollingStationList" ng-click="vm.setStation(station.stationid,station.pollingstationname)" value="{{station.stationid}}" ng-class="{'active':station.stationid==stationid}">
+                        <a href="">
+                            <tab-heading class="ng-scope"> <b class="icons-education-science-18"> &nbsp;&nbsp;&nbsp;&nbsp;
+								                      {{station.pollingstationname}} </b>
+                            </tab-heading>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content p-t-0">                    
+                    <div class="tab-pane ng-scope active" ng-class="{active: tab.active}" style="">
+                        <div class="tab-fade-in tab-default-behaviour">
+                            <div class="row m-0 tbl_scroll_x">                              
+                                <table class="table table-striped text-center table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center"> Hour</th>
+                                            <th class="text-center"> Number of Ballot Papers Issued</th>
+                                            <th class="text-center"> Total Number Electors</th>
+                                            <th class="text-center"> Running Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="data in vm.timeArray">
+
+                                        <tr>
+                                            <td rowspan="2">{{data.hour}}</td>
+                                            <td class="text-center">
+                                                <table>
+                                                    <tr ng-repeat="(key, value) in data.papersissued">
+                                                        <th style="padding-left:20px;">{{data.papersissued[key].ename}}</th>
+                                                        <td style="padding-left:40px;">{{data.papersissued[key].papers}}</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td rowspan="2">{{data.totalcount}}</td>
+                                            <td rowspan="2">{{data.runningtotal}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a class="btn btn-success m-r-10" ng-href="#/forms">Back</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

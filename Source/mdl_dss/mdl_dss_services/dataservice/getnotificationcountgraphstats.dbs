@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getnotificationcountgraphstats" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getnotificationcountgraphstats</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getnotificationcountgraphstats" useConfig="mdl_psm">
+    <sql>call getnotificationcountgraphstats(?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;        "notificationcount": "$notificationcount",&#xD;        "response": "$response"&#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="getnotificationcountgraphstats">
+    <description>getnotificationcountgraphstats</description>
+    <call-query href="getnotificationcountgraphstats">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getnotificationcountgraphstats">
+    <description>getnotificationcountgraphstats</description>
+    <call-query href="getnotificationcountgraphstats">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

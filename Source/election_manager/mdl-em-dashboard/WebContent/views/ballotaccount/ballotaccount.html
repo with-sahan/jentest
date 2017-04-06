@@ -1,0 +1,243 @@
+<!-- Project: MDL
+Author: Vindya Hettige
+Modified: Akarshani Amarasinghe (31.01.2015)
+Module: Ballot Account HTML
+ -->
+
+<script src="http://alasql.org/console/alasql.min.js"></script>
+<div class="panel" ng-controller="mdl.em.controller.ballotaccount as vm">
+	<div class="panel-header panel-controls">
+		<h3>
+			<i class="icon-target"></i> <strong>Ballot</strong> Paper Accounts
+		</h3>
+	</div>
+		<div class="row m-b-20">
+			<div class="form-group panel-header">
+					<div class="col-sm-3"><b>Filter by area</b></div>
+	                     <div class="col-sm-9">
+	                     	 <select class="issue_select_dropdown defaultWidth" ng-model="selectedHrc" ng-change="vm.filterData()" ng-options="o|split:'|':1 as o|split:'|':0 for o in vm.geoHierarchy"></select>
+	                     </div>
+                </div>
+
+		</div>
+	<div class="row stationlist" >
+		<div class="col-md-12">
+			<!-- <tabset class="tab-fade-in">
+				<tab
+				ng-repeat="station in vm.pollingStationList"
+				ng-click="vm.stationcheck(station.id)"
+				 value="{{station.name}}">
+				<tab-heading>
+					<b class="icons-education-science-18">&nbsp;&nbsp;&nbsp;&nbsp;{{station.name}} </b>
+				</tab-heading> -->
+			<tabset class="tab-fade-in">
+	              <tab ng-repeat="item in vm.electionlist" value="{{item.id}}"
+	              ng-click="vm.stationcheck(item.id); vm.stationcheck_V2(item.id);">
+                    <tab-heading>
+                        <b class="icons-education-science-18">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {{item.electionName}}
+                        </b>
+                    </tab-heading>
+
+					<div class="row">
+						<div class="form-group">
+				             <button style="float: right;" class="btn btn-primary"
+				              ng-csv="vm.assigningToCSVGenerationArray(vm.ballotcounts, item.id)" filename="{{item.electionName}}_{{item.id}}.csv"
+				              field-separator="," decimal-separator="." lazy-load="true" ng-click="vm.csvBallotAccountExport(item.id);"
+				              ng-disabled="vm.csvExportDisable">Export Ballot Paper Account to CSV</button>
+				              
+				              <button style="float: right;" class="btn btn-success"
+				              ng-csv="vm.assigningToCSVGenerationArray_V3(vm.ballotcounts_V3, item.id)" filename="{{item.electionName}}_{{item.id}}_Last_Exported_Election_Data.csv"
+				              field-separator="," decimal-separator="." lazy-load="true" ng-click="vm.csvBallotAccountExport(item.id);"
+				              ng-disabled="vm.csvExportDisable_V3">Last exported</button>
+				              
+							<button style="float: right;" class="btn btn-info g_fl"
+				              ng-csv="vm.assigningToCSVGenerationArray_V2(vm.ballotcounts_V2, item.id)" filename="{{item.electionName}}_{{item.id}}_All_Election_Data.csv"
+				              field-separator="," decimal-separator="." lazy-load="true" ng-click="vm.csvBallotAccountExport(item.id);"
+				              ng-disabled="vm.csvExportDisable_V2">Export All</button>
+						</div>
+					</div>
+		            <!-- <div class="row">
+						<div class="form-group">
+							<div class="col-sm-3">Filter by area</div>
+	                     	<div class="col-sm-9">
+	                     	 	<select ng-model="selectedHrc" ng-change="vm.filterData()" ng-options="o|split:'|':1 as o|split:'|':0 for o in vm.geoHierarchy"></select>
+	                     	</div>
+			            </div>
+					</div> -->
+
+					<div class="panel-content" >
+						<div class="ballot_account">
+							<h3><i class="fa fa-table"></i> <strong>Total Summary</strong></h3>
+								<!-- <p ng-repeat="ballotSummary2 in vm.ballotaccountsummary"
+								ng-show="ballotSummary2.electionid !== item.id"
+								style="color:blue;">This election is not closed to show data</p> -->
+								<!-- <p ng-hide="ballotSummary.electionid == item.id" style="color:blue;">This election is not closed to show data.</p> -->
+							<h3><b>{{vm.bpNames.paper1}}</b></h3>
+							<div class="tbl_scroll_x">
+								<table class="table table-striped">
+									<tbody>
+									<tr>
+										<th style="text-align: left;"> <i class="fa fa-file-text p-r-10 f-18"></i> Ordinary Ballot Papers</th>
+										<th style="text-align: right;"></th>
+									</tr>
+	
+									<tr>
+										<td  style="text-align: left;">Total ballot papers issued</td>
+										<td  style="text-align: right;">{{vm.ballotaccountsummary.sum_tot_ballots}}</td>
+									</tr>
+	
+									<tr>
+										<td style="text-align: left;" id="problem1">Number of replacements for spoilt ballot papers</td>
+										<td style="text-align: right;">{{vm.ballotaccountsummary.sum_tot_spoiled_replaced}}
+										</td>
+									</tr>
+	
+									<tr>
+										<td style="text-align: left;" id="problem2">Total ballot papers issued and not spoilt</td>
+										<td style="text-align: right;">{{(vm.ballotaccountsummary.sum_tot_ballots) - (vm.ballotaccountsummary.sum_tot_spoiled_replaced)}}</td>
+									</tr>
+	
+									<tr>
+										<td style="text-align: left;" id="problem3">Total unused ballot papers</td>
+										<td style="text-align: right;">{{vm.ballotaccountsummary.sum_tot_unused}}
+										</td>
+									</tr>
+	
+									<tr>
+										<th style="text-align: left;"> <i class="fa fa-file-text p-r-10 f-18"></i> Tendered Ballot Papers</th>
+										<th style="text-align: right;"></th>
+									</tr>
+	
+									<tr>
+										<td style="text-align: left;">Total ballot papers issued</td>
+										<td style="text-align: right;">
+										{{vm.ballotaccountsummary.sum_tot_tend_ballots}}
+										</td>
+									</tr>
+	
+									<tr>
+										<td style="text-align: left;">Total spoilt ballot papers</td>
+										<td style="text-align: right;">
+										{{vm.ballotaccountsummary.sum_tot_tend_spoiled}}
+										</td>
+									</tr>
+	
+									<tr>
+										<td style="text-align: left;">Total unused ballot papers</td>
+										<td style="text-align: right;">
+										{{vm.ballotaccountsummary.sum_tot_tend_unused}}
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							
+							<div ng-show="vm.isBallot2Enabled">
+								<h3><b>{{vm.bpNames.paper2}}</b></h3>
+								<div class="tbl_scroll_x">
+									<table class="table table-striped" style="max-width: none;">
+										<tbody>
+										<tr>
+											<th style="text-align: left;"> <i class="fa fa-file-text p-r-10 f-18"></i> Ordinary Ballot Papers</th>
+											<th style="text-align: right;"></th>
+										</tr>
+		
+										<tr>
+											<td  style="text-align: left;">Total ballot papers issued</td>
+											<td  style="text-align: right;">{{vm.ballotaccountsummary.sum_tot_ballots2}}</td>
+										</tr>
+		
+										<tr>
+											<td style="text-align: left;" id="problem1">Number of replacements for spoilt ballot papers</td>
+											<td style="text-align: right;">{{vm.ballotaccountsummary.sum_tot_spoiled_replaced2}}
+											</td>
+										</tr>
+		
+										<tr>
+											<td style="text-align: left;" id="problem2">Total ballot papers issued and not spoilt</td>
+											<td style="text-align: right;">{{(vm.ballotaccountsummary.sum_tot_ballots2) - (vm.ballotaccountsummary.sum_tot_spoiled_replaced2)}}</td>
+										</tr>
+		
+										<tr>
+											<td style="text-align: left;" id="problem3">Total unused ballot papers</td>
+											<td style="text-align: right;">{{vm.ballotaccountsummary.sum_tot_unused2}}
+											</td>
+										</tr>
+		
+										<tr>
+											<th style="text-align: left;"> <i class="fa fa-file-text p-r-10 f-18"></i> Tendered Ballot Papers</th>
+											<th style="text-align: right;"></th>
+										</tr>
+		
+										<tr>
+											<td style="text-align: left;">Total ballot papers issued</td>
+											<td style="text-align: right;">
+											{{vm.ballotaccountsummary.sum_tot_tend_ballots2}}
+											</td>
+										</tr>
+		
+										<tr>
+											<td style="text-align: left;">Total spoilt ballot papers</td>
+											<td style="text-align: right;">
+											{{vm.ballotaccountsummary.sum_tot_tend_spoiled2}}
+											</td>
+										</tr>
+		
+										<tr>
+											<td style="text-align: left;">Total unused ballot papers</td>
+											<td style="text-align: right;">
+											{{vm.ballotaccountsummary.sum_tot_tend_unused2}}
+											</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							
+							<div class="tbl_scroll_x">
+								<table class="table table-bordered" style="max-width: none;">
+	              					<thead>
+										<tr>
+											<th>council/Ward/District</th>
+											<th>Place</th>
+											<th>Polling Station</th>
+											<!-- <th>Election ID</th> -->
+											<th>Ordinary Ballot Papers Issued {{vm.getBallot2_label}}</th>
+											<th>Replacements for spoilt ballot papers {{vm.getBallot2_label}}</th>
+											<th>Ordinary Ballot papers issued and not spoilt {{vm.getBallot2_label}}</th>
+											<th>Ordinary Ballot papers unused {{vm.getBallot2_label}}</th>
+											<th>Tendered ballot papers issued {{vm.getBallot2_label}}</th>
+											<th>Tendered ballot papers spoilt {{vm.getBallot2_label}}</th>
+											<th>Tendered ballot papers unused {{vm.getBallot2_label}}</th>
+										</tr>
+									</thead>
+	
+									<tbody ng-repeat="ps in vm.ballotcounts"  ng-show="(ps.electionid == item.id)">
+										<tr>
+											<td>{{ps.pollingstation_council}}/{{ps.pollingstation_ward}}/{{ps.pollingstation_district}}</td>
+											<td class="ballot_account_row">{{ps.pollingstation_place}}</td>
+											<td>{{ps.pollingstation}}</td>
+											<!-- <td>{{ps.electionid}}</td> -->
+											<td class="ballot_account_row"><p>{{ps.tot_ballots}}<p><p ng-show="vm.isBallot2Enabled">{{ps.tot_ballots2}}</p></td>
+											<td class="ballot_account_row"><p>{{ps.tot_spoiled_replaced}}</p><p ng-show="vm.isBallot2Enabled">{{ps.tot_spoiled_replaced2}}</p></td>
+											<td class="ballot_account_row"><p>{{(ps.tot_ballots)-(ps.tot_spoiled_replaced)}}</p><p ng-show="vm.isBallot2Enabled">{{(ps.tot_ballots2)-(ps.tot_spoiled_replaced2)}}</p></td>
+											<td class="ballot_account_row"><p>{{ps.tot_unused}}</p><p ng-show="vm.isBallot2Enabled">{{ps.tot_unused2}}</p></td>
+											<td class="ballot_account_row"><p>{{ps.tot_tend_ballots}}</p><p ng-show="vm.isBallot2Enabled">{{ps.tot_tend_ballots2}}</p></td>
+											<td class="ballot_account_row"><p>{{ps.tot_tend_spoiled}}</p><p ng-show="vm.isBallot2Enabled">{{ps.tot_tend_spoiled2}}</p></td>
+											<td class="ballot_account_row"><p>{{ps.tot_tend_unused}}<p><p ng-show="vm.isBallot2Enabled">{{ps.tot_tend_unused2}}</p></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</tab>
+			</tabset>
+		</div>
+	</div>
+</div>
+
+
+

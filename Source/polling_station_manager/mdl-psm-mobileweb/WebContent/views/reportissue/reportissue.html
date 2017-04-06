@@ -1,0 +1,96 @@
+<!-- 
+Project: MDL
+Author: Akarshani Amarasinghe
+Module: Report issue HTML 
+-->
+<div class="panel"
+     ng-controller="mdl.mobileweb.controller.reportissue as vm">
+     <ng-include src="vm.template"></ng-include>
+    <div class="panel-header panel-controls">
+        <h3>
+            <i class="icon-target"></i> <strong>Report Issue </strong>
+        </h3>
+    </div>
+    <div id="dropdownStation" class="col-sm-12 p-10 p-l-40" >
+		<label>Stations :</label>
+        <select class="issue_select_dropdown" style="min-width:165px;width:auto;" ng-model="vm.selectedStation" ng-change="vm.stationcheck(vm.selectedStation);">
+            <option value="{{station.id}}"  ng-repeat="station in vm.pollingStationList">{{station.name}}</option>
+        </select>
+    </div>
+    <div class="row stationlist">
+        <div class="col-md-12">
+            <div class="tab-fade-in tab_left">
+                <ul id="stationName" class="nav nav-tabs" >
+                    <li ng-repeat="station in vm.pollingStationList"
+                         ng-click="vm.stationcheck(station.id)"
+                         value="{{station.id}}"  ng-class="{'active':station.id==vm.stationid}">
+                        <a href="">
+                            <b class="icons-education-science-18">
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                {{station.name}}
+                            </b>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane ng-scope active"  ng-class="{active: tab.active}" >
+                    <div class="row">
+                        <div class="col-md-12 form-horizontal">
+                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form name="myForm" id="myFormId">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Reason</label>
+                                            <div class="col-sm-9">
+                                                <select class="defaultWidth issue_select_dropdown" id="singleSelectId" name="singleSelect" ng-model="vm.issue.selectedReasonId" >
+                                                	<option value="" selected disabled>--- Select an option ---</option>
+                                                	<option value="{{items.id}}"  ng-repeat="items in vm.selectedReason | orderBy: 'issuetitle' ">{{items.issuetitle}}</option>
+                                                </select><br>
+                                                <!-- <select class="defaultWidth" placeholder="--- Select an option ---" ng-model="vm.issue.selectedReasonId" data-style="white" id="singleSelectId" name="singleSelect" value="{{items.id}}" ng-options="items.id as items.issuetitle for items in vm.selectedReason"></select><br> -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Priority</label>
+                                            <div class="col-sm-9">
+                                            	<select class="defaultWidth issue_select_dropdown" id="singleSelectId2" name="singleSelect2" ng-model="vm.issue.selectedPriorityId"  >
+                                                	<option value="" selected disabled>--- Select an option ---</option>
+                                                	<option value="{{x.ID}}"  ng-repeat="x in vm.priority">{{x.PriorityTitle}}</option>
+                                                </select><br>
+                                                <!-- <select class="defaultWidth" id="singleSelectId2" value="x.ID"
+                                                        name="singleSelect2" ng-model="vm.issue.selectedPriorityId"
+                                                        ng-options="x.ID as x.PriorityTitle for x in vm.priority"></select><br> -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Description</label>
+                                            <div class="col-sm-9">
+                                                <textarea placeholder="Write a descripton here" class="defaultWidth" rows="4" cols="50"
+                                                          ng-model="vm.issue.messageDescription" ng-pattern="regex.description"></textarea>
+                                                <br />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <button class="btn btn-success m-r-10" type="button" ng-click="vm.submitDescription(vm.stationid);" ng-disabled="vm.buttonDis">
+                                                    Submit
+                                                </button>
+                                                <button class="btn btn-primary m-r-10" type="button" ng-click="vm.reportIssueAllStations();" ng-disabled="vm.buttonDisAll">
+                                                    Report for All Stations
+                                                </button>
+                                                <a class="btn btn-info g_fl" style="display:inline;" href="#/reportissue/all_issues">View All Issues</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+</div>

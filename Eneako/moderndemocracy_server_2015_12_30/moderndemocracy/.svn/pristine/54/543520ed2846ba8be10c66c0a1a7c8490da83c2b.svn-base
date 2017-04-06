@@ -1,0 +1,92 @@
+package com.moderndemocracy.pojo;
+
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.anaeko.utils.data.mime.json.DefaultJsonMarshaler;
+import com.anaeko.utils.json.JsonMarshaler;
+import com.anaeko.utils.json.ToJSON;
+import com.moderndemocracy.json.WardsMarshaler;
+
+public class Wards implements ToJSON {
+
+	protected static final Logger logger = LogManager.getLogger(Wards.class);
+	
+	public static final String WARD_ID = "wardId";
+	public static final String WARD_NAME = "wardName";	
+	public static final String STATIONS = "stations";
+	
+	private int totalBallotPapersIssued = 0;
+	private int totalPostalPacks = 0;
+	private int wardId;
+	private String wardName;
+	private List<Station> stations;
+
+
+	public int getWardId() {
+		return wardId;
+	}
+
+	public void setWardId(int wardId) {
+		this.wardId = wardId;
+	}
+
+	public int getTotalBallotPapersIssued() {
+		return totalBallotPapersIssued;
+	}
+
+	public void setTotalBallotPapersIssued(int totalBallotPapersIssued) {
+		this.totalBallotPapersIssued = totalBallotPapersIssued;
+	}
+
+	public int getTotalPostalPacks() {
+		return totalPostalPacks;
+	}
+
+	public void setTotalPostalPacks(int totalPostalPacks) {
+		this.totalPostalPacks = totalPostalPacks;
+	}
+
+	public String getWardName() {
+		return wardName;
+	}
+
+	public void setWardName(String wardName) {
+		this.wardName = wardName;
+	}
+	
+	public List<Station> getStations() {
+		return stations;
+	}
+
+	public void setStations(List<Station> stations) {
+		this.stations = stations;
+	}
+
+
+	@Override
+	public String toString() {
+		return " Ward [ "
+				+ " totalBallotPapersIssued=" + totalBallotPapersIssued
+				+ " totalPostalPacks=" + totalPostalPacks
+				+ " wardName=" + wardName
+				+ ", stations=" + stations.toString()
+				+ " ] ";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.anaeko.utils.json.ToJSON#createMarshaller()
+	 */
+	@Override
+	public JsonMarshaler createMarshaller() {
+		return new WardsMarshaler();
+	}
+
+	public static final class Marshaler extends DefaultJsonMarshaler {
+	}
+
+}

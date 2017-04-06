@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getglobalnotifications" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getglobalnotifications</description>
+  <config id="getglobalnotifications">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getglobalnotifications" useConfig="getglobalnotifications">
+    <sql>call getglobalnotifications(?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "id": "$id",&#xD;                "message": "$message",&#xD;                "attachtment": "$attachtment",&#xD;                "senton": "$senton",&#xD;                "status": "$status",&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="getglobalnotifications">
+    <description>getglobalnotifications</description>
+    <call-query href="getglobalnotifications">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getglobalnotifications">
+    <description>getglobalnotifications</description>
+    <call-query href="getglobalnotifications">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

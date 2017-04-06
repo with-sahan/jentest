@@ -1,0 +1,213 @@
+<!-- 
+Project: MDL Dashboard Admin
+Author: Vindya Hettige
+Module: EM Open Station HTML
+-->
+<div class="panel">
+	<div class="panel-header panel-controls">
+		<h3>
+			<i class="icon-target"></i> <strong>Close Station</strong>
+		</h3>
+	</div>
+	<div class="row stationlist">
+		<div class="col-md-12">
+			 <tabset class="tab-fade-in"> 
+				<!--<div class="panel bg-success" style="text-align:center;padding:10px 10px 10px 20px;">				
+				<button type="button" class="btn m-r-10"
+				ng-if="isBPAgenerated==0"
+				ng-disabled="checkElectionClosed==0"
+				ng-class="(checkElectionClosed==0 ? 'btn-default' : 'btn-primary')"
+				ng-click="generateBPA(station.id,item.electionid)">Generate Ballot Paper Account</button>	
+				<p ng-if="isBPAgenerated==1">Ballot paper account is already generated.</p>
+				<button ng-if="isBPAgenerated==1"  class="btn m-r-10 btn-primary" ng-click="loadPaperCount(item.electionid,station.id)">View Ballot Account</button><br/>
+				<span ng-if="isStationClosed==1">(The station is already closed.)</span>	
+				</div>				
+				</tabset> 
+				-->
+				<div class="panel" ng-if="isStationClosed==0">
+					<div class="panel-header">
+						<h3>
+							<i class="icon-target"></i> <strong>Election Close Check List</strong>
+						</h3>
+					</div>
+					  <div class="panel-content">
+                        <!--<div class="row chk_selectall">
+                             <div class="col-md-12">
+                                 <div class="input-group">
+                                     <div class="icheck-list">
+                                         <label>
+                                             <input id="selectall" type="checkbox"
+                                                    ng-true-value="1"
+                                                    ng-false-value="0"
+                                                    ng-model="selectedAll"
+                                                    ng-change="checkAllClose()"
+                                                    applyicheck="selectedAll">
+                                             Select All
+                                         </label>
+                                     </div>
+                                 </div>
+                             </div> 
+                           
+                         </div>		  
+                         -->			
+						<div class="row m-b-10" ng-repeat="(key1, value) in postPollActivities">
+							<div class="col-md-12">
+								<div class="input-group">
+									<div class="icheck-list">
+										<input type="checkbox" ng-model="postPollActivities[key1].iscompleted"
+											data-checkbox="icheckbox_flat-blue"
+											applyicheck="prePollActivity.iscompleted"
+                                            ng-true-value="1"
+                                            ng-false-value="0"	
+                                            ng-disabled="true"										
+											ng-change="setGroupChecked(prePollActivityGroup)">
+										{{postPollActivities[key1].activity}}
+									</div>
+								</div>
+							</div>
+						</div>
+					
+				<div class="row">
+				<div class="col-md-12">
+					<a class="create_notification_button btn btn-danger m-r-10"
+											href="#/dashboard-summary"> Close </a>
+					<!-- <button class="btn btn-primary m-r-10" type="button"
+						ng-click="todashboard()">Close</button> -->
+					
+				</div>
+			</div>
+			</div> 
+			</div>
+					<!-- <button type="button" class="btn m-t-10 m-b-10" ng-disabled="closeStationEnabled==0" ng-class="closeStationEnabled==0 ? 'btn-default' : 'btn-danger'" ng-click="closePollingStation(station.id)">Close
+				Station</button> -->
+				</tabset>
+				</div>			
+
+<hr />
+<!-- <div class="panel" ng-show="showBallotStats" id="ballotAcc">
+	<div class="panel-header panel-controls">
+		<h3>
+			<i class="icon-target"></i> <strong>Ballot</strong> Accounts
+		<!--  <button style="float: right;" ng-if="vm.isViewed==1" class="btn btn-default"
+		              ng-csv="getArray" filename="{{station.name}}_{{elecid}}.csv" field-separator="," decimal-separator="." lazy-load="true"
+		              >Export to CSV</button> 
+		</h3>
+	</div>
+	
+	<div class="row stationlist" >
+		<div class="col-md-12">
+			<table cellspacing="0" class="stationStats" border="0px solid black" style="width:100%; border-collapse:separate; border-spacing: 1em;">
+			<div class="row">
+				<div class="form-horizontal">
+					<div class="col-md-12">
+						<div class="row">					
+							<div class="col-md-12">					
+								<div class="form-group">
+									<div class="row col-sm-12">
+										<tbody>
+												<tr>
+													<th style="text-align: left;"> <i class="fa fa-file-text p-r-10 f-18"></i> Ordinary Ballot Papers</th>
+													<th style="text-align: right;"></th>
+												</tr>
+								
+												<tr>
+													<td  style="text-align: left;">Total ballot papers issued</td>
+													<td  style="text-align: right;" class="ng-binding"><span ng-init="vm.closedstation.tot_ballots='0'">{{vm.closedstation.tot_ballots}}</span></td>
+												</tr>
+												
+												<tr>
+													<td style="text-align: left;" id="problem1">How many spoilt ballot papers did you issue replacements for?</td>
+													<td style="text-align: right;" class="ng-binding"><span ng-init="vm.closedstation.tot_spoiled_replaced='0'">{{vm.closedstation.tot_spoiled_replaced}}</span>
+													</td>
+												</tr>
+												
+												<tr>
+													<td style="text-align: left;" id="problem2">Total ballot papers issued and not spoilt</td>
+													<td style="text-align: right;" class="ng-binding"><span>{{(vm.closedstation.tot_ballots) - (vm.closedstation.tot_spoiled_replaced)}}</span></td>
+												</tr>
+												
+												<tr>
+													<td style="text-align: left;" id="problem3">Total unused ballot papers</td>
+													<td style="text-align: right;" class="ng-binding">
+													<span ng-init="vm.closedstation.tot_unused='0'">{{vm.closedstation.tot_unused}}</span>
+													</td>
+												</tr>
+											
+												<tr>
+													<th style="text-align: left;"> <i class="fa fa-file-text p-r-10 f-18"></i> Tendered Ballot Papers</th>
+													<th style="text-align: right;"></th>
+												</tr>
+								
+												<tr>
+													<td style="text-align: left;">Total ballot papers issued</td>
+													<td style="text-align: right;" class="ng-binding">
+													<span ng-init="vm.closedstation.tot_tend_ballots='0'">{{vm.closedstation.tot_tend_ballots}}</span>
+													</td>
+												</tr>
+												
+												<tr>
+													<td style="text-align: left;">Total spoilt tendered ballot papers</td>
+													<td style="text-align: right;" class="ng-binding">
+													<span ng-init="vm.closedstation.tot_tend_spoiled='0'">{{vm.closedstation.tot_tend_spoiled}}</span>
+													</td>
+												</tr>
+												
+												<tr>
+													<td style="text-align: left;">Total unused tendered ballot papers</td>
+													<td style="text-align: right;" class="ng-binding">
+													<span ng-init="vm.closedstation.tot_tend_unused='0'">{{vm.closedstation.tot_tend_unused}}</span>
+													</td>
+												</tr><tr></tr>
+												<tr>
+													<td></td>
+													<td></td>
+													
+												</tr></tbody>
+												</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			
+			</table>
+			<!-- 
+			<accordion-group is-open="open2"> <accordion-heading>
+			Entrance and Parking facilities<i class="pull-right glyphicon"
+				ng-class="{'glyphicon-chevron-down': open2, 'glyphicon-chevron-right': !open2}">
+			</i> </accordion-heading>
+			<div class="panel-body">.</div>
+			</accordion-group> <accordion-group is-open="open3"> <accordion-heading>
+			Inside Building<i class="pull-right glyphicon"
+				ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}">
+			</i> </accordion-heading>
+			<div class="panel-body">.</div>
+			</accordion-group> <accordion-group is-open="open3"> <accordion-heading>
+			General Observation<i class="pull-right glyphicon"
+				ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}">
+			</i> </accordion-heading>
+			<div class="panel-body">Anim pariatur cliche reprehenderit,
+				enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
+				moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+				quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+				aliqua put a bird on it squid single-origin coffee nulla assumenda
+				shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes
+				anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
+				butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw
+				denim aesthetic synth nesciunt you probably haven't heard of them
+				accusamus labore sustainable VHS.</div>
+			</accordion-group> </accordion> </tab> 
+			 
+		</div>
+
+	</div>
+	
+	
+</div> -->
+
+
+		
+		</div>
+	</div>

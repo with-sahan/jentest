@@ -1,0 +1,38 @@
+<data name="updateprepollingactivity" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>updateprepollingactivity                  &#13;                                &#13;                                &#13;                                </description>
+   <config id="mdl_psm">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="updateprepollactivity" useConfig="mdl_psm">
+      <sql>call updateprepollactivity (?,?,?,?,?)</sql>
+      <result outputType="json">{&#13;    "result": {&#13;        "entry": [&#13;            {&#13;                "response": "$response"&#13;            }&#13;        ]&#13;    }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="electionid" sqlType="INTEGER"/>
+      <param name="pollingstationid" sqlType="INTEGER"/>
+      <param name="activityid" sqlType="INTEGER"/>
+      <param name="status" sqlType="INTEGER"/>
+   </query>
+   <operation name="updateprepollingactivity">
+      <description>updateprepollingactivity          </description>
+      <call-query href="updateprepollactivity">
+         <with-param name="token" query-param="token"/>
+         <with-param name="electionid" query-param="electionid"/>
+         <with-param name="pollingstationid" query-param="pollingstationid"/>
+         <with-param name="activityid" query-param="activityid"/>
+         <with-param name="status" query-param="status"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="updateprepollingactivity">
+      <description>updateprepollingactivity&#13;                                    </description>
+      <call-query href="updateprepollactivity">
+         <with-param name="token" query-param="token"/>
+         <with-param name="electionid" query-param="electionid"/>
+         <with-param name="pollingstationid" query-param="pollingstationid"/>
+         <with-param name="activityid" query-param="activityid"/>
+         <with-param name="status" query-param="status"/>
+      </call-query>
+   </resource>
+</data>

@@ -1,0 +1,65 @@
+package com.moderndemocracy.json;
+
+import java.io.IOException;
+
+import com.anaeko.utils.data.mime.json.DefaultJsonMarshaler;
+import com.anaeko.utils.io.MarshalerException;
+import com.anaeko.utils.json.JsonReader;
+import com.anaeko.utils.json.JsonReader.JsonToken;
+import com.moderndemocracy.pojo.Ordinary;
+import com.moderndemocracy.pojo.StationClose;
+import com.moderndemocracy.pojo.Tendered;
+
+public final class StationCloseMarshaler extends DefaultJsonMarshaler {
+
+	private final OrdinaryMarshaler ordinaryMarsheler = new OrdinaryMarshaler();
+	private final TenderedMarshaler tenderedMarshaler = new TenderedMarshaler();
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.anaeko.utils.data.mime.json.DefaultJsonMarshaler#unmarshal(com.anaeko
+	 * .utils.data.mime.json.JsonReader)
+	 */
+	@Override
+	public Object unmarshal(JsonReader reader) throws IOException,
+			MarshalerException {
+
+		while ((reader.getCurrentToken() != JsonToken.START_ARRAY)
+				&& (reader.getCurrentToken() != JsonToken.START_OBJECT)) {
+			reader.nextToken();
+		}
+
+		if (reader.getCurrentToken() == JsonToken.START_OBJECT) {
+			return readStationClose(reader);
+		}
+		return null;
+	}
+
+
+	private StationClose readStationClose(JsonReader reader)
+			throws IOException {
+
+		StationClose stationClose = new StationClose();
+
+		while (reader.nextToken() != JsonToken.END_OBJECT) {
+
+			String name = reader.getCurrentName();
+			reader.nextToken();
+
+			if (StationClose.ORDINARY.equals(name)) {
+				stationClose.setOrdinary((Ordinary)ordinaryMarsheler.unmarshal(reader));
+			}
+			else if (StationClose.TENDERED.equals(name)) {
+				stationClose.setTendered((Tendered)tenderedMarshaler.unmarshal(reader));
+			}
+			else if (StationClose.STATION_ID.equals(name)) {
+				stationClose.setStationId(reader.getIntValue());
+			}
+
+		}
+		return stationClose;
+	}
+
+}

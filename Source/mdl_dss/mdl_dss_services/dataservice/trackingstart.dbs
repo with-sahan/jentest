@@ -1,0 +1,29 @@
+<data name="trackingstart" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>polling station manager service - start tracking&#13;                                </description>
+   <config id="mdl_psm">
+      <property name="carbon_datasource_name">mdl-psm-ds</property>
+   </config>
+   <query id="trackingstart" useConfig="mdl_psm">
+      <sql>call starttrack(?,?,?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": [&#13;      {&#13;        "response": "$response",&#13;        &#13;      }&#13;    ]&#13;  }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="longtitude" sqlType="STRING"/>
+      <param name="latitude" sqlType="STRING"/>
+   </query>
+   <operation name="trackingstart">
+      <description>trackingstart&#13;                                    </description>
+      <call-query href="trackingstart">
+         <with-param name="token" query-param="token"/>
+         <with-param name="longtitude" query-param="longtitude"/>
+         <with-param name="latitude" query-param="latitude"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="trackingstart">
+      <description>trackingstart&#13;                                    </description>
+      <call-query href="trackingstart">
+         <with-param name="token" query-param="token"/>
+         <with-param name="longtitude" query-param="longtitude"/>
+         <with-param name="latitude" query-param="latitude"/>
+      </call-query>
+   </resource>
+</data>

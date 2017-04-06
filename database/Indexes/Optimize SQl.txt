@@ -1,0 +1,12 @@
+set @a=null,@c=null,@b=concat("show tables where",ifnull(concat(" `Tables_in_",database(),"` like '",@c,"' and"),'')," (@a:=concat_ws(',',@a,`Tables_in_",database(),"`))");
+
+Prepare `bd` from @b;
+EXECUTE `bd`;
+DEALLOCATE PREPARE `bd`;
+
+set @a:=concat('optimize table ',@a);
+PREPARE `sql` FROM @a;
+EXECUTE `sql`;
+DEALLOCATE PREPARE `sql`;
+
+set @a=null,@b=null,@c=null;

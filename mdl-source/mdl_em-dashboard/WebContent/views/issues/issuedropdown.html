@@ -1,0 +1,24 @@
+<a  data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+<i ng-class="vm.newIssues.length > 0 ? 'issue_notification fa fa-bell faa-ring animated' :  'icon-bell'" ></i>
+<timer ng-show="false" language="en" interval="10000"></timer>
+<span ng-show="pending_chats>0" class="badge badge-danger badge-header">{{pending_chats}}</span>
+</a>
+<ul class="dropdown-menu">
+    <li class="dropdown-header clearfix">
+        <p class="pull-left" ng-model="vm.number_of_Notifications">{{vm.newIssues.length}} Issues need your attention</p>
+    </li>
+    <li>
+        <ul class="dropdown-menu-list withScroll" data-height="220">
+        	<li  ng-repeat="issue in vm.newIssues" ng-click="vm.setIssueAsWatched(issue.issuenotificationid, issue.issueid)">
+                <i class="fa fa-file-text p-r-10 f-18"></i>
+                {{issue.pollingstationname}} - {{issue.issueid}} - {{issue.description | limitTo: 17}}{{issue.description.length>20 ? '...' : ''}}
+            </li>
+        </ul>
+    </li>
+    <li class="dropdown-footer clearfix">
+        <a href="#/all_issues" class="pull-left">See all issues</a>
+        <a data-target="#" class="pull-right">
+        <i class="icon-settings"></i>
+        </a>
+    </li>
+</ul>

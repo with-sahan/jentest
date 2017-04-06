@@ -1,0 +1,23 @@
+<data name="getUnTrackedIssueNotifications" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>getUnTrackedIssueNotifications                                &#13;                                &#13;                                &#13;                                &#13;                                </description>
+   <config id="mdl_psm">
+      <property name="carbon_datasource_name">mdl-psm-ds</property>
+   </config>
+   <query id="getUnTrackedIssueNotifications" useConfig="mdl_psm">
+      <sql>call psm.getUnTrackedIssueNotifications (?)</sql>
+      <result outputType="json">{&#13; "result":{&#13;  "entry":[&#13;   {"issueid":$issueid,&#13;    "description":$description,&#13;"issuenotificationid":"$issuenotificationid",&#13;"pollingstationname":"$pollingstationname",&#13;"response":"$response"&#13;   }&#13;  ]&#13; }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="getUnTrackedIssueNotifications">
+      <description>getUnTrackedIssueNotifications                                                                        &#13;                                    </description>
+      <call-query href="getUnTrackedIssueNotifications">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getUnTrackedIssueNotifications">
+      <description>getUnTrackedIssueNotifications                                    &#13;                                    &#13;                                    </description>
+      <call-query href="getUnTrackedIssueNotifications">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

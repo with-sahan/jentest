@@ -1,0 +1,176 @@
+<!-- 
+Project: MDL
+Author: Akarshani Amarasinghe
+Module: View unresolved issues HTML 
+-->
+
+<div class="panel"
+     ng-controller="mdl.mobileweb.controller.viewunresolvedissue as vm">
+    <div class="panel-header panel-controls">
+        <h3>
+            <i class="icon-target"></i> <strong>Report</strong> Issues
+        </h3>
+    </div>
+    <div class="row stationlist">
+        <div class="col-md-12">
+            <tabset class="tab-fade-in tab_left">
+                <tab ng-repeat="station in vm.pollingStationList"
+                     ng-click="vm.stationcheck(station.id)"
+                     value="{{station.id}}" active="station.active" ng-init="station.active = $index === vm.passingIndex">
+                    <tab-heading>
+                        <b class="icons-education-science-18">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {{station.name}}
+                        </b>
+                    </tab-heading>
+
+					<div class="row">
+						<div class="col-md-12">
+							<h3 class="m-t-10" style="display:inline-block"><i class="fa fa-table"></i> <strong>All Issues</strong></h3>
+	                        <a href="#/reportissue" class="btn btn-info g_fr m-t-10">Report Issue</a>
+                        </div>
+                    </div>
+         
+                    <div class="row">
+						<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Category</th>
+								<th>Description</th>
+								<th>Priority</th>
+								<th>Status</th>
+								<th></th>
+								<th>Chat</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- <tr ng-repeat="issueData in (filtered = (vm.issue | filter:{issuestatus : '!1'} | filter:{issuestatus : '!2'} | filter:{pollingstationid : station.id } | orderBy: 'issuedate':true )) | pagination: (vm.curPage-1) * vm.pageSize | limitTo: vm.pageSize" -->				
+							<!-- <tr ng-repeat="issueData in (filtered = (vm.issue | filter:{pollingstationid : station.id } | orderBy: 'issuedate':true )) | pagination: (vm.curPage-1) * vm.pageSize | limitTo: vm.pageSize"
+								ng-model="issueData.id" value="{{issueData.id}}" ng-disabled="vm.closeDisabled"
+								> -->
+							<tr ng-repeat="issueData in (filtered = (vm.issue | orderBy: 'issuedate':true )) | pagination: (vm.curPage-1) * vm.pageSize | limitTo: vm.pageSize"
+								ng-model="issueData.id" value="{{issueData.id}}" ng-disabled="vm.closeDisabled" ng-class="vm.viewChat[issueData.id] ? 'highlightRow' : ''"
+								>
+								<td>{{issueData.reason}}</td>
+								<td>{{issueData.description}}</td>
+								<td value="{{issueData.priority}}"
+									ng-init="issueData.priorityTitle = vm.priorityTitle(issueData.priority)">
+								{{issueData.priorityTitle}}</td>
+								<td value="{{issueData.issuestatus}}"
+									ng-init="issueData.statusTitle = vm.statusTitle(issueData.issuestatus)">
+									{{issueData.statusTitle}}</td>
+								<td>{{issueData.issuedate | date:"yyyy-MM-dd 'at' h:mma"}}</td>
+								<!-- <td><i class="edit btn btn-sm btn-default fa fa-table" ng-click="vm.openChat(true)"></i></td> -->
+								<td>
+									<!-- <a class="edit btn btn-sm btn-default chat-click" tabindex="1" type="button" ng-click="vm.getChat(issueData.id, station.id, issueData.issuestatus); vm.addChat(true);">
+					                     <i class="fa fa-table" ></i>
+					                </a> -->
+					                <label>
+					                	<input type="radio" name="content" 
+					                		ng-model="vm.viewChatc"
+					                		value="{{issueData.id}}" capplyicheck="vm.viewChat[issueData.id]"
+					                		ng-change="vm.getChat(issueData.id, station.id, issueData.issuestatus); vm.addChat(true);"
+					                		>
+					                		<!--   <input type="checkbox" 
+					                			   ng-true-value="1"
+                                                   ng-false-value="0"
+                                                   ng-model="vm.viewChat[issueData.id]"
+                                                   ng-change="vm.showChat(issueData.id, station.id, issueData.issuestatus);"
+                                                   capplyicheck="vm.viewChat[issueData.id]">-->
+					                </label>
+					            </td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div>
+					<table class="table table-striped">
+						<tr>
+							<td>
+					 			<pagination total-items="filtered.length" ng-model="vm.curPage" max-size="3" class="pagination-sm" ng-show="(filtered.length/vm.pageSize)>1" boundary-links="true" rotate="false"><pagination>
+					 		</td>
+					 		<td align="right">
+					 			Number of issues: {{filtered.length}}
+					 		</td>
+					 	</tr>
+					 </table>
+				</div>
+				
+				<div>
+					<h3 ng-show="vm.addChatShow"><i class="fa fa-table"></i> <strong>Chat</strong></h3>
+					<!-- <button ng-show="vm.addChatCloseShow"class="btn btn-success m-r-10" ng-click="vm.closeIssue(vm.issueid)" ng-disabled="vm.closeDisabled">Close Issue</button>
+		    		<button ng-show="vm.addChatShow" class="btn btn-danger m-r-10" ng-click="vm.resolveIssue(vm.issueid)" ng-disabled="vm.resolveDisabled">Resolve Issue</button> -->
+					
+					<div class="row" ng-show="vm.addChatShow">
+	                    <div class="col-md-12 form-horizontal">
+	                         <div class="row">
+	                             <div class="col-md-12">
+									<form name="myForm" id="myFormId">
+										<div class="form-group">
+											<div class="col-sm-12" style="width: 100%;">
+												<textarea placeholder="Type your message here..."
+													class="defaultWidth" rows="4" cols="50"
+													style=" width: 97%;"
+													ng-model="vm.chatmessage"></textarea>
+												<br />
+											</div>
+										</div>
+										<form class="upload-form">
+											<input type="file" ngf-select ng-model="vm.picFile" name="file"
+												data-max-size="10485760" class="upload-file" required>
+										</form><br>
+										<!-- <button ng-disabled="vm.buttonHide" ng-click="uploadPic(vm.picFile, vm.issueid, station.id, vm.chatmessage)"
+											class="btn btn-success m-r-10">Send</button> -->
+										<!-- <button class="btn btn-danger m-r-10"
+											ng-click="vm.cancelChatMessage()">Cancel</button> -->
+									</form>
+								</div>
+	                         </div>
+	                     </div>
+	                </div>
+	                
+	                <button ng-disabled="vm.buttonHide" ng-click="uploadPic(vm.picFile, vm.issueid, station.id, vm.chatmessage)"
+							ng-show="vm.addChatShow" class="btn btn-primary m-r-10">Send</button>
+	                <button ng-show="vm.addChatCloseShow"class="btn btn-danger m-r-10" ng-click="vm.closeIssue(vm.issueid)" ng-disabled="vm.closeDisabled || vm.status==1">Close Issue</button>
+		    		<button ng-show="vm.addChatResolveShow" class="btn btn-success m-r-10" ng-click="vm.resolveIssue(vm.issueid)" ng-disabled="vm.resolveDisabled || vm.status==1">Resolve Issue</button>
+					
+					<div class="row">
+						<table class="table table-hover" style="margin-left: 34px; width: 93%;">
+							<tbody ng-show="vm.chatShow" ng-repeat="chatResult in vm.getChatResult" value="{{chatResult.chatid}}"
+							style="border: 3px solid #ddd; border-collapse: collapse;">
+								<tr>
+									<!-- <td style="width:1px;"><img ng-src="{{vm.appendUrl}}{{chatResult.profile_picture}}" style="width:30px;"/></td> -->
+									<td style="color: blue; font-size: 21px;">{{chatResult.userfullname}}</td>
+									<td></td>
+									<td style="font-size: 12px; -webkit-filter: grayscale(100%); text-align: right;">{{chatResult.createdon | date:"yyyy-MM-dd 'at' h:mma"}}</td>
+								</tr>
+								<tr>
+									<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{chatResult.chatmessage}}</td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr ng-show="(chatResult.attachtment_url).length > 4">
+									<td></td>
+									<!-- <td ng-show="(chatResult.attachtment_url).length > 4" alt="{{vm.appendUrl}}/{{chatResult.attachtment_url}}">{{chatResult.attachtment_url}} -->
+									<!-- <td ng-show="(chatResult.attachtment_url).length > 4">
+										<a href="{{vm.appendUrl}}/{{chatResult.attachtment_url}}" target="popup" ng-click="vm.attachementWindowOpen(chatResult.attachtment_url);">{{chatResult.attachtment_url}}</a>
+									</td> -->
+									<td class="attachement_url" ng-show="(chatResult.attachtment_url).length > 4" alt="{{vm.appendUrl}}/{{chatResult.attachtment_url}}" ng-click="vm.attachementWindowOpen(chatResult.attachtment_url);">{{chatResult.attachtment_url}}</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+               </div> 
+            </tabset>
+        </div>
+    </div>
+
+   
+</div>

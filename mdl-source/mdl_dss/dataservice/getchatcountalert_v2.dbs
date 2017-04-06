@@ -1,0 +1,23 @@
+<data name="getchatcountalert_v2" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>getchatcountalert_v2&#13;                                </description>
+   <config id="mdl_psm">
+      <property name="carbon_datasource_name">mdl-psm-ds</property>
+   </config>
+   <query id="getchatcountalert_v2" useConfig="mdl_psm">
+      <sql>call psm.getchatcountalert_v2 (?)</sql>
+      <result outputType="json">{&#13; "result":{&#13;  "entry":[&#13;   {"chatcount":$chatcount,&#13;    "issueid":$issueid,&#13;    "pollingstationid":$pollingstationid,&#13;    "issue_status":$issue_status,&#13;    "response":$response&#13;   }&#13;  ]&#13; }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="getchatcountalert_v2">
+      <description>getchatcountalert_v2</description>
+      <call-query href="getchatcountalert_v2">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getchatcountalert_v2">
+      <description>getchatcountalert_v2</description>
+      <call-query href="getchatcountalert_v2">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

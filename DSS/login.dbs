@@ -1,0 +1,30 @@
+<data name="login" serviceNamespace="www.moderndemocracy.com/services/security" transports="http https">
+   <description>security service                         &#13;                                &#13;                                &#13;                                </description>
+   <config id="mdl_security">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/security</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="login" useConfig="mdl_security">
+      <sql>call login(?,?,?)</sql>
+      <result outputType="json">{&#13;    "result": {&#13;        "entry": [&#13;            {&#13;                "response": "$response"&#13;            }&#13;        ]&#13;    }&#13;}</result>
+      <param name="username" sqlType="STRING"/>
+      <param name="organization_code" sqlType="STRING"/>
+      <param name="usersecret" sqlType="STRING"/>
+   </query>
+   <operation name="login">
+      <call-query href="login">
+         <with-param name="username" query-param="username"/>
+         <with-param name="organization_code" query-param="organization_code"/>
+         <with-param name="usersecret" query-param="usersecret"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="login">
+      <call-query href="login">
+         <with-param name="username" query-param="username"/>
+         <with-param name="organization_code" query-param="organization_code"/>
+         <with-param name="usersecret" query-param="usersecret"/>
+      </call-query>
+   </resource>
+</data>

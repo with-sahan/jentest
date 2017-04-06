@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="login" serviceNamespace="www.moderndemocracy.com/services/security" transports="http https">
+  <description>security service</description>
+  <config id="mdl_security">
+    <property name="carbon_datasource_name">mdl-security-ds</property>
+  </config>
+  <query id="login" useConfig="mdl_security">
+    <sql>call login(?,?,?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="username" sqlType="STRING" />
+    <param name="organization_code" sqlType="STRING" />
+    <param name="usersecret" sqlType="STRING" />
+  </query>
+  <operation name="login">
+    <call-query href="login">
+      <with-param name="username" query-param="username" />
+      <with-param name="organization_code" query-param="organization_code" />
+      <with-param name="usersecret" query-param="usersecret" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="login">
+    <call-query href="login">
+      <with-param name="username" query-param="username" />
+      <with-param name="organization_code" query-param="organization_code" />
+      <with-param name="usersecret" query-param="usersecret" />
+    </call-query>
+  </resource>
+</data>

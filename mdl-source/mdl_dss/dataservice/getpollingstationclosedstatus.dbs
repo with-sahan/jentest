@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getpollingstationclosedstatus" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getpollingstationclosedstatus</description>
+  <config id="getpollingstationclosedstatus">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getpollingstationclosedstatus" useConfig="getpollingstationclosedstatus">
+    <sql>call getpollingstationclosedstatus(?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": {&#xD;      "response": "$response",&#xD;      "open_status": "$open_status",&#xD;      "closed_status": "$closed_status"&#xD;    }&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="stationid" sqlType="INTEGER" />
+  </query>
+  <operation name="getpollingstationclosedstatus">
+    <description>getpollingstationclosedstatus</description>
+    <call-query href="getpollingstationclosedstatus">
+      <with-param name="token" query-param="token" />
+      <with-param name="stationid" query-param="stationid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getpollingstationclosedstatus">
+    <description>getpollingstationclosedstatus</description>
+    <call-query href="getpollingstationclosedstatus">
+      <with-param name="token" query-param="token" />
+      <with-param name="stationid" query-param="stationid" />
+    </call-query>
+  </resource>
+</data>

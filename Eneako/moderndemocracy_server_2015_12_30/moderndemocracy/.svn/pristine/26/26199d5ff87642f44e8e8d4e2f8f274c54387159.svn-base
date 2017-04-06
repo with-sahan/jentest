@@ -1,0 +1,61 @@
+package com.moderndemocracy.jetty.handler;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+
+import org.apache.log4j.Logger;
+
+import com.anaeko.utils.app.Configuration;
+import com.moderndemocracy.dao.StationSetupStatusDao;
+import com.moderndemocracy.dao.UsersDao;
+import com.moderndemocracy.pojo.AuthenticatedUser;
+import com.moderndemocracy.pojo.User;
+
+public class StationProgressHandler extends ModernDemocracyHandler {
+
+	private static final Logger logger = Logger.getLogger(StationProgressHandler.class);
+
+	private static final String NUMBER_PAPERS_ISSUED_PAYLOAD_NAME = "numberPapersIssued";
+	private static final String NUMBER_POSTAL_PACKS_RECEIVED_PAYLOAD_NAME = "numberPostalPacksReceived";
+	
+
+	@Override
+	protected String getSupportedMethods() {
+		return "POST";
+	}
+
+	
+	@Override
+	protected void handlePost(String target, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		try {
+			String id = read(request).sessionId();
+			
+			// Get object for this user.
+			AuthenticatedUser currentUser = (AuthenticatedUser)getServiceContext().getUser(id);
+			UsersDao userDao = new UsersDao(getDataSource());
+			User user = userDao.getById(currentUser.getId());
+			
+			int stationId = user.getStationId();
+			
+			Configuration payload = readStream(request).asConfiguration();
+			int numberPapersIssued = payload.getIntProperty(NUMBER_PAPERS_ISSUED_PAYLOAD_NAME,0);
+			int numberPostalPacksReceived = payload.getIntProperty(NUMBER_POSTAL_PACKS_RECEIVED_PAYLOAD_NAME,0);
+			
+			DataSource source = getDataSource();
+			StationSetupStatusDao dao = new StationSetupStatusDao(source);
+			
+			logger.debug("POST StationProgress - stationId="+stationId+" | numberPapersIssued="+numberPapersIssued+" | numberPostalPacksReceived="+numberPapersIssued);;
+			
+			dao.insertProgressUpdate( source, stationId, numberPapersIssued, numberPostalPacksReceived );
+			
+		} catch( SQLException e ) {
+			handleSQLError(request,response, e);
+		}
+		
+	}
+}

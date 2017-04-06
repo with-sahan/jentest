@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="updatepostpollactivity" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>updatepostpollactivity</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="updatepostpollactivity" useConfig="mdl_psm">
+    <sql>call updatepostpollactivity(?,?,?,?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": {&#xD;      "response": "$response"&#xD;    }&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="polling_station_id" sqlType="INTEGER" />
+    <param name="election_id" sqlType="INTEGER" />
+    <param name="activity_id" sqlType="INTEGER" />
+    <param name="status" sqlType="INTEGER" />
+  </query>
+  <operation name="updatepostpollactivity">
+    <description>updatepostpollactivity</description>
+    <call-query href="updatepostpollactivity">
+      <with-param name="token" query-param="token" />
+      <with-param name="polling_station_id" query-param="polling_station_id" />
+      <with-param name="election_id" query-param="election_id" />
+      <with-param name="activity_id" query-param="activity_id" />
+      <with-param name="status" query-param="status" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="updatepostpollactivity">
+    <description>updatepostpollactivity</description>
+    <call-query href="updatepostpollactivity">
+      <with-param name="token" query-param="token" />
+      <with-param name="polling_station_id" query-param="polling_station_id" />
+      <with-param name="election_id" query-param="election_id" />
+      <with-param name="activity_id" query-param="activity_id" />
+      <with-param name="status" query-param="status" />
+    </call-query>
+  </resource>
+</data>

@@ -1,0 +1,142 @@
+package com.moderndemocracy.dao;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.anaeko.error.AnaekoRuntimeException;
+import com.anaeko.utils.jdbc.CacheableQuery;
+import com.anaeko.utils.jdbc.CacheableUpdate;
+import com.anaeko.utils.jdbc.ParameterDelegate;
+import com.moderndemocracy.pojo.Tracking;
+
+public class TrackingDao {
+	
+
+	protected static final Logger logger = LogManager.getLogger(TrackingDao.class);
+	
+	static final int START_TRACKING       = 1;
+	static final int TRACKING_IN_PROGRESS = 2;
+	static final int TRACKING_COMPLETED   = 3;
+
+	/********/
+	/* SQL */
+	/******/
+	private static final String SQL_UPDATE_TRACKING = 
+			"UPDATE tracking set "	
+			+ " status=?, "
+			+ " lat=?, "
+			+ " lng=? "
+			+ " WHERE station_id = ? ";
+										
+	private static final String SQL_SELECT_ALL =
+			TrackingExtractor.SQL
+			+ " WHERE T.station_id=S.id and "
+			+ " S.ward_id=W.id ";
+	
+	private DataSource pool;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param pool
+	 *            The datasource.
+	 */
+	public TrackingDao(DataSource pool) {
+		if (null == pool)
+			throw new AnaekoRuntimeException(
+					"Cannot create a DAO without a database connection");
+		this.pool = pool;
+	}
+
+	
+	/**
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Tracking> getAll() throws SQLException {
+		CacheableQuery<Tracking> query = new CacheableQuery<Tracking>(pool);
+	
+		List<Tracking> found = query.execute(SQL_SELECT_ALL,
+				new TrackingExtractor(), new ParameterDelegate() {
+					@Override
+					public void setParameters(PreparedStatement statement)
+							throws SQLException {
+					}
+				});
+		
+		if (found.isEmpty()) {
+			return null;
+		} else {
+			return found;
+		}
+	}
+	
+	
+	/**
+	 * Get All Station Setup item
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean updateByStationId( DataSource source, int stationId, int status, double lat, double lng) throws SQLException {
+
+		CacheableUpdate createQuery = new CacheableUpdate(pool);
+		
+		// Params for SQL
+		SetTrackingUpdateParams params = new SetTrackingUpdateParams( stationId, status, lat, lng );
+		
+		logger.debug("About to update tracking");
+		int effected = createQuery.execute( SQL_UPDATE_TRACKING, params );
+		
+		StationDao stationDao = new StationDao(source);
+		
+		// Update Dispatched or Delivered time
+		if (status==START_TRACKING) {
+			stationDao.insertDispatchedTime(source, stationId);
+		}
+		else if (status==TRACKING_COMPLETED) {
+			stationDao.insertDeliveredTime(source, stationId);
+		}
+		
+		if( effected > 0 ) {
+			logger.debug("Successfully updated tracking info for station "+stationId);
+			return true;
+		} else {
+			logger.error("Failed to update tracking info for station "+stationId);
+			return false;
+		}
+	}
+	
+	
+	
+	
+	private final class SetTrackingUpdateParams implements ParameterDelegate {
+		int stationId;
+		int status;
+        double lat;
+        double lng;
+        
+        public SetTrackingUpdateParams(int stationId, int status, double lat, double lng) {
+        	this.stationId = stationId;
+        	this.status = status;
+            this.lat = lat;
+            this.lng=lng;
+        }
+
+        @Override
+        public void setParameters(PreparedStatement statement) throws SQLException {
+        	statement.setInt(1, status);     
+            statement.setDouble(2, lat);
+            statement.setDouble(3, lng);;
+            statement.setInt(4, stationId);
+        }
+    }
+	
+}

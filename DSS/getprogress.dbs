@@ -1,0 +1,32 @@
+<data name="getprogress" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>getprogress                          </description>
+   <config id="mdl_psm">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="getprogress" useConfig="mdl_psm">
+      <sql>call getprogress(?,?,?)</sql>
+      <result outputType="json">{&#13;    "result": {&#13;        "entry": [&#13;            {&#13;                "ballotpapers": "$ballotpapers",&#13;                "postalpacks": "$postalpacks",&#13;                "postalpackscollected": "$postalpackscollected",&#13;                "response": "$response"&#13;            }&#13;        ]&#13;    }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="electionid" sqlType="INTEGER"/>
+      <param name="pollingstationid" sqlType="INTEGER"/>
+   </query>
+   <operation name="getprogress">
+      <description>getprogress                           &#13;                                    </description>
+      <call-query href="getprogress">
+         <with-param name="token" query-param="token"/>
+         <with-param name="electionid" query-param="electionid"/>
+         <with-param name="pollingstationid" query-param="pollingstationid"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getprogress">
+      <description>getprogress                         &#13;                                    </description>
+      <call-query href="getprogress">
+         <with-param name="token" query-param="token"/>
+         <with-param name="electionid" query-param="electionid"/>
+         <with-param name="pollingstationid" query-param="pollingstationid"/>
+      </call-query>
+   </resource>
+</data>

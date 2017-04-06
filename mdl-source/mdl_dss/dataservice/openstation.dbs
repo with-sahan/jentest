@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="openstation" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>openstation</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="openstation" useConfig="mdl_psm">
+    <sql>call openstation(?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;        "response": "$response"&#xD;        &#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="pollingstation_id" sqlType="INTEGER" />
+  </query>
+  <operation name="openstation">
+    <description>openstation</description>
+    <call-query href="openstation">
+      <with-param name="token" query-param="token" />
+      <with-param name="pollingstation_id" query-param="pollingstation_id" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="openstation">
+    <description>openstation</description>
+    <call-query href="openstation">
+      <with-param name="token" query-param="token" />
+      <with-param name="pollingstation_id" query-param="pollingstation_id" />
+    </call-query>
+  </resource>
+</data>

@@ -1,0 +1,65 @@
+<!--
+ * Project: MDL Dashboard
+ * Author: Niranjan Thilakarathna
+ * Module: BOF Tendered votes
+-->
+<div ng-controller="mdl.mobileweb.controller.tenderedvotes as vm">
+    <div class="panel">
+        <div class="col-md-12 p-l-0 p-r-0">
+            <div class="panel-header">
+                <div class="m-l-10">
+                    <h3 align="left">
+                            <strong>List of Tendered votes</strong>
+                        </h3>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div class="row">
+                <div class="col-md-12 form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-horizontal ng-pristine ng-valid" role="form">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                          Name of Voter
+                                        </label>
+                                    <div class="col-sm-9 control-label">
+                                        {{vm.tenderedvoteslist.votername}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                          Elector Number
+                                        </label>
+                                    <div class="col-sm-9 control-label">
+                                        {{vm.tenderedvoteslist.electornumber}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                          Reason
+                                        </label>
+                                    <div class="col-sm-9 control-label">
+                                        {{(vm.tenderedvoteslist.ismarked)==1?'Already Marked':'Postal Vote Replacement'}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-success m-r-10" type="button" ng-click="vm.deleteTenderedVotes(vm.tenderedvoteslist);">
+                                                Delete
+                                            </button>
+                                        <a class="btn btn-danger m-r-10" ng-href="#/forms/tenderedvotes">Back</a>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

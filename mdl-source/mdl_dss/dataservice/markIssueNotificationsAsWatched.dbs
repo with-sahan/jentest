@@ -1,0 +1,26 @@
+<data name="markIssueNotificationsAsWatched" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>          markIssueNotificationsAsWatched                      </description>
+   <config id="mdl_psm">
+      <property name="carbon_datasource_name">mdl-psm-ds</property>
+   </config>
+   <query id="markIssueNotificationsAsWatched" useConfig="mdl_psm">
+      <sql>call markIssueNotificationsAsWatched (?,?)</sql>
+      <result outputType="json">{&#13;    "result": {&#13;        "entry": [&#13;            {&#13;                "response": "$response"&#13;            }&#13;        ]&#13;    }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="issuenotificationid" sqlType="INTEGER"/>
+   </query>
+   <operation name="markIssueNotificationsAsWatched">
+      <description>markIssueNotificationsAsWatched</description>
+      <call-query href="markIssueNotificationsAsWatched">
+         <with-param name="token" query-param="token"/>
+         <with-param name="issuenotificationid" query-param="issuenotificationid"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="reportissue">
+      <description>markIssueNotificationsAsWatched</description>
+      <call-query href="markIssueNotificationsAsWatched">
+         <with-param name="token" query-param="token"/>
+         <with-param name="issuenotificationid" query-param="issuenotificationid"/>
+      </call-query>
+   </resource>
+</data>

@@ -1,0 +1,31 @@
+<div ng-include="'/templates/_header.html'"></div>
+<section class="grid-wrap">
+	<div class="grid-col pageTitle">
+		<h1>Ballot Box Progress</h1>
+	</div>
+
+	<div class="grid-col content">
+		<table id="boxProgress" ng-table="tableParams" class="table" cellspacing="0" class="boxProgress">
+			<tr ng-repeat="progress in data" ng-class="{active: progress.id == data.id}">
+				<td data-title="'Ballot Box'">{{progress.station}}</td>
+				
+				<td ng-show="progress.dispatchTime != undefined" data-title="'Dispatch Time'" class="dateTime">{{progress.dispatchTime | amDateFormat:'ddd, MMM Do YYYY, h:mm:ss a'}}</td>
+				<td ng-show="progress.dispatchTime == undefined" data-title="'Dispatch Time'">-</td>
+
+				<td ng-show="progress.eta != undefined" data-title="'ETA'" class="dateTime">{{progress.eta | amDateFormat:'ddd, MMM Do YYYY, h:mm:ss a' }}</td>
+				<td ng-show="progress.eta == undefined" data-title="'ETA'">-</td>
+				
+				<td ng-show="progress.deliverTime != undefined" data-title="'Arrival Time'" class="dateTime">{{progress.deliverTime | amDateFormat:'ddd, MMM Do YYYY, h:mm:ss a'}}</td>
+				<td ng-show="progress.deliverTime == undefined" data-title="'Arrival Time'">-</td>
+				
+				<td ng-show="progress.lat != 0" data-title="'Current Position'" class="mapIcon"><a ng-click="viewMap(progress.lat, progress.lng)">View Map</a></td>
+				<td ng-show="progress.lat == 0" data-title="'Current Position'" class="mapIcon">-</td>
+
+			</tr>
+		</table>
+		<div class="grid-col col-full mapWrapper">
+			<div id="map-canvas"></div>
+		</div>
+	</div>
+</section>
+<div ng-include="'/templates/_footer.html'"></div>

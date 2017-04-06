@@ -1,0 +1,95 @@
+<!-- 
+Project: MDL
+Author: Akarshani Amarasinghe
+Module: Voter list HTML 
+-->
+
+<div class="panel"
+     ng-controller="mdl.mobileweb.controller.voterlist as vm">
+     <ng-include src="vm.template"></ng-include>
+    <div class="panel-header panel-controls">
+        <h3>
+            <i class="icon-target"></i> <strong>List of Voters with Disabilities Assisted by Campanions</strong>
+        </h3>
+    </div>
+    <div class="row stationlist">
+        <div class="col-md-12">
+            <tabset class="tab-fade-in">
+                <tab ng-repeat="station in vm.pollingStationList"
+                     ng-click="vm.stationcheck(station.id)"
+                     value="{{station.id}}">
+                    <tab-heading>
+                        <b class="icons-education-science-18">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {{station.name}}
+                        </b>
+                    </tab-heading>
+                    
+                    <div class="row">
+						<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Name of Voter</th>
+								<!-- <th>Polling District</th> -->
+								<th>Elector's Number</th>
+								<th>Name of Companion</th>
+								<th>Address of Companion</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="voterListData in vm.voterList" value="{{voterListData.vlid}}" ng-show="station.id==voterListData.pollingstationid">
+								<td>{{voterListData.vlname}}</td>
+								<!-- <td>{{voterListData.vlname}}</td> -->
+								<td>{{voterListData.vlphonenumber}}</td>
+								<td>{{voterListData.vlcompanionname}}</td>
+								<td>{{voterListData.vlcompanionaddress}}</td>
+								<td>
+									<!-- <button class="btn btn-danger g_fr" ng-click="vm.deleteVoterList(voterListData.vlid);" type="submit">Delete</button> -->
+									<a class="delete btn btn-sm btn-danger" ng-click="vm.deleteVoterList(voterListData.vlid);"><i class="icons-office-52"></i></a>
+								</td>
+							</tr>
+							
+							<tr ng-show="vm.chatEnable">
+								<td><input type="text" class="defaultWidth" 
+									ng-model="vm.createVoterData.voter_name">
+								</td>
+								<td><input type="text" class="defaultWidth"
+									ng-model="vm.createVoterData.phone_number">
+								</td>
+								<td><input type="text" class="defaultWidth"
+									ng-model="vm.createVoterData.companion_name">
+								</td>
+								<td><input type="text" class="defaultWidth"
+									ng-model="vm.createVoterData.companion_address">
+								</td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<div class="form-group">
+                        <div class="col-sm-12">
+                            <button class="btn btn-success m-r-10" type="button" 
+                            	ng-click="vm.chatRowEnable();" ng-hide="vm.buttonHide">
+                                Add Data
+                            </button>
+                            <button class="btn btn-success m-r-10" type="button" 
+                            	ng-show="vm.buttonHide" ng-click="vm.createVoterList(station.id);">
+                                Submit Data
+                            </button>
+                            <!-- <a class="create_notification_button btn btn-danger m-r-10" href="#/"> Close </a> -->
+                            <button class="btn btn-danger m-r-10" type="button" 
+                            	ng-show="vm.buttonHide" ng-click="vm.addingVoterDisable();">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+				</div>
+				
+            </tabset>
+        </div>
+    </div>
+
+   
+</div>

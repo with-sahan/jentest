@@ -1,0 +1,47 @@
+<div ng-include="'/templates/_header.html'"></div>
+<section class="grid-wrap">
+	<div class="grid-col pageTitle">
+		<h1>Issues</h1>
+	</div>
+	<div class="grid-col content">
+		<div class="issueHeader">
+			<div class="grid-col-nopad col-two-thirds">
+				<p>Description</p>
+			</div>
+			<div class="grid-col-nopad col-one-third" style="margin-left:-1%;">
+				<p class="grid-col-nopad col-one-half">Priority</p>
+				<p>Status</p>
+			</div>
+		</div>
+		
+
+
+		<div class="col-four-fifths issueContainer clearfix" ng-repeat="issue in issueList">
+			<div class="grid-col-nopad col-two-thirds">
+				<p class="grid-col-nopad col-one-third issueDate">{{issue.createdOn}}</p>
+				<p class="grid-col-nopad col-one-half issueStation">{{issue.station}}</p>
+			</div>
+			<div class="grid-col-nopad col-one-third">
+				<p class="grid-col-nopad col-one-half"><span class="high">{{issue.priority}}</span></p>
+				
+				<p ng-show="!issue.status" class="issueStatus"><span id="status" class="open"> OPEN</span><span id="resolveBtn"><a ng-click="showResolveIssuePopup(issue.id);">RESOLVE</a></span></p>
+				<p ng-show="issue.status" class="issueStatus">
+					<span id="status" class="resolved">RESOLVED</span>
+					<span ng-show="issue.resolution != undefined" class="resolution"> - {{issue.resolution}}</span>
+				</p>
+
+			</div>
+			<div class="grid-col-nopad col-full issueContent">
+				<p><span>{{issue.reason}}</span></p>
+				<p><span><i>{{issue.description}}</i></span></p>
+			</div>
+		</div>
+
+
+
+		
+
+
+
+</section>
+<div ng-include="'/templates/_footer.html'"></div>

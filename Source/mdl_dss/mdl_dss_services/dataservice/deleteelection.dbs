@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="deleteelection" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>deleteelection</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="deleteelection" useConfig="mdl_psm">
+    <sql>call psm.deleteelection (?,?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "response": $response&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="election_Id" sqlType="INTEGER" />
+  </query>
+  <operation name="deleteelection">
+    <description>deleteelection</description>
+    <call-query href="deleteelection">
+      <with-param name="token" query-param="token" />
+      <with-param name="election_Id" query-param="election_Id" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="deleteelection">
+    <description>deleteelection</description>
+    <call-query href="deleteelection">
+      <with-param name="token" query-param="token" />
+      <with-param name="election_Id" query-param="election_Id" />
+    </call-query>
+  </resource>
+</data>

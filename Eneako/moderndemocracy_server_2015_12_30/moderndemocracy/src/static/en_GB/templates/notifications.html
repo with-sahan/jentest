@@ -1,0 +1,96 @@
+<div class="contentWrapper">
+    <div ng-include="'/templates/_header.html'"></div>
+    <section class="grid-wrap">
+        <div class="grid-col content">
+            <div class="dashrow notifactions">
+                <form  ng-submit="uploadFile();" enctype="multipart/form-data">
+                    <div class="group">
+                        <label>Select {{areaName}}</label>
+                        <select ng-model="wardItem.store" ng-change="updateSelectedWard(wardItem.store.id);" ng-options="ward.name for ward in wardList.stores">
+                        </select>
+                    </div>
+                    <div ng-if="wardItem.store.id != 0" class="group">
+
+                        <label>Select Polling District</label>
+                        <select ng-model="districtItem.store" ng-options="district.name for district in districtList.stores  | filter: wFilter">
+                             <option value="" >Select Polling District</option>
+                        </select>
+
+                    </div>
+                    <div ng-if="districtItem.store.id > 0 && wardItem.store.id != 0" class="group">
+
+                        <label>Select Place</label>
+                        <select ng-model="placeItem.store" ng-options="place.name for place in placeList.stores  | filter: dFilter">
+                             <option value="" >Select Place</option>
+                        </select>
+
+                    </div>
+                    <div ng-if="placeItem.store.id > 0 && wardItem.store.id != 0" class="group">
+
+                        <label>Select Station</label>
+                        <select   ng-model="selectedStation" ng-change="updateSelectedStation(selectedStation,wardItem.store.id);" ng-options="station1.name for station1 in stationList1.stores  | filter: pFilter">
+                            <option value="" >Select Station</option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="group">
+                        <textarea ng-model="notificationText"   rows="8"></textarea>
+                    </div>
+                    <div class="buttons"  >
+                       
+                        <input  id="browse" name ="file" type="file" onchange="angular.element(this).scope().setFile(this.files)" >
+                        <button    id="upload"  class="btn btn-warning btn-sm" type="submit" >Upload</button><span style="color:red"> {{uploadFinished}}</span>
+                        
+                        <a id="send" class="btn btn-success btn-sm" ng-click="sendNotification();"  >SEND</a>
+                    </div>
+
+                </form>
+            </div>
+            <div class="notification">
+                <table cellspacing="0" >
+                    <tbody>
+                        <tr >
+                            <th>{{areaName}}</th>
+                            <th>Place</th>
+                            <th>District</th>
+                            <th>Station</th>
+                            <th>Sent</th>
+                            <th>Attachment</th>
+                            <th>Status</th>
+                            <th>Text</th>
+                        </tr>
+                        <tr ng-repeat="notification in notificationData">
+                            <td width="10%">{{notification.wardName ? notification.wardName: 'All'}}</td>
+                            <td width="15%">{{notification.wardName ? notification.placeName: 'All'}}</td>
+                            <td width="15%">{{notification.wardName ? notification.districtName: 'All'}}</td>
+                            <td width="10%">{{notification.wardName ? notification.stationName: 'All'}}</td>
+                            <td width="15%">{{notification.createdOn| amDateFormat:'ddd, MMM Do YYYY, h:mm a'}}</td>                            
+                            <td width="5%" style="text-align: center">
+                               
+                                <a style="{{notification.url ? 'display:block': 'display:none'}}" title="{{uploadUrl}}{{notification.url}}"  href="{{uploadUrl}}{{notification.url}}"  target="_blank"><i class="fa fa-file-{{notification.ext}}-o"></i></a></td>
+                            <td width="5%" style="text-align: center">{{notification.status}}</td>
+                            <td width="25%">{{notification.text}}  </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <div ng-include="'/templates/_footer.html'"></div>
+</div>
+<script type="text/javascript">
+            $(document).ready(function () {
+              
+                $("#browse").fileinput({
+                    showUpload: false,
+                    showCaption: false,
+                    browseClass: "btn btn-primary btn-sm",
+                    fileType: "any",
+                    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
+                });
+            });
+
+        </script>

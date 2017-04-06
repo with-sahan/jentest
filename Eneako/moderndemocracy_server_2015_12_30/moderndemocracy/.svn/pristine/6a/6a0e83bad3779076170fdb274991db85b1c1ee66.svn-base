@@ -1,0 +1,49 @@
+package com.moderndemocracy.json;
+
+import java.io.IOException;
+import java.util.List;
+
+import com.anaeko.utils.data.mime.json.DefaultJsonMarshaler;
+import com.anaeko.utils.io.MarshalerException;
+import com.anaeko.utils.json.JsonWriter;
+import com.moderndemocracy.pojo.Campaign;
+
+public final class CampaignMarshaler extends DefaultJsonMarshaler {	
+	
+	WardsMarshaler wardsMarshaler = new WardsMarshaler();
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void marshal(Object object, JsonWriter writer)
+			throws IOException, MarshalerException {
+
+		if (object instanceof List) {
+			
+			writer.writeStartArray();
+
+			for (Campaign campaign : (Iterable<Campaign>) object) {
+				marshalCampaign(campaign, writer);
+			}
+
+			writer.writeEndArray();
+			
+		} else {
+			marshalCampaign((Campaign) object, writer);
+		}
+	}
+
+	private void marshalCampaign(Campaign campaign, JsonWriter writer)
+			throws IOException {
+
+		writer.writeStartObject();
+
+		writer.writeField(Campaign.TOTAL_BALLOT_PAPERS_ISSUED, campaign.getTotalBallotPapersIssued());
+		writer.writeField(Campaign.TOTAL_POSTAL_PACKS, campaign.getTotalPostalPacks());
+
+		writer.writeFieldName(Campaign.WARDS);
+		wardsMarshaler.marshal(campaign.getWards(), writer);
+		
+		writer.writeEndObject();
+	}
+	
+}

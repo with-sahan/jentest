@@ -1,0 +1,22 @@
+
+
+<div class="modal-content">
+    <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="modalClose()"><span aria-hidden="true">&times;</span></button> 
+        <h4 class="modal-title" id="myModalLabel">Enter a description for how this issue was resolved.</h4>
+    </div>
+    <div class="modal-body">
+        <form>
+
+            <div class="form-group">
+                <label>Message</label>
+                <textarea ng-model="payload.resolution" ng-trim="false" maxlength="150"></textarea>
+            </div>
+            <p>{{150 - payload.resolution.length}} characters left</p>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-info" ng-click="resolveIssue()">Resolve</button>
+    </div>
+</div>
+

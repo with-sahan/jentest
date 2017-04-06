@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="deletevoter" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>deletevoter</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="deletevoter" useConfig="mdl_psm">
+    <sql>call psm.deletevoter(?, ?)</sql>
+    <result outputType="json">{&#xD; "result":{&#xD;  "entry":[&#xD;   {"response":$response&#xD;   }&#xD;  ]&#xD; }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="voter_list_id" sqlType="INTEGER" />
+  </query>
+  <operation name="deletevoter">
+    <description>deletevoter</description>
+    <call-query href="deletevoter">
+      <with-param name="token" query-param="token" />
+      <with-param name="voter_list_id" query-param="voter_list_id" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="deletevoter">
+    <description>deletevoter</description>
+    <call-query href="deletevoter">
+      <with-param name="token" query-param="token" />
+      <with-param name="voter_list_id" query-param="voter_list_id" />
+    </call-query>
+  </resource>
+</data>

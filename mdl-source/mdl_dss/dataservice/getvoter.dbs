@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getvoter" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getvoter</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getvoter" useConfig="mdl_psm">
+    <sql>call psm.getvoter(?)</sql>
+    <result outputType="json">{&#xD; "result":{&#xD;  "entry":[&#xD;   {"response":$response,&#xD;    "vlid":$vlid,&#xD;    "userid":$userid,&#xD;    "organization_id":$organization_id,&#xD;    "pollingstationid":$pollingstationid,&#xD;    "vlname":$vlname,&#xD;    "vlphonenumber":$vlphonenumber,&#xD;    "vlcompanionname":$vlcompanionname,&#xD;    "vlcompanionaddress":$vlcompanionaddress&#xD;   }&#xD;  ]&#xD; }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="getvoter">
+    <description>getvoter</description>
+    <call-query href="getvoter">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getvoter">
+    <description>getvoter</description>
+    <call-query href="getvoter">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

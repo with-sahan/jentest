@@ -1,0 +1,26 @@
+<data name="getorginfo" serviceNamespace="www.moderndemocracy.com/services/subscription" transports="http https">
+   <description>getorginfo                                </description>
+   <config id="mdl_subscription">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/subscription</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="getorginfo" useConfig="mdl_subscription">
+      <sql>call getorginfo(?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": [&#13;      {&#13;        "response": "$response",&#13;        "organization": "$organization",&#13;        "logourl": "$logourl",&#13;        "userfullname": "$userfullname"&#13;      }&#13;    ]&#13;  }&#13;}&#13;</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="getorginfo">
+      <description>getorginfo                                    &#13;                                    </description>
+      <call-query href="getorginfo">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getorginfo">
+      <description>getorginfo&#13;                                    </description>
+      <call-query href="getorginfo">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

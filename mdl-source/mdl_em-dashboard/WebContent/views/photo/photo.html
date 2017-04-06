@@ -1,0 +1,52 @@
+     
+   <div class="panel photo_module" ng-controller="mdl.mobileweb.controller.photo as vm">
+	<div class="panel-header panel-controls">
+		<h3>
+			<i class="icon-target"></i> <strong>Photo</strong>
+		</h3>
+	</div>
+	<div class="row stationlist">
+		<div class="col-md-12">
+			<tabset class="tab-fade-in"> <tab ng-click="stationcheck(1)">
+			<tab-heading> <b class="icons-education-science-18">&nbsp;&nbsp;&nbsp;&nbsp;Station
+				1</b> </tab-heading>
+			<div class="row">
+				<form class="form-horizontal">
+					<div class="col-md-12" style="text-align:center;">
+						<h3>
+							<strong>Photo</strong>
+						</h3>
+						 <ng-camera capture-message="Cheeeese!"
+               				countdown="3"
+               				output-height="160"
+               				output-width="213"
+              				 viewer-height="320"
+               				viewer-width="426"
+               				image-format="jpeg"
+               				jpeg-quality="100"
+               				action-message="Take picture"
+               				snapshot="picture"
+               				flash-fallback-url="/vendors/webcamjs/webcam.swf"
+               				overlay-url="/overlay.png"
+               				shutter-url="/shutter.mp3"></ng-camera>
+    						<!-- for cropping:
+       							 crop-height="90"
+        						crop-width="120"-->
+						
+						 <div class="col-md-12" style="text-align:center"><img ng-if="picture" ng-src="{{picture}}" alt="webcam picture"></div>
+			         </div>	
+			         <div class="col-md-12" style="text-align:center;margin-top: 10px;">
+		         		<div class="btn_row" style="text-align:center;">
+		                	<button type="button" class="btn btn-success" data-ng-click="saveTutorial()">Upload</button>
+		                </div>	
+	                </div>
+			       </form>
+				</div>				
+			</div>
+			</tab> </tabset>
+		</div>
+	</div>
+	
+</div>
+     
+    

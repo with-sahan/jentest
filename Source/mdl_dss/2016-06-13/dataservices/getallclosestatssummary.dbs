@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getallclosestatssummary" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getallclosestatssummary</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getallclosestatssummary" useConfig="mdl_psm">
+    <sql>call getallclosestatssummary(?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "sum_tot_ballots": "$sum_tot_ballots",&#xD;                "sum_tot_spoiled_replaced": "$sum_tot_spoiled_replaced",&#xD;                "sum_tot_unused": "$sum_tot_unused",&#xD;                "sum_tot_tend_ballots": "$sum_tot_tend_ballots",&#xD;                "sum_tot_tend_spoiled": "$sum_tot_tend_spoiled",&#xD;                "sum_tot_tend_unused": "$sum_tot_tend_unused",&#xD;                "electionid": "$electionid",&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="getallclosestatssummary">
+    <description>getallclosestatssummary</description>
+    <call-query href="getallclosestatssummary">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getallclosestatssummary">
+    <description>getallclosestatssummary</description>
+    <call-query href="getallclosestatssummary">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

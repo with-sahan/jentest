@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getbpastatus" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getbpastatus</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getbpastatus" useConfig="mdl_psm">
+    <sql>call getbpastatus(?,?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;        "status": "$status",&#xD;        "response": "$response"&#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="stationid" sqlType="INTEGER" />
+    <param name="electionid" sqlType="INTEGER" />
+  </query>
+  <operation name="getbpastatus">
+    <description>getbpastatus</description>
+    <call-query href="getbpastatus">
+      <with-param name="token" query-param="token" />
+      <with-param name="stationid" query-param="stationid" />
+      <with-param name="electionid" query-param="electionid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getbpastatus">
+    <description>getbpastatus</description>
+    <call-query href="getbpastatus">
+      <with-param name="token" query-param="token" />
+      <with-param name="stationid" query-param="stationid" />
+      <with-param name="electionid" query-param="electionid" />
+    </call-query>
+  </resource>
+</data>

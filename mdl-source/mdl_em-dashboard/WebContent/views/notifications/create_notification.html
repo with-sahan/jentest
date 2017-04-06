@@ -1,0 +1,64 @@
+<!-- 
+Project: MDL Dashboard
+Author: Akarshani Amarasinghe
+Module: EM create notification HTML
+-->
+
+<div class="panel">
+    <div class="panel-header">
+        <h3><i class="fa fa-table"></i> <strong>Create Notifications</strong></h3>
+    </div>
+    <div class="panel-content" ng-controller="mdl.em.controller.emcreatenotification as vm">
+        <!-- <div>
+			<label class="col-sm-3 control-label">Select Ward</label>
+			<select class="defaultWidth">
+				<option value="" selected disabled>--- Select an option ---</option>
+				<option ng-repeat="item in vm.electionlist" value="{{item.electionid}}" ng-click="vm.getProgress(item.electionid,station.id)">{{item.electionname}}</option>
+			</select>
+		</div><br>
+		
+		<div>
+			<label class="col-sm-3 control-label">Select Polling District</label>
+			<select class="defaultWidth">
+				<option value="" selected disabled>--- Select an option ---</option>
+				<option ng-repeat="item in vm.electionlist" value="{{item.electionid}}" ng-click="vm.getProgress(item.electionid,station.id)">{{item.electionname}}</option>
+			</select>
+		</div><br>   
+		
+		<div>
+			<label class="col-sm-3 control-label">Select Place</label>
+			<select class="defaultWidth">
+				<option value="" selected disabled>--- Select an option ---</option>
+				<option ng-repeat="item in vm.electionlist" value="{{item.electionid}}" ng-click="vm.getProgress(item.electionid,station.id)">{{item.electionname}}</option>
+			</select>
+		</div><br>  -->  
+		<div>
+			<label class="col-sm-3 control-label">Select Location</label>
+			<select ng-model="vm.selectedHrc" ng-change="vm.loadStstions()" ng-options="o|split:'|':1 as o|split:'|':0 for o in vm.geoHierarchy"></select>
+		</div><br> 
+		<div>
+			<label class="col-sm-3 control-label">Select Station</label>
+			<select class="issue_select_dropdown" ng-model="station.id" >
+				<option value="-1" selected disabled>--- Select an option ---</option>
+            	<option value="{{station.stationId}}" ng-repeat="station in vm.pollingStationList">{{station.stationName}}</option>
+            </select>
+		</div><br>    
+                  
+        <textarea placeholder="Write a descripton here" style="width: 100%;" rows="4" cols="50" ng-model="vm.description"></textarea>
+        
+        <form  class="upload-form">
+        <input type="file" ngf-select ng-model="vm.picFile" name="file" data-max-size="10485760" class="upload-file" required>
+          </form>
+		<br>
+		
+		
+    
+    
+    
+	    <button ng-disabled="vm.buttonHide"  class="btn btn-success m-r-10" ng-click="uploadPic(vm.picFile, station.id, vm.description)">Send</button>
+	    <button class="btn btn-danger m-r-10" ng-click="vm.cancelNotification()">Cancel</button>
+	      
+	    <span ng-show="picFile.result">Upload Successful</span>
+	    <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+    </div>
+</div>

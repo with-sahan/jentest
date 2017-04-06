@@ -1,0 +1,28 @@
+<data name="getunclosedelectionsbystationid" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>getunclosedelectionsbystationid</description>
+   <config id="mdl-psm">
+      <property name="carbon_datasource_name">mdl-psm-ds</property>
+   </config>
+   <query id="getunclosedelectionsbystationid" useConfig="mdl-psm">
+      <sql>call psm.getunclosedelectionsbystationid(?,?,?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": {&#13;      "response": $response,&#13;      "status": $status,&#13;      "electionid": $electionid,&#13;      "electionname": $electionname&#13;    }&#13;  }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="stationid" sqlType="INTEGER"/>
+      <param name="eid" sqlType="INTEGER"/>
+   </query>
+   <operation name="getunclosedelectionsbystationid">
+      <call-query href="getunclosedelectionsbystationid">
+         <with-param name="token" query-param="token"/>
+         <with-param name="stationid" query-param="stationid"/>
+         <with-param name="eid" query-param="eid"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="updatepassword">
+      <description>getunclosedelectionsbystationid&#13;                                    &#13;                                    </description>
+      <call-query href="getunclosedelectionsbystationid">
+         <with-param name="token" query-param="token"/>
+         <with-param name="stationid" query-param="stationid"/>
+         <with-param name="eid" query-param="eid"/>
+      </call-query>
+   </resource>
+</data>

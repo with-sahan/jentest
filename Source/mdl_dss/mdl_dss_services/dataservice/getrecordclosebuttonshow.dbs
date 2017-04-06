@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getrecordclosebuttonshow" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getrecordclosebuttonshow</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getrecordclosebuttonshow" useConfig="mdl_psm">
+    <sql>call getrecordclosebuttonshow(?,?,?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": {&#xD;            "response": "$response",&#xD;            "buttonshow": "$buttonshow"&#xD;        }&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="electionid" sqlType="INTEGER" />
+    <param name="stationid" sqlType="INTEGER" />
+  </query>
+  <operation name="getrecordclosebuttonshow">
+    <description>getrecordclosebuttonshow</description>
+    <call-query href="getrecordclosebuttonshow">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="stationid" query-param="stationid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getrecordclosebuttonshow">
+    <description>getrecordclosebuttonshow</description>
+    <call-query href="getrecordclosebuttonshow">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="stationid" query-param="stationid" />
+    </call-query>
+  </resource>
+</data>

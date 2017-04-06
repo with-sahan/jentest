@@ -1,0 +1,397 @@
+'use strict';
+//---------------------------------------------------------------------
+// NAMESPACE DECLARATIONS
+//---------------------------------------------------------------------
+var $APP = $APP || {}; // App namespace
+var $UTL = $UTL || {}; // Utilities namespace
+
+angular.module($APP.name).controller('MainNavCtrl', [
+	'$scope',
+	'$route',
+	function($scope, $route) {
+		if($route.current.manager) {		
+			$scope.items = [
+				{url: "/manager", text: "Dashboard"},
+				{url: "/manager/progress", text: "Ballot Box Progress"}
+			];
+		}
+		else {
+			$scope.items = [
+				{url: "/", text: "Dashboard"},
+				{url: "/progress", text: "Ballot Box Progress"},
+				{url: "/issues", text: "Issues"},
+				{url: "/notifications", text: "Notifications"},
+				{url: "/stations", text: "Ballot Paper Account"}
+			];
+		}
+	}
+]);
+
+angular.module($APP.name).controller('HomeCtrl', [
+	'$scope',
+	'Wards',
+	function($scope, Wards) {
+
+		console.log("HomeCtrl");
+
+		$scope.wardData = [];
+
+		Wards.getWards(
+			function(response) {
+				// Success
+				console.log("Wards = %o", response);
+
+				// Calculate totals for each ward
+				for( var i=0; i<response.wards.length; i++ ){
+					var ward = response.wards[i];
+					ward.totalBallotPapersIssued = 0;
+					ward.totalPostalPacksRecieved = 0;
+					ward.visible = false;
+					
+					var visibility = localStorage.getItem("visibility_"+JSON.stringify(ward.wardName));
+					if( visibility == "true" ) {
+						// Convert string to boolean
+						visibility = true;
+					}
+					
+					//console.log("Ward " + JSON.stringify(ward.wardName) + " visibility = " + visibility);
+					if( visibility != null ) {
+						response.wards[i].visible=visibility;
+						console.log("Ward " + JSON.stringify(ward.wardName) + " visibility = " + ward.visible);
+					}
+					
+					for( var j=0; j<ward.stations.length; j++ ) {
+						var station = ward.stations[j];
+						ward.totalBallotPapersIssued += station.ballotPapersIssued;
+						ward.totalPostalPacksRecieved += station.postalPacksReceived;
+					}
+				}
+				
+				$scope.wardData = response;
+			},
+			function(err) {
+				// Error
+				console.log("Wards error = %o", err);
+			}
+		);
+
+
+		$scope.toggleWardVisibility = function(ward) {
+			ward.visible=!ward.visible;
+			localStorage.setItem("visibility_"+JSON.stringify(ward.wardName), ward.visible);
+			console.log("toggleWardVisibility - %o", ward);
+		}
+		
+	    setTimeout(function(){
+         window.location.reload();
+	  }, 20000);
+
+	}
+]);
+angular.module($APP.name).controller('StationsCtrl', [
+	'$scope',
+	'Wards',
+	function($scope, Wards) {
+
+		console.log("StationsCtrl");
+
+		$scope.wardData = [];
+
+		Wards.getWards(
+			function(response) {
+				// Success
+				console.log("Wards = %o", response);
+				$scope.wardData = response;
+			},
+			function(err) {
+				// Error
+				console.log("Wards error = %o", err);
+			}
+		);
+	    setTimeout(function(){
+         window.location.reload();
+	  }, 300000);
+	}
+]);
+
+angular.module($APP.name).controller('ProgressCtrl', [
+	'$scope',
+	'Tracking',
+	'ngTableParams',
+	'$interval',
+	function($scope, Tracking, ngTableParams, $interval) {
+
+		 Tracking.list( function(response) {
+			// Success
+			$scope.data = response;
+			$scope.map = initialize();
+			$scope.zoomToAllMarkers($scope.positions);
+		});
+		$scope.$watch('data', function(data) {
+			if($scope.data && $scope.data.id) {
+				//$scope.data.print = true;
+				$scope.data.disabled = true;
+			}
+		}, true);
+
+
+
+		$scope.tableParams = new ngTableParams({
+			// page: 1, // show first page
+			// count: 10, // count per page
+			sorting: {
+				created_on: 'asc'     // initial sorting
+			}
+		}, {
+			counts: [],
+			total: 0, // length of data
+			// getData: function($defer, params) {
+			// 	Tracking.list("", function(data) {
+
+			// 		params.total($scope.data.length);
+			// 		$defer.resolve($scope.data);
+			// 	});
+			// }
+		});
+		// console.log("get tracking data");
+		
+		// TMP
+
+		function initialize() {
+			// var locations = [
+			// ['Box 126',53.370597, -1.442402,0,'img/boxicon.png'],
+			// ['Count Centre - Ponds Forge International Sports Centre',53.382032, -1.462055,0,'img/doorin.png'],
+			// ['Polling Station - St Swithuns Church Centre',53.366087, -1.428330,0,'img/doorout.png']
+			// ];
+			
+			var map = new google.maps.Map(document.getElementById('map-canvas'), {
+			panControl: false,
+			zoomControl: true,
+			zoomControlOptions: {
+			    style: google.maps.ZoomControlStyle.SMALL,
+			    position: google.maps.ControlPosition.RIGHT_TOP
+			},
+			scaleControl: true,
+			scaleControlOptions: {
+			    position: google.maps.ControlPosition.BOTTOM_LEFT
+			},
+			streetViewControl: false,
+
+
+			  zoom: 16,
+			  center: new google.maps.LatLng(53.378850, -1.472677),
+			});
+			
+			var marker, i;
+			$scope.positions = new Array();
+			for (i = 0; i < $scope.data.length; i++) {
+
+				// Skip empty data
+				if( $scope.data[i].lat == 0 ) {
+					continue;
+				}
+			var html = "<div class='mapInfoWindow'><h5>Box " + $scope.data[i].ballotBoxNumber+"</h5></div>"
+			var infowindow = new google.maps.InfoWindow({
+				content: html				
+				});
+			
+			  // Keep positions for use in setting zoom later
+			  var pos = new google.maps.LatLng($scope.data[i].lat, $scope.data[i].lng);
+			  $scope.positions.push(pos);
+
+			  marker = new google.maps.Marker({
+			    position: pos,
+			    map: map,
+				icon: 'img/boxicon.png',
+			    animation: google.maps.Animation.DROP
+			  });
+
+			  google.maps.event.addListener(marker, 'click', (function(marker, i) {
+			    return function() {
+			      //infowindow.setContent("<div class='mapInfoWindow'><h4>Box " + $scope.data[i].ballotBoxNumber+"</h4></div>");
+			      infowindow.open(map, marker);
+			    }
+			  })(marker, i));
+			  infowindow.open(map, marker);
+
+			}
+
+			return map;
+		}
+
+
+		// google.maps.event.addDomListener(window, 'load', initialize);
+		// $scope.map = initialize();
+
+
+		$scope.zoomToAllMarkers = function(data){
+			var bounds = new google.maps.LatLngBounds();
+			for (var i = 0; i<data.length; i++) {
+			  //  And increase the bounds to take this point
+			  bounds.extend(data[i]);
+			}
+			//  Fit these bounds to the map
+			$scope.map.fitBounds(bounds);
+		}
+
+
+
+		$scope.viewMap = function(lat, lng) {
+			console.log(lat, lng);
+			$scope.map.panTo( new google.maps.LatLng(lat, lng) );
+			  
+		}
+
+	   setTimeout(function(){
+         window.location.reload();
+	  }, 30000);
+	}
+]);
+angular.module($APP.name).controller('IssuesCtrl', [
+	'$scope',
+	'Issues',
+	'$modal',
+	function($scope, Issues, $modal) {
+		console.log("IssuesCtrl");
+
+		$scope.issueList = [];
+
+		$scope.getIssues = function() {
+			Issues.getIssues(
+				function(response) {
+					// Success
+					console.log("Issues = %o", response);
+					$scope.issueList = response;
+				},
+				function(err) {
+					// Error
+					console.log("Issues error = %o", err);
+				}
+			);
+		}
+
+		$scope.payload = {
+			"id": 0,
+			"resolution": "",
+			"status": true
+		};
+
+
+		$scope.showResolveIssuePopup = function(issueId) {
+			console.log("resolveIssue: %o", issueId);
+
+			$scope.payload.id=issueId;
+
+			$scope.popup = $modal.open( {
+				templateUrl: 'templates/resolve_issue_popup.html',
+				scope: $scope
+			});
+		};
+
+
+		$scope.resolveIssue = function() {
+			Issues.closeIssue($scope.payload,
+				function() {
+					// Success
+					console.log("Issue close success");
+					$scope.getIssues();
+					$scope.payload.resolution = "";
+					$scope.popup.close();
+				},
+				function() {
+					// Error
+					console.log("Issue close error");
+				}
+			);
+		};
+
+		$scope.getIssues();
+		
+		setTimeout(function(){
+         window.location.reload();
+	  }, 300000);
+	}
+]);
+
+
+
+angular.module($APP.name).controller('ResolveCtrl', [
+	'$scope',
+	function($scope) {
+
+	}
+]);
+
+
+angular.module($APP.name).controller('NotificationsCtrl', [
+	'$scope',
+	'Notification',
+	'$modal',
+	function($scope, Notification, $modal) {
+		console.log("NotificationsCtrl");
+
+		$scope.wardList = [
+			{ id:0, name: "All Wards" },
+			{ id:1, name: "Manor Castle" },
+			{ id:2, name: "Richmond" }
+		];
+
+		$scope.stationList1 = [
+			{ id:1, name: "St Swithuns Church Centre" },
+			{ id:2, name: "Pipworth Community Primary School" },
+			{ id:3, name: "William Temple Church" }
+		];
+
+		$scope.stationList2 = [
+			{ id:4, name: "St Catherine's Church" },
+			{ id:5, name: "Stradbroke Community Centre" },
+			{ id:6, name: "Woodthorpe TARA" }
+		];
+
+		$scope.selectedWard = 0;
+		$scope.selectedStation = 1;
+
+		$scope.updateSelectedStation = function( id ) {
+			console.log("updateSelectedStation %o", id );
+			$scope.selectedStation = id;
+		};
+
+		var modalInstance;
+		$scope.sendNotification = function() {
+			console.log("SelectedStation :" + $scope.selectedStation);
+			var data = {
+				"stationId": 0,
+				"text": ""
+			}
+
+			if( $scope.selectedWard == 0 ) {
+				// Global notification - send selected ward of 0
+				data.stationId = 0;
+			} else {
+				data.stationId = $scope.selectedStation;
+			}
+
+			data.text = $scope.notificationText;
+			console.log("Sending notification. Data = %o ", data);
+
+			Notification.sendNotification( data,
+				function(response) {
+					// Success
+					console.log("Notifications = %o", response);
+					modalInstance = $modal.open({templateUrl:"templates/notification_sent_popup.html", scope: $scope});
+				},
+				function(err) {
+					// Error
+					console.log("Notifications error = %o", err);
+					alert("Error. Please try sending again.");
+				}
+			);
+		}
+
+		$scope.close = function(e) {
+			$scope.selectedWard = 0;
+			$scope.notificationText = "";
+			modalInstance.close();
+		}
+	}
+]);

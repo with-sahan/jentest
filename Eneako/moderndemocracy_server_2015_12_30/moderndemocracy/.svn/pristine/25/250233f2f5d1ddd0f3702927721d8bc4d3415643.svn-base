@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Issues</title>
+	<style type="text/css" title="currentStyle">
+	@import "styles/style.css";
+	@import "styles/jquery.dataTables.min.css";
+	@import "styles/font-awesome-4.2.0/css/font-awesome.min.css";
+	</style>
+    <script src="/js/jquery-1.8.3.min.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+<body>
+ <div class="contentWrapper">
+      <header class="grid-wrap">
+       <div class="grid-col">
+        <img src="img/scc-banner-slim.png" />
+       </div>
+       <div class="grid-col">
+        <nav>
+         <ul>
+          <li><a href="index.html">Dashboard</a></li>
+          <li><a href="ballotBox.html">Ballot Box Progress</a></li>
+          <li class="active"><a href="issues.html">Issues</a></li>
+          <li><a href="notifications.html">Notifications</a></li>
+         </ul>
+        </nav>
+       </div>
+      </header>
+  	  <section class="grid-wrap">
+       <div class="grid-col pageTitle">
+        <h1>Issues</h1>
+       </div>
+       <div class="grid-col content">
+        <div class="issueHeader">
+         <div class="grid-col-nopad col-two-thirds">
+           <p>Description</p>
+         </div>
+         <div class="grid-col-nopad col-one-third" style="margin-left:-1%;">
+            <p class="grid-col-nopad col-one-half">Priority</p>
+            <p>Status</p>
+         </div>
+        </div>
+        <div class="col-four-fifths issueContainer clearfix">
+         <div class="grid-col-nopad col-two-thirds">
+           <p class="grid-col-nopad col-one-third issueDate">14/Oct/2014 07:14:03</p>
+           <p class="grid-col-nopad col-one-half issueStation">120/QC St Polycarp Church</p>
+         </div>
+         <div class="grid-col-nopad col-one-third"> 
+          <p class="grid-col-nopad col-one-half"><span class="high">HIGH</span></p>        
+          <p class="issueStatus"><span id="status" class="open">OPEN </span><span id="resolveBtn" style="display:none;"><a href="#">RESOLVE</a></span></p> 
+         </div>       
+         <div class="grid-col-nopad col-full issueContent">           
+           <p><span>Staff member is sick</span></p>
+         </div>
+        </div>
+        <div class="col-four-fifths issueContainer clearfix">
+          <div class="grid-col-nopad col-two-thirds">
+           <p class="grid-col-nopad col-one-third issueDate">14/Oct/2014 07:21:17</p>
+           <p class="grid-col-nopad col-one-half issueStation">121/QD Marlcliffe Primary School</p>
+         </div>
+         <div class="grid-col-nopad col-one-third">
+          <p class="grid-col-nopad col-one-half"><span class="low">LOW</span></p>
+          <p class="issueStatus"><span id="status" class="resolved">RESOLVED</span></p>
+         </div>
+         <div class="grid-col col-full issueStation"><p></p></div>         
+         <div class="grid-col-nopad col-full issueContent">
+          <p><span>Have no tender books</span></p>
+         </div>
+        </div>       
+       </div>
+      </section>
+      <footer>
+       <div class="grid-wrap">
+        <div class="grid-col">
+         <div class="footerContent">
+          <p><a href="">Dashboard</a> | <a href="">Ballot Box Progress</a> | <a href="">Issues</a> | <a href="">Push Notifications</a></p>
+          <p>Copyright © 2014 Modern Democracy. All Rights Reserved.</p>
+         </div>
+         </div>
+        </div>
+      </footer>
+ </div>
+</body>
+</html>
+

@@ -1,0 +1,86 @@
+<!-- 
+Project: MDL Dashboard
+Author: Akarshani Amarasinghe
+Module: EM manage notification HTML
+-->
+
+<div class="panel">
+	<div class="panel-header">
+		<h3>
+			<i class="fa fa-table"></i> <strong>Manage</strong> Notifications
+		</h3>
+	</div>
+	<div class="panel-content"
+		ng-controller="mdl.em.controller.emmanagenotification as vm">
+		<!-- <table class="table">
+        <thead>
+          <tr>
+            <th>Sent</th>
+            <th>Status</th>
+            <th>Text</th>
+            <th>Attachment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-model="vm.oneNotificationDetails">
+            <td>{{vm.oneNotification.senton}}</td>
+            <td>{{vm.oneNotification.status}}</td>
+            <td>{{vm.oneNotification.message}}</td>
+            <td><a class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
+            <td>
+            	<button type="button" class="btn btn-primary m-r-10">Email</button>
+            	<button class="btn btn-success m-r-10" type="button">Resend</button>
+            </td>
+          </tr>
+        </tbody>
+       </table> -->
+
+		<div class="row">
+			<div class="col-md-12 form-horizontal">
+
+				<div class="row">
+					<div class="col-md-12">
+						<form name="myForm" id="myFormId"
+							ng-model="vm.oneNotificationDetails">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Sent</label> <span
+									class="col-sm-9 control-label">{{vm.oneNotification.senton.split(' ')[0] +"T"+ vm.oneNotification.senton.split(' ')[1] | date:"yyyy-MM-dd 'at' h:mma"}}</span>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Status</label> <span
+									class="col-sm-9 control-label">{{vm.oneNotification.status}}</span>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Text</label> <span
+									class="col-sm-9 control-label">{{vm.oneNotification.message}}</span>
+							</div>
+							<!-- <div class="form-group">
+								<div class="col-sm-12">
+									<table class="table table-striped">
+										<tr>
+											<td>
+									<button type="button" class="btn btn-primary m-r-10">Email</button>
+												<button class="btn btn-success m-r-10" type="button">Resend</button>
+											</td>
+											<td align="right">
+												<a class="create_notification_button btn btn-primary m-r-10"
+													href="#/notifications"> Close </a>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div> -->
+							<div class="form-group">
+								<div class="col-sm-12">
+									<!-- <button class="btn btn-success m-r-10" type="button">Resend</button> -->
+									<a class="create_notification_button btn btn-primary m-r-10"
+											href="#/notifications"> Back </a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,10 @@
+<div class="modal-header clearfix">
+    <h4 class="modal-title">Enter a description for how this issue was resolved.</h4>
+    <form>
+    <textarea ng-model="payload.resolution" ng-trim="false" maxlength="150" rows="6"></textarea>
+    <p>{{150 - payload.resolution.length}} characters left</p>
+    <div class="group buttonBar">
+    <button class="formBtn button" ng-click="resolveIssue()">Resolve</button>
+    </div>
+    </form>
+</div>

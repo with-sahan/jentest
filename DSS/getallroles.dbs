@@ -1,0 +1,26 @@
+<data name="getallroles" serviceNamespace="www.moderndemocracy.com/services/security" transports="http https">
+   <description>getallroles</description>
+   <config id="getallroles">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/security</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="getallroles" useConfig="getallroles">
+      <sql>call getallroles(?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": [&#13;      {&#13;        "id": "$id",&#13;        "name": "$name",&#13;        "description": "$description",&#13;        "response":"$response"&#13;      }&#13;    ]&#13;  }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="getallroles">
+      <description>     getallroles                               &#13;                                    </description>
+      <call-query href="getallroles">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getallroles">
+      <description>      getallroles                              &#13;                                    </description>
+      <call-query href="getallroles">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

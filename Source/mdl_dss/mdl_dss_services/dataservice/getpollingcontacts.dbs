@@ -1,0 +1,23 @@
+<data name="getpollingcontacts" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>getpollingcontacts                                &#13;                                &#13;                                &#13;                                </description>
+   <config id="mdl_psm">
+      <property name="carbon_datasource_name">mdl-psm-ds</property>
+   </config>
+   <query id="getpollingcontacts" useConfig="mdl_psm">
+      <sql>call psm.getpollingcontacts (?)</sql>
+      <result outputType="json">{&#13; "result":{&#13;  "entry":[&#13;   {"id":$id,&#13;    "description1":$description1,&#13;    "name1":$name1,&#13;    "address1":$address1,&#13;    "phone1":$phone1,&#13;    "email1":$email1,&#13;    "mobile1":$mobile1,&#13;    "primary_contact1":$primary_contact1,&#13;    "pollingstation_id1":$pollingstation_id1,&#13;    "pollingstation_name":$pollingstation_name,&#13;    "description2":$description2,&#13;    "name2":$name2,&#13;    "address2":$address2,&#13;    "phone2":$phone2,&#13;    "email2":$email2,&#13;    "mobile2":$mobile2,&#13;    "primary_contact2":$primary_contact2,&#13;    "pollingstation_id2":$pollingstation_id2,&#13;    "response":$response&#13;   }&#13;  ]&#13; }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="getpollingcontacts">
+      <description>getpollingcontacts                                    &#13;                                    </description>
+      <call-query href="getpollingcontacts">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getpollingcontacts">
+      <description>getpollingcontacts                                    &#13;                                    </description>
+      <call-query href="getpollingcontacts">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="deleterole" serviceNamespace="www.moderndemocracy.com/services/security" transports="http https">
+  <description>deleterole</description>
+  <config id="mdl_security">
+    <property name="carbon_datasource_name">mdl-security-ds</property>
+  </config>
+  <query id="deleterole" useConfig="mdl_security">
+    <sql>call deleterole(?,?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;        "response": "$response"&#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="oldroleid" sqlType="INTEGER" />
+    <param name="newroleid" sqlType="INTEGER" />
+  </query>
+  <operation name="deleterole">
+    <description>deleterole</description>
+    <call-query href="deleterole">
+      <with-param name="token" query-param="token" />
+      <with-param name="oldroleid" query-param="oldroleid" />
+      <with-param name="newroleid" query-param="newroleid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="deleterole">
+    <description>deleterole</description>
+    <call-query href="deleterole">
+      <with-param name="token" query-param="token" />
+      <with-param name="oldroleid" query-param="oldroleid" />
+      <with-param name="newroleid" query-param="newroleid" />
+    </call-query>
+  </resource>
+</data>

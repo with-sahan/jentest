@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getchat" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getchat</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getchat" useConfig="mdl_psm">
+    <sql>call psm.getchat(?,?)</sql>
+    <result outputType="json">{&#xD; "result": {&#xD;   "entry": [&#xD;    { &#xD;      "response":$response,&#xD;      "chatid":$chatid,&#xD;      "issueid":$issueid,&#xD;      "userid":$userid,&#xD;      "issuestatus":$issuestatus,&#xD;      "userfullname":$userfullname,&#xD;      "organizationid":$organizationid,&#xD;      "pollingstationid":$pollingstationid,&#xD;      "chatmessage":$chatmessage,&#xD;      "attachtment_url":$attachtment_url,&#xD;      "profile_picture":$profile_picture,&#xD;      "createdon":$createdon&#xD;    }&#xD;   ]&#xD; }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="issueid" sqlType="INTEGER" />
+  </query>
+  <operation name="getchat">
+    <description>getchat</description>
+    <call-query href="getchat">
+      <with-param name="token" query-param="token" />
+      <with-param name="issueid" query-param="issueid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getchat">
+    <description>getchat</description>
+    <call-query href="getchat">
+      <with-param name="token" query-param="token" />
+      <with-param name="issueid" query-param="issueid" />
+    </call-query>
+  </resource>
+</data>

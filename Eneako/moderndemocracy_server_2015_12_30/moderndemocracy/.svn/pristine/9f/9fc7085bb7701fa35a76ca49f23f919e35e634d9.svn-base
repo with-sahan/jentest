@@ -1,0 +1,4 @@
+id,name,priority,methods,url_patterns
+1,Create FormDesign,1,POST,/api/formdesign
+2,Create User,1,POST,/api/user
+3,Customer List,1,GET,/api/customer

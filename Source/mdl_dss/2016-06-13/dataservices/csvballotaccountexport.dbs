@@ -1,0 +1,29 @@
+<data name="csvballotaccountexport" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>csvballotaccountexport                                </description>
+   <config id="mdl_psm">
+      <property name="carbon_datasource_name">mdl-psm-ds</property>
+   </config>
+   <query id="csvballotaccountexport" useConfig="mdl_psm">
+      <sql>call psm.csvballotaccountexport (?,?,?)</sql>
+      <result outputType="json">{&#13; "result":{&#13;  "entry":[&#13;   {"response":$response&#13;   }&#13;  ]&#13; }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="stationid" sqlType="INTEGER"/>
+      <param name="electionid" sqlType="INTEGER"/>
+   </query>
+   <operation name="csvballotaccountexport">
+      <description>csvballotaccountexport                                    &#13;                                    </description>
+      <call-query href="csvballotaccountexport">
+         <with-param name="token" query-param="token"/>
+         <with-param name="stationid" query-param="stationid"/>
+         <with-param name="electionid" query-param="electionid"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="csvballotaccountexport">
+      <description>csvballotaccountexport                                    &#13;                                    </description>
+      <call-query href="csvballotaccountexport">
+         <with-param name="token" query-param="token"/>
+         <with-param name="stationid" query-param="stationid"/>
+         <with-param name="electionid" query-param="electionid"/>
+      </call-query>
+   </resource>
+</data>

@@ -1,0 +1,7 @@
+id,council_id,text,order_id,status,email
+1,1,Not all staff have turned up at polling station,1,true,abc"xyz.com
+2,1,Postal Vote Pack Handed in,2,true,abc"xyz.com
+3,1,Not enough station ballot books,3,true,abc"xyz.com
+4,1,Staff member is sick,4,true,abc"xyz.com
+5,1,Urgently need Officer to attend,5,true,abc"xyz.com
+6,1,Other,6,true,abc"xyz.com

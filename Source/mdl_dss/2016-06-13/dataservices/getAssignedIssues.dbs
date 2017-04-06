@@ -1,0 +1,22 @@
+<data name="getAssignedIssues" serviceNamespace="test" transports="http https">
+   <config id="mdl_psm">
+      <property name="carbon_datasource_name">mdl-psm-ds</property>
+   </config>
+   <query id="getAssignedIssues" useConfig="mdl_psm">
+      <sql>call psm.getAssignedIssues(?)</sql>
+      <result outputType="json">{&#13;    "result": {&#13;        "entry": [&#13;            {&#13;                "id": "$id",&#13;                "issueid": "$issueid",&#13;                &#13;            }&#13;        ]&#13;    }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="getAssignedIssues">
+      <description>getAssignedIssues</description>
+      <call-query href="getAssignedIssues">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getAssignedIssues">
+      <description>getAssignedIssues</description>
+      <call-query href="getAssignedIssues">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

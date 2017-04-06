@@ -1,0 +1,4 @@
+id,council_id,title,summary,content,status,created_on,updated_on
+1,1,Council1-Candidates1-Title,Candidates1-summary,Candidates1-content,1,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+2,2,Council1-Candidates1-Title,Candidates1-summary,Candidates1-content,1,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+3,1,Council1-Candidates2-Title,Candidates2-summary,Candidates2-content,1,"2011/08/01 10:11:00","2011/08/01 10:11:00"

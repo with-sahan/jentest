@@ -1,0 +1,32 @@
+<data name="addrole" serviceNamespace="www.moderndemocracy.com/services/security" transports="http https">
+   <description>Addrole                          &#13;                                </description>
+   <config id="addrole">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/security</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="addrole" useConfig="addrole">
+      <sql>call addrole(?,?,?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": [&#13;      {&#13;        "response": "$response"&#13;      }&#13;    ]&#13;  }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="rolename" sqlType="STRING"/>
+      <param name="description" sqlType="STRING"/>
+   </query>
+   <operation name="addrole">
+      <description>        addrole                            &#13;                                    </description>
+      <call-query href="addrole">
+         <with-param name="token" query-param="token"/>
+         <with-param name="rolename" query-param="rolename"/>
+         <with-param name="description" query-param="description"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="addrole">
+      <description>       addrole                             &#13;                                    </description>
+      <call-query href="addrole">
+         <with-param name="token" query-param="token"/>
+         <with-param name="rolename" query-param="rolename"/>
+         <with-param name="description" query-param="description"/>
+      </call-query>
+   </resource>
+</data>

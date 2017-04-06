@@ -1,0 +1,35 @@
+<data name="updaterole" serviceNamespace="www.moderndemocracy.com/services/security" transports="http https">
+   <description>      updaterole                          </description>
+   <config id="mdl_security">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/security</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="updaterole" useConfig="mdl_security">
+      <sql>call updaterole(?,?,?,?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": [&#13;      {&#13;        "response": "$response"&#13;      }&#13;    ]&#13;  }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="roleid" sqlType="INTEGER"/>
+      <param name="rolename" sqlType="STRING"/>
+      <param name="description" sqlType="STRING"/>
+   </query>
+   <operation name="updaterole">
+      <description>     updaterole                               &#13;                                    </description>
+      <call-query href="updaterole">
+         <with-param name="token" query-param="token"/>
+         <with-param name="roleid" query-param="roleid"/>
+         <with-param name="rolename" query-param="rolename"/>
+         <with-param name="description" query-param="description"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="updaterole">
+      <description>    updaterole                                &#13;                                    </description>
+      <call-query href="updaterole">
+         <with-param name="token" query-param="token"/>
+         <with-param name="roleid" query-param="roleid"/>
+         <with-param name="rolename" query-param="rolename"/>
+         <with-param name="description" query-param="description"/>
+      </call-query>
+   </resource>
+</data>

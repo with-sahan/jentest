@@ -1,0 +1,55 @@
+package com.moderndemocracy.json;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import com.anaeko.utils.data.mime.json.DefaultJsonMarshaler;
+import com.anaeko.utils.io.MarshalerException;
+import com.anaeko.utils.json.JsonWriter;
+import com.moderndemocracy.pojo.Issue;
+
+public final class IssueMarshaler extends DefaultJsonMarshaler {
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void marshal(Object object, JsonWriter writer)
+			throws IOException, MarshalerException {
+
+		if (object instanceof List) {
+
+			writer.writeStartArray();
+
+			for (Issue issue : (Iterable<Issue>) object) {
+				marshalIssue(issue, writer);
+			}
+
+			writer.writeEndArray();
+		} else {
+			// Force it to an ARRAY
+			writer.writeStartArray();
+			marshalIssue((Issue) object, writer);
+			writer.writeEndArray();
+		}
+	}
+
+	private void marshalIssue(Issue issue, JsonWriter writer)
+			throws IOException {
+
+		writer.writeStartObject();
+
+		writer.writeField(Issue.ISSUE_ID, issue.getIssueId());
+		writer.writeField(Issue.USER, issue.getUser());
+		writer.writeField(Issue.STATION, issue.getStation());
+		writer.writeField(Issue.WARD,  issue.getWard());
+		writer.writeField(Issue.REASON, issue.getReason());
+		writer.writeField(Issue.DESCRIPTION, issue.getDescription());
+		writer.writeField(Issue.PRIORITY, issue.getPriority());
+		writer.writeField(Issue.CREATED_ON, new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss").format(issue.getCreatedOn()));
+		writer.writeField(Issue.RESOLUTION, issue.getResolution());
+		writer.writeField(Issue.STATUS, issue.getStatus());
+
+		writer.writeEndObject();
+	}
+
+}

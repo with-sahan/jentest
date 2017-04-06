@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="updateprogress" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>updateprogress</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="updateprogress" useConfig="mdl_psm">
+    <sql>call updateprogress(?,?,?,?,?,?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "ballotpapers": "$ballotpapers",&#xD;                "postalpacks": "$postalpacks",&#xD;                "postalpackscollected": "$postalpackscollected",&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="electionid" sqlType="INTEGER" />
+    <param name="pollingstationid" sqlType="INTEGER" />
+    <param name="ballotpapers" sqlType="INTEGER" />
+    <param name="postalpacks" sqlType="INTEGER" />
+    <param name="postalpackscollected" sqlType="INTEGER" />
+  </query>
+  <operation name="updateprogress">
+    <description>updateprogress</description>
+    <call-query href="updateprogress">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="pollingstationid" query-param="pollingstationid" />
+      <with-param name="ballotpapers" query-param="ballotpapers" />
+      <with-param name="postalpacks" query-param="postalpacks" />
+      <with-param name="postalpackscollected" query-param="postalpackscollected" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="updateprogress">
+    <description>updateprogress</description>
+    <call-query href="updateprogress">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="pollingstationid" query-param="pollingstationid" />
+      <with-param name="ballotpapers" query-param="ballotpapers" />
+      <with-param name="postalpacks" query-param="postalpacks" />
+      <with-param name="postalpackscollected" query-param="postalpackscollected" />
+    </call-query>
+  </resource>
+</data>

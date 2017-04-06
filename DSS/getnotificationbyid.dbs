@@ -1,0 +1,29 @@
+<data name="getnotificationbyid" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>     getnotificationbyid                           </description>
+   <config id="mdl_psm">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="getnotificationbyid" useConfig="mdl_psm">
+      <sql>call getnotificationbyid(?,?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": [&#13;      {&#13;        "id": "$id",&#13;        "message": "$message",&#13;        "attachtment": "$attachtment",&#13;        "senton": "$senton",&#13;        "status":"$status",&#13;        "response":"$response"&#13;      }&#13;    ]&#13;  }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="notificationid" sqlType="INTEGER"/>
+   </query>
+   <operation name="getnotificationbyid">
+      <description>              getnotificationbyid                      &#13;                                    </description>
+      <call-query href="getnotificationbyid">
+         <with-param name="token" query-param="token"/>
+         <with-param name="notificationid" query-param="notificationid"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getnotificationbyid">
+      <description>              getnotificationbyid                      &#13;                                    </description>
+      <call-query href="getnotificationbyid">
+         <with-param name="token" query-param="token"/>
+         <with-param name="notificationid" query-param="notificationid"/>
+      </call-query>
+   </resource>
+</data>

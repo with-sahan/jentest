@@ -1,0 +1,22 @@
+   <div ng-init="timerType = 'Saving Documents'" ng-controller="mdl.mobileweb.controller.gpstracking as vm">
+    <ng-include src="vm.template"></ng-include>
+	<h3><timer ng-show="false" autostart="false" language="en" interval="10000"></timer></h3>
+	<div>
+	<div class="col-md-12" style="text-align:center;margin-top: 10px;">
+			<div class="btn_row" style="text-align: center;">
+				<button type="button" id="startButton" class="btn btn-primary"
+					data-ng-disabled="vm.trackButton"
+					data-ng-click="vm.startTracking()">{{vm.buttonLabel}}</button>
+					
+					
+			</div>
+			<div style="text-align: center;">
+				<button class="btn btn-success m-r-10" type="button" id="stopButton"
+					data-ng-disabled="vm.stopButton" style="text-align: center;"
+					ng-click="vm.stopTracking()" disabled>Stop Tracking</button>
+			</div>
+		</div>
+     	
+     	</div>
+     	
+     	</div>

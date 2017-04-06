@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getallnotifications" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>polling station manager service - get all notification</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getallnotifications" useConfig="mdl_psm">
+    <sql>call getallnotifications(?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "notification_id": "$notification_id",&#xD;                "message": "$message",&#xD;                "att_url": "$att_url",&#xD;                "generatedon": "$generatedon",&#xD;                "isprivate": $isprivate,&#xD;                "status": $status,&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="getallnotifications">
+    <description>getallnotifications</description>
+    <call-query href="getallnotifications">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getallnotifications">
+    <description>getallnotifications</description>
+    <call-query href="getallnotifications">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

@@ -1,0 +1,177 @@
+package com.moderndemocracy.dao;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.anaeko.error.AnaekoRuntimeException;
+import com.anaeko.utils.jdbc.CacheableQuery;
+import com.anaeko.utils.jdbc.CacheableUpdate;
+import com.anaeko.utils.jdbc.ParameterDelegate;
+import com.moderndemocracy.pojo.Notification;
+
+public class NotificationDao {
+	
+
+	protected static final Logger logger = LogManager.getLogger(NotificationDao.class);
+
+
+	/********/
+	/* SQL */
+	/******/
+	private static final String SQL_INSERT_NEW_NOTIFICATION = 
+			"INSERT into notifications (station_id, text) "
+			+ " VALUES (?,?)";
+
+	private static final String SQL_SELECT_NOTIFICATION_BY_STATION_ID =
+			NotificationExtractor.SQL
+			+ " WHERE (N.station_id=? or N.station_id=0) "
+			+ " and N.id not in (select notification_id from notifications_received where station_id=? and user_id=?) "
+			+ " order by created_on";
+	
+	private static final String SQL_INSERT_NOTIFICATION_RECEIVED = 
+			"INSERT into notifications_received (notification_id, station_id, user_id) "
+			+ " VALUES (?,?,?)";
+
+	private DataSource pool;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param pool
+	 *            The datasource.
+	 */
+	public NotificationDao(DataSource pool) {
+		if (null == pool)
+			throw new AnaekoRuntimeException("Cannot create a DAO without a database connection");
+		this.pool = pool;
+	}
+
+	/**
+	 * Insert New Notification
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean insert( DataSource source, int stationId, String text ) 
+			throws SQLException {
+
+		CacheableUpdate createQuery = new CacheableUpdate(pool);
+		
+		// Params for SQL
+		SetNotificationInsertParams params = new SetNotificationInsertParams( stationId, text );
+		
+		logger.debug("About to insert new notification");
+		int effected = createQuery.execute( SQL_INSERT_NEW_NOTIFICATION, params );
+		
+		if( effected > 0 ) {
+			logger.debug("Successfully inserted new notification");
+			return true;
+		} else {
+			logger.error("Failed to insert new notification");
+			return false;
+		}
+	}
+	
+	
+	/**
+	 * Get Notification By StationId
+	 * 
+	 * @param stationId
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Notification> getByStationId(final int stationId, final int userId) throws SQLException {
+		
+		CacheableQuery<Notification> query = new CacheableQuery<Notification>(pool);
+	
+		List<Notification> found = query.execute(SQL_SELECT_NOTIFICATION_BY_STATION_ID,
+				
+				new NotificationExtractor(), new ParameterDelegate() {
+					@Override
+					public void setParameters(PreparedStatement statement)
+							throws SQLException {
+						statement.setInt(1, stationId);
+						statement.setInt(2, stationId);
+						statement.setInt(3, userId);;
+					}
+				});
+		
+		if (found.isEmpty()) {
+			return null;
+		} else {
+			return found;
+		}
+	}
+	
+	public boolean insertNotificationReceived( DataSource source, int notificationId, int stationId, int userId ) 
+			throws SQLException {
+
+		CacheableUpdate createQuery = new CacheableUpdate(pool);
+		
+		// Params for SQL
+		SetNotificationReceivedInsertParams params = new SetNotificationReceivedInsertParams( notificationId, stationId, userId );
+		
+		logger.debug("About to insert notification received");
+		int effected = createQuery.execute( SQL_INSERT_NOTIFICATION_RECEIVED, params );
+		
+		if( effected > 0 ) {
+			logger.debug("Successfully inserted notification received");
+			return true;
+		} else {
+			logger.error("Failed to insert notification received");
+			return false;
+		}
+	}
+	
+	
+	
+	
+	
+	/***************/
+	/* SET PARAMS */
+	/*************/
+	
+	private final class SetNotificationInsertParams implements ParameterDelegate {
+		
+		int stationId;
+		String text;
+        
+        public SetNotificationInsertParams(int stationId, String text) {
+        	this.stationId=stationId;
+        	this.text = text;
+        }
+
+        @Override
+        public void setParameters(PreparedStatement statement) throws SQLException {
+        	statement.setInt(1, stationId);
+            statement.setString(2, text);
+        }
+    }
+	
+	private final class SetNotificationReceivedInsertParams implements ParameterDelegate {
+		
+		int notificationId;
+		int stationId;
+		int userId;
+        
+        public SetNotificationReceivedInsertParams(int notificationId, int stationId, int userId) {
+        	this.notificationId = notificationId;
+        	this.stationId=stationId;
+        	this.userId=userId;
+        }
+
+        @Override
+        public void setParameters(PreparedStatement statement) throws SQLException {
+        	statement.setInt(1, notificationId);
+            statement.setInt(2, stationId);
+            statement.setInt(3, userId);
+        }
+    }
+	
+}

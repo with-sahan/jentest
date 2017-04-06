@@ -1,0 +1,93 @@
+'use strict';
+function log() {
+	console.log(Array.prototype.slice.call(arguments));
+}
+
+function l() {
+	console.log(Array.prototype.slice.call(arguments));
+}
+
+function clone(o) {
+	return JSON.decode(JSON.encode(o));
+}
+
+//---------------------------------------------------------------------
+// NAMESPACE DECLARATIONS
+//---------------------------------------------------------------------
+var $APP = $APP || {}; // App namespace
+var $UTL = $UTL || {}; // Utilities namespace
+
+(function($APP, undefined) {
+	$APP.name = 'moderndemocracy';
+	$APP.domain = window.location.hostname;
+	$APP.server = "http://" + $APP.domain;		// just so it's easier to appify later if we need to
+	$APP.CONFIG;
+	$APP.DEBUG = false;
+	$APP.LIVE = true;
+})($APP);
+
+
+angular.module($APP.name, [
+	'ngRoute',
+	'ngResource',
+	// 'ngAnimate',
+	// 'ngSanitize',
+	'angularMoment',
+	// 'ui.router',
+	'ngTable',
+	// 'pasvaz.bindonce',
+	'ui.bootstrap',
+
+]).config([
+	'$routeProvider',
+	'$locationProvider',
+	'$httpProvider',
+	function($routeProvider, $locationProvider, $httpProvider) {
+
+		$routeProvider
+			.when('/', {
+				// Dashboard
+				templateUrl: '/templates/home.html',
+				controller: 'HomeCtrl'
+			})
+			.when('/progress', {
+				templateUrl: '/templates/progress.html',
+				controller: 'ProgressCtrl'
+			})
+			.when('/issues', {
+				templateUrl: '/templates/issues.html',
+				controller: 'IssuesCtrl'
+			})
+			.when('/notifications', {
+				templateUrl: '/templates/notifications.html',
+				controller: 'NotificationsCtrl'
+			})
+			.when('/stations', {
+				templateUrl: '/templates/stations.html',
+				controller: 'StationsCtrl'
+			})
+			.when('/404', {
+				templateUrl: '/templates/404.html'
+			})
+			.otherwise({redirectTo: '/404'});
+		$locationProvider.html5Mode(true);
+		$httpProvider.interceptors.push('messagesInterceptor');
+	}
+]).run([
+	'$rootScope',
+	'$location',
+	'$http',
+	'$window',
+	'$route',
+	function($rootScope, $location, $http, $window, $route) {
+		$rootScope.$on('$routeChangeStart', function(event, next, current) {
+			$rootScope.error = null;
+		});
+		$rootScope.$on('$locationChangeStart', function(evt, absNewUrl, absOldUrl) {
+			$rootScope.oldUrl = absOldUrl;
+		});
+		$rootScope.info = {
+			"root_window": parent == window
+		};
+	}
+]);

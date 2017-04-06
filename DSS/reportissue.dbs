@@ -1,0 +1,41 @@
+<data name="reportissue" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>reportissue           </description>
+   <config id="mdl_psm">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="reportissue" useConfig="mdl_psm">
+      <sql>call reportissue (?,?,?,?,?,?)</sql>
+      <result outputType="json">{&#13;    "result": {&#13;        "entry": [&#13;            {&#13;                "response": "$response"&#13;            }&#13;        ]&#13;    }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="electionid" sqlType="INTEGER"/>
+      <param name="pollingstationid" sqlType="INTEGER"/>
+      <param name="issueid" sqlType="INTEGER"/>
+      <param name="description" sqlType="STRING"/>
+      <param name="priority" sqlType="INTEGER"/>
+   </query>
+   <operation name="reportissue">
+      <description>reportissue                         &#13;                                    </description>
+      <call-query href="reportissue">
+         <with-param name="token" query-param="token"/>
+         <with-param name="electionid" query-param="electionid"/>
+         <with-param name="pollingstationid" query-param="pollingstationid"/>
+         <with-param name="issueid" query-param="issueid"/>
+         <with-param name="description" query-param="description"/>
+         <with-param name="priority" query-param="priority"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="reportissue">
+      <description>reportissue                         &#13;                                    </description>
+      <call-query href="reportissue">
+         <with-param name="token" query-param="token"/>
+         <with-param name="electionid" query-param="electionid"/>
+         <with-param name="pollingstationid" query-param="pollingstationid"/>
+         <with-param name="issueid" query-param="issueid"/>
+         <with-param name="description" query-param="description"/>
+         <with-param name="priority" query-param="priority"/>
+      </call-query>
+   </resource>
+</data>

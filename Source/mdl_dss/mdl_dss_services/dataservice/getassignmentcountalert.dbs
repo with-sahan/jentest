@@ -1,0 +1,23 @@
+<data name="getassignmentcountalert" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>getassignmentcountalert                               </description>
+   <config id="mdl_psm">
+      <property name="carbon_datasource_name">mdl-psm-ds</property>
+   </config>
+   <query id="getassignmentcountalert" useConfig="mdl_psm">
+      <sql>call psm.getassignmentcountalert (?)</sql>
+      <result outputType="json">{&#13; "result":{&#13;  "entry":[&#13;   {"issueassigncount":$issueassigncount,&#13;    "issue_id":$issue_id,&#13;    "pollingstationid":$pollingstationid,&#13;    "response":$response&#13;   }&#13;  ]&#13; }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="getassignmentcountalert">
+      <description>getassignmentcountalert                                    &#13;                                    </description>
+      <call-query href="getassignmentcountalert">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getassignmentcountalert">
+      <description>getassignmentcountalert                                    &#13;                                    </description>
+      <call-query href="getassignmentcountalert">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

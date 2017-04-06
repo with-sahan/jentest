@@ -1,0 +1,76 @@
+<div class="panel" ng-controller="mdl.mobileweb.controller.recordprogress as vm">
+	<div class="panel-header panel-controls">
+		<h3>
+			<i class="icon-target"></i> <strong>Open</strong> Station
+		</h3>
+	</div>
+	<div class="row stationlist">
+		<div class="col-md-12">
+			<tabset class="tab-fade-in"> <tab
+				ng-repeat="station in vm.pollingStationList"
+				ng-click="vm.stationcheck(station.id)"> <tab-heading>
+			<b class="icons-education-science-18"> &nbsp;&nbsp;&nbsp;&nbsp;
+				{{station.name}} </b> </tab-heading> 
+			<tabset class="tab-fade-in" ng-if="vm.stationstatus"> <tab
+				ng-repeat="item in vm.electionlist"
+				ng-click="vm.getProgress(item.electionid,station.id)"
+				value="{{item.electionid}}"> <tab-heading> 
+				<b class="icons-education-science-18"> &nbsp;&nbsp;&nbsp;&nbsp;
+				{{item.electionname}} </b> </tab-heading>
+			<div ng-hide="vm.checkElectionClosed==1">
+                <div class="row">                	
+	                <div class="col-md-12">	                	
+						<form class="form-horizontal ng-pristine ng-valid">
+							<div class="form-group">
+                                <label class="col-sm-12 control-label">Registry - 52</label>
+                            </div>
+						</form>
+	                </div>	                 
+                </div> <br /> <br />
+                <div class="row">                	
+	                <div class="col-md-12">	                	
+						<form class="form-horizontal ng-pristine ng-valid">
+							<div class="form-group">
+								<div class="col-sm-3"><input type="text" placeholder="Ballot Id" class="form-control"></div>
+                                
+                                <div class="col-sm-9">
+                                	<button class="btn btn-primary m-r-10" type="button">Search</button>
+                                </div>
+                            </div>
+						</form>
+	                </div>	                 
+                </div><br />
+                <div class="row">                	
+	                <div class="col-md-12">	                	
+						<form class="form-horizontal ng-pristine ng-valid">
+							<div class="form-group">
+								<div class="col-sm-3">Ballot paper No.</div>                                
+                                <div class="col-sm-9">
+                                	 <input type="text" placeholder="Ballot Paper No." class="form-control">
+                                </div>
+                            </div>
+							<div class="form-group">
+								<div class="col-sm-3">Elector No.</div>                                
+                                <div class="col-sm-9">
+                                	 <input type="text" placeholder="Elector No." class="form-control">
+                                </div>
+                            </div>                            
+						</form>
+	                </div>	                 
+                </div> 
+                <div class="row">                	
+	                <div class="col-md-12">
+	                	<label class="col-sm-12 control-label"><a href="#/reportissue/unresolved_issue">View submitted voter list</a></label>
+	                </div>
+	             </div>	
+               	<div class="row">                	
+	                <div class="col-md-12">
+	                	<button class="btn btn-danger m-r-10" type="button">Tendered</button>
+	                	<button class="btn btn-success m-r-10" type="button">Save</button>
+	                </div>
+	             </div>	
+				</tab>   
+			</tabset>
+		</div>
+	</div>
+</div>

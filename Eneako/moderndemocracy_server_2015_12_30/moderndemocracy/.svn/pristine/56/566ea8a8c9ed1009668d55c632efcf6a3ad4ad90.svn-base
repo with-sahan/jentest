@@ -1,0 +1,12 @@
+<header class="grid-wrap">
+	<div class="grid-col">
+		<img src="img/scc-banner-slim.png">
+	</div>
+	<div class="grid-col">
+		<nav ng-controller="MainNavCtrl">
+			<ul>
+				<li ng-repeat="item in items" ng-class="{active: item.active}"><a href="{{item.url}}">{{item.text}}</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>

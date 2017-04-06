@@ -1,0 +1,61 @@
+<ion-view title="Close Station" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
+    <a href="#/app/home"><button class="button button-icon icon ion-ios-home"></button></a>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+  </ion-nav-buttons>
+
+  <ion-content id="close-station">
+   <div class="contentWrapper">
+ 	<h4 style="margin-bottom : -1px; font-size : 160%;">Please use after 10pm on polling day only.</h4>
+    <p style="margin-bottom : 15px; font-size : 120%; line-height: 20px;"> Please update the app with the numbers on the ballot paper account sheet.  For your ordinary ballot papers enter total ballot papers issued and number of spoilt ballot papers.  The total number of ballot papers issued and not spoilt will be automatically calculated.  Enter the total number of unused ordinary ballot papers.</p>
+    <p style="margin-bottom : 15px; font-size : 120%; line-height: 20px;">For your tendered ballots enter total ballot papers issued, number of spoilt ballot papers and total unused tendered ballot papers.</p>
+    <p style="margin-bottom : 15px; font-size : 120%; line-height: 20px;">Ensure you click on 'Save and Close Station' when complete.</p>
+	<div class="content list">
+		<polling-stations disable="closed" data="data"></polling-stations>
+		<div class="border" ng-if="data.station"><div class="bulletpoint"></div> <h5>Ordinary Ballot Papers</h5></div>
+		<form name="ordinary" ng-if="data.station">
+			<label class="item item-input" style="margin-bottom : -15px;">
+				<span class="input-label">Total ballot papers issued:</span>
+				<input type="tel" min="0" max="9999" ng-maxlength="4" ng-model="data.ordinary.totalIssued">
+			</label>
+			<label class="item item-input" style="margin-bottom : -15px;">
+				<span class="input-label">How many spoilt ballot papers did you issue replacements for?</span>
+				<input type="tel" min="0" max="9999" ng-maxlength="4" ng-model="data.ordinary.numberOfReplacements">
+			</label>
+			<label class="item item-input" style="margin-bottom : -15px;">
+				<span class="input-label">Total ballot papers issued and not spoilt:</span>
+				<span class="calculation" ng-class="{'reddish' : calculationLessThenZero()}"> {{(data.ordinary.totalIssued) - (data.ordinary.numberOfReplacements)}} </span>
+			</label>
+			<label class="item item-input" style="margin-bottom : -15px;">
+				<span class="input-label">Total unused ballot papers:</span>
+				<input type="tel" min="0" max="9999" ng-maxlength="4" ng-model="data.ordinary.totalUnused">
+			</label>
+		</form>
+	</div>
+
+
+	<div class="content list" ng-if="data.station">
+		<div class="border"><div class="bulletpoint"></div> <h5>Tendered Ballot Papers</h5></div>
+		<form>
+			<label class="item item-input" style="margin-bottom : -15px;">
+				<span class="input-label">Total tendered ballot papers issued:</span>
+				<input type="tel" min="0" max="9999" ng-maxlength="4" ng-model="data.tendered.totalIssued">
+			</label>
+			<label class="item item-input" style="margin-bottom : -15px;">
+				<span class="input-label">Total spoilt tendered ballot papers:</span>
+				<input type="tel" min="0" max="9999" ng-maxlength="4" ng-model="data.tendered.totalSpoilt">
+			</label>
+			<label class="item item-input" style="margin-bottom : -15px;">
+				<span class="input-label">Total unused tendered ballot papers:</span>
+				<input type="tel" min="0" max="9999" ng-maxlength="4" ng-model="data.tendered.totalUnused">
+			</label>
+		</form>
+	</div>
+	<div class="content list buttonBar" ng-if="data.station">
+	     <button class="button button-full button-modern" ng-click="submitCloseStation();">Save And Close Station</button>
+	    </div>
+   </div>
+  </ion-content>
+</ion-view>

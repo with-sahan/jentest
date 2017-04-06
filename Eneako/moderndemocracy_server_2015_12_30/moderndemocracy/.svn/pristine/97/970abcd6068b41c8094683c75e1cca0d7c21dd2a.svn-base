@@ -1,0 +1,82 @@
+[
+    {
+        "id": 2, 
+        "orderId": 1, 
+        "stationId": 0, 
+        "stationSetupListId": 2, 
+        "status": false, 
+        "text": "Polling Boxes Arrived"
+    }, 
+    {
+        "id": 3, 
+        "orderId": 2, 
+        "stationId": 0, 
+        "stationSetupListId": 3, 
+        "status": false, 
+        "text": "Polling Staff Arrived"
+    }, 
+    {
+        "id": 4, 
+        "orderId": 3, 
+        "stationId": 0, 
+        "stationSetupListId": 4, 
+        "status": false, 
+        "text": "All Ballot Books Arrived"
+    }, 
+    {
+        "id": 5, 
+        "orderId": 4, 
+        "stationId": 0, 
+        "stationSetupListId": 5, 
+        "status": false, 
+        "text": "All Booths Ready"
+    }, 
+    {
+        "id": 6, 
+        "orderId": 5, 
+        "stationId": 0, 
+        "stationSetupListId": 6, 
+        "status": false, 
+        "text": "Signage to Polling Station Visible"
+    }, 
+    {
+        "id": 7, 
+        "orderId": 6, 
+        "stationId": 0, 
+        "stationSetupListId": 7, 
+        "status": false, 
+        "text": "Polling Station Accessible to all voters"
+    }, 
+    {
+        "id": 8, 
+        "orderId": 7, 
+        "stationId": 0, 
+        "stationSetupListId": 8, 
+        "status": false, 
+        "text": "Low level Booths and ballot boxes installed"
+    }, 
+    {
+        "id": 9, 
+        "orderId": 8, 
+        "stationId": 0, 
+        "stationSetupListId": 9, 
+        "status": false, 
+        "text": "Large print ballot papers clearly visible"
+    }, 
+    {
+        "id": 10, 
+        "orderId": 9, 
+        "stationId": 0, 
+        "stationSetupListId": 10, 
+        "status": false, 
+        "text": "Hand held samples available"
+    }, 
+    {
+        "id": 1, 
+        "orderId": 10, 
+        "stationId": 0, 
+        "stationSetupListId": 1, 
+        "status": true, 
+        "text": "Station Open"
+    }
+]

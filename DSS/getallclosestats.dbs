@@ -1,0 +1,26 @@
+<data name="getallclosestats" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>getallclosestats</description>
+   <config id="getallclosestats">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="getallclosestats" useConfig="getallclosestats">
+      <sql>call getallclosestats(?)</sql>
+      <result outputType="json">{&#13;    "result": {&#13;        "entry": [&#13;            {&#13;                "tot_ballots": "$tot_ballots",&#13;                "tot_spoiled_replaced": "$tot_spoiled_replaced",&#13;                "tot_unused": "$tot_unused",&#13;                "tot_tend_ballots": "$tot_tend_ballots",&#13;                "tot_tend_spoiled": "$tot_tend_spoiled",&#13;                "tot_tend_unused": "$tot_tend_unused",&#13;                "electionname": "$electionname",&#13;                "pollingstation": "$pollingstation",&#13;                "response": "$response"&#13;            }&#13;        ]&#13;    }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="getallclosestats">
+      <description>getallclosestats&#13;                                    </description>
+      <call-query href="getallclosestats">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getallclosestats">
+      <description>getallclosestats                                    &#13;                                    </description>
+      <call-query href="getallclosestats">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

@@ -1,0 +1,78 @@
+package com.moderndemocracy.dao;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.anaeko.error.AnaekoRuntimeException;
+import com.anaeko.utils.jdbc.CacheableQuery;
+import com.anaeko.utils.jdbc.ParameterDelegate;
+import com.moderndemocracy.pojo.User;
+
+/**
+ * Custom User DAO class, which uses a custom UserExtractor to return additional
+ * fields from the database.
+ */
+
+public class UsersDao {
+	
+
+	protected static final Logger logger = LogManager.getLogger(UsersDao.class);
+
+	/** User by ID query. */
+	private static final String SQL_SELECT_USER_BY_ID = UsersExtractor.SQL
+			+ "WHERE U.id = ? " + "LIMIT 1";
+	
+
+	private DataSource pool;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param pool
+	 *            The datasource.
+	 */
+	public UsersDao(DataSource pool) {
+		if (null == pool)
+			throw new AnaekoRuntimeException(
+					"Cannot create a DAO without a database connection");
+		this.pool = pool;
+	}
+
+	
+	/** Extract user by ID
+	 * 
+	 * @param userId
+	 * @return
+	 * @throws SQLException
+	 */
+	public User getById(final int userId) throws SQLException {
+		CacheableQuery<User> query = new CacheableQuery<User>(pool);
+
+		// TODO:
+		// The user object does not have UserHasProject objects populated within it
+		// 	-	If required, a Collector will need to be implemented to build up the User object
+		// 		with the UserHasProject objects extracted from DB
+		
+		List<User> found = query.execute(SQL_SELECT_USER_BY_ID,
+				new UsersExtractor(), new ParameterDelegate() {
+					@Override
+					public void setParameters(PreparedStatement statement)
+							throws SQLException {
+						statement.setInt(1, userId);
+					}
+				});
+
+		if (found.isEmpty()) {
+			return null;
+		} else {
+			return found.get(0);
+		}
+	}
+
+}

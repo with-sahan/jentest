@@ -1,0 +1,90 @@
+<div class="panel"
+	ng-controller="mdl.mobileweb.controller.postalvotesdeliveredstatement as vm">
+	<ng-include src="template" ></ng-include>
+	<ng-include src="template2" ></ng-include>
+	<div class="panel-header panel-controls">
+		<h3>
+			<i class="icon-target"></i> <strong>Statement</strong> of Postal Votes
+		</h3>
+	</div>
+	<div id="dropdownStation" class="col-sm-12 p-10 p-l-40" >
+		<label>Stations :</label>
+        <select class="issue_select_dropdown" style="min-width:165px;width:auto;" ng-model="vm.selectedStation" ng-change="vm.stationcheck(vm.selectedStation);">
+            <option value="{{station.id}}"  ng-repeat="station in vm.pollingStationList">{{station.name}}</option>
+        </select>
+    </div>
+	<div class="row stationlist">
+		<div class="col-md-12">
+			<div class="tab-fade-in tab_left">
+				<ul id="stationName" class="nav nav-tabs" >
+					<li ng-repeat="station in vm.pollingStationList"
+					ng-click="vm.stationcheck(station.id)" ng-class="{'active':station.id==vm.stationid}">
+						<a href="">
+							<b class="icons-education-science-18"> &nbsp;&nbsp;&nbsp;&nbsp;
+							{{station.name}} </b> 
+						</a> 
+					</li>
+				</ul>
+				<div class="tab-content">
+                	<div class="tab-pane ng-scope active"  ng-class="{active: tab.active}" >
+						<div class="tab-fade-in" ng-if="vm.stationstatus"> 
+							<ul  class="nav nav-tabs"  ng-class="{'nav-stacked': vertical, 'nav-justified': justified}">	
+								<li ng-repeat="item in vm.electionlist"
+									ng-click="vm.getProgress(item.electionid,vm.stationid)"
+									value="{{item.electionid}}" ng-class="{'active':item.electionid==vm.electionId}"> 
+									<a href=""> 
+										<b class="icons-education-science-18"> &nbsp;&nbsp;&nbsp;&nbsp;
+										{{item.electionname}} 
+										</b> 
+									</a>
+								</li>
+							</ul>
+							<div class="row">
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th>Time</th>
+											<th>Number of Envelopes Handed Over</th>
+											<th>Name of Person Uplifting</th>
+										</tr>
+										
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat="statDetails in vm.progressSummery" ng-show="vm.progressSummery.length>0"
+											ng-model="statDetails.collectedtime" value="{{statDetails.collectedtime}}">
+											<td>{{statDetails.collectedtime | date:"yyyy-MM-dd 'at' h:mma"}}</td>
+											<td>{{statDetails.collectedpacks}}</td>
+											<td>{{statDetails.person}}</td>
+										</tr>
+										<tr
+											ng-hide="vm.progressSummery.length>0"
+											ng-model="vm.progressSummery.collectedtime" value="{{vm.progressSummery.collectedtime}}">
+											<td>{{vm.progressSummery.collectedtime | date:"yyyy-MM-dd 'at' h:mma"}}</td>
+											<td>{{vm.progressSummery.collectedpacks}}</td>
+											<td>{{vm.progressSummery.person}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						
+							<div class="form-group">
+				                 <!-- <label class="col-sm-12 control-label">Number of Envelopes Remaining at Close of Poll: 0</label> -->
+				                 <!-- <div class="col-sm-3">
+				                     0
+				                 </div> -->
+				             </div>
+			             
+				             <div class="form-group">
+				                 <div class="col-sm-12">
+				                     <button class="btn btn-danger m-r-10" type="button" ng-click="vm.cancel();">
+				                         Close
+				                     </button>
+				                 </div>
+				             </div>              
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	

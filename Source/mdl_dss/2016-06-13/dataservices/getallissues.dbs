@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getallissues" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getallissues</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getallissues" useConfig="mdl_psm">
+    <sql>call getallissues(?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "id": "$id",&#xD;                "reason": "$reason",&#xD;                "description": "$description",&#xD;                "priority": "$priority",&#xD;                "pollingstation": "$pollingstation",&#xD;                "pollingstationid": "$pollingstationid",&#xD;                "pollingstationhierarchyid": "$pollingstationhierarchyid",&#xD;                "issuestatus": "$issuestatus",&#xD;                "asignee": "$asignee",&#xD;                "issuedate": "$issuedate",&#xD;                "userid": "$userid",&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="getallissues">
+    <description>getallissues</description>
+    <call-query href="getallissues">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getallissues">
+    <description>getallissues</description>
+    <call-query href="getallissues">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

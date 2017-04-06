@@ -1,0 +1,58 @@
+<ion-view title="Ballot Accounts" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
+    <a href="#/app/home"><button class="button button-icon icon ion-ios-home"></button></a>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+  </ion-nav-buttons>
+
+  <ion-content>
+   <div class="contentWrapper">
+	<div class="content list">
+        <polling-stations data="data"></polling-stations>
+    </div>
+    <div class="content list">
+		<div class="border"><div class="bulletpoint"></div> <h5>Ordinary Ballot Papers</h5></div>
+		<form>
+			<label class="item item-input" style="margin-bottom : -25px;">
+				<span class="input-label">Total ballot papers issued:</span>
+				 <ion-item style = "font-weight:bold; min-width:120px; text-align: right;font-size: 150%;">{{data.ordinary.totalIssued}} </ion-item>
+			</label>
+			<label class="item item-input" style="margin-bottom : -25px;">
+				<span class="input-label">How many spoilt ballot papers did you issue replacements for?</span>
+				 <ion-item style = "font-weight:bold; min-width:120px; text-align: right;vertical-align: top;font-size: 150%;"> {{data.ordinary.numberOfReplacements}} </ion-item>
+			</label>
+			<label class="item item-input" style="margin-bottom : -25px;">
+				<span class="input-label">Total ballot papers issued and not spoilt:</span>
+				 <ion-item style = "font-weight:bold; min-width:120px; text-align: right;font-size: 150%;">{{ (data.ordinary.totalIssued) - (data.ordinary.numberOfReplacements) }}  </ion-item>
+			</label>
+			<label class="item item-input" style="margin-bottom : -20px;">
+				<span class="input-label">Total unused ballot papers:</span>
+				 <ion-item style = "font-weight:bold; min-width:120px; text-align: right;font-size: 150%;"> {{data.ordinary.totalUnused}} </ion-item>
+
+			</label>
+			</form>
+		</div>
+
+
+		<div class="content list">
+		<div class="border"><div class="bulletpoint"></div> <h5>Tendered Ballot Papers</h5></div>
+		<form>
+			<label class="item item-input" style="margin-bottom : -25px;">
+				<span class="input-label">Total tendered ballot papers issued:</span>
+				  <ion-item style = "font-weight:bold; min-width:120px; text-align: right;font-size: 150%;"> {{data.tendered.totalIssued}}  </ion-item>
+			</label>
+			<label class="item item-input" style="margin-bottom : -25px;">
+				<span class="input-label">Total spoilt tendered ballot papers:</span>
+				 <ion-item style = "font-weight:bold; min-width:120px; text-align: right;font-size: 150%;"> {{data.tendered.totalSpoilt}} </ion-item>
+
+			</label>
+			<label class="item item-input" style="margin-bottom : -25px;">
+				<span class="input-label">Total unused tendered ballot papers:</span>
+				 <ion-item style = "font-weight:bold; min-width:120px; text-align: right;font-size: 150%;"> {{data.tendered.totalUnused}} </ion-item>
+			</label>
+			</form>
+		</div>
+   </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,131 @@
+package com.moderndemocracy.jetty.handler;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+
+import com.anaeko.utils.http.Code;
+import com.anaeko.utils.io.MarshalerException;
+import com.moderndemocracy.dao.StationDao;
+import com.moderndemocracy.dao.StationSetupStatusDao;
+import com.moderndemocracy.dao.WardsDao;
+import com.moderndemocracy.pojo.Campaign;
+import com.moderndemocracy.pojo.Station;
+import com.moderndemocracy.pojo.StationSetupList;
+import com.moderndemocracy.pojo.Wards;
+
+public class WardHandler extends ModernDemocracyHandler {
+
+	private static final Logger logger = Logger.getLogger(WardHandler.class);
+
+	@Override
+	protected String getSupportedMethods() {
+		return "GET";
+	}
+
+	@Override
+	protected void handleGet(String target, HttpServletRequest request,
+			HttpServletResponse response) throws MarshalerException,
+			IOException {
+		
+		// DAOs
+		WardsDao wardDao = new WardsDao(getDataSource());
+		StationDao stationDao = new StationDao(getDataSource());
+		StationSetupStatusDao stationSetupStatusDao = new StationSetupStatusDao(getDataSource());
+
+		try {
+			
+			// Declare the Campaign
+			Campaign campaign = new Campaign();
+			
+			// Insert Wards into Campaign
+			List<Wards> wards = wardDao.getAll();
+			campaign.setWards(wards);
+			
+			// Insert Stations for each Ward
+			for (Wards ward : wards) {
+				List<Station> stations = stationDao.getStationByWardId(ward.getWardId());
+				
+				for (Station station : stations) {
+					
+					int checked=0;
+					int unchecked=0;
+					
+					// Determine the StationStatus
+					List<StationSetupList> stationSetupStatusList = stationSetupStatusDao.getStationSetupStateByStationId(station.getId());
+					
+					for (StationSetupList stationSetupStatus : stationSetupStatusList) {
+						if (stationSetupStatus.getStatus()==true) {
+							checked++;
+						}
+						else {
+							unchecked++;
+						}
+					}
+					
+					//logger.debug("station="+station.getId()+", checked="+checked+", unchecked="+unchecked);
+					
+					if (unchecked==0) {
+						station.setStationStatus(Station.GREEN);
+					}
+					else if (checked==0) {
+						station.setStationStatus(Station.RED);
+					}
+					else {
+						station.setStationStatus(Station.ORANGE);
+					}
+					
+				}
+
+				
+				ward.setStations(stations);
+			}
+			
+			// Calculate the TotalBallotPapersIssued and TotalPostalPacks
+			int totalBallotPapersIssued = 0;
+			int totalPostalPacks = 0;
+			int ordinaryTotalIssued = 0;
+			int ordinaryNumberOfReplacements = 0;
+			int ordinaryCalsIssuedAndNotSpoilt = 0;
+			int ordinaryTotalUnused = 0;
+			int tenderedTotalIssued = 0;
+			int tenderedTotalSpoilt = 0;
+			int tenderedTotalUnused = 0;
+			
+			for (Wards ward : wards) {
+				for (Station station : ward.getStations()) {
+					totalBallotPapersIssued += station.getBallotPapersIssued();
+					totalPostalPacks += station.getPostalPacksReceived();
+					ordinaryTotalIssued += station.getOrdinaryTotalIssued();
+					ordinaryNumberOfReplacements += station.getOrdinaryNumberOfReplacements();
+					ordinaryCalsIssuedAndNotSpoilt += station.getOrdinaryCalsIssuedAndNotSpoilt();
+					ordinaryTotalUnused += station.getOrdinaryTotalUnused();
+					tenderedTotalIssued += station.getTenderedTotalIssued();
+					tenderedTotalSpoilt += station.getTenderedTotalSpoilt();
+					tenderedTotalUnused += station.getTenderedTotalUnused();
+				}
+			}
+			
+			campaign.setTotalBallotPapersIssued(totalBallotPapersIssued);
+			campaign.setTotalPostalPacks(totalPostalPacks);
+			campaign.setOrdinaryTotalIssued(ordinaryTotalIssued);
+			campaign.setOrdinaryNumberOfReplacements(ordinaryNumberOfReplacements);
+			campaign.setOrdinaryCalsIssuedAndNotSpoilt(ordinaryCalsIssuedAndNotSpoilt);
+			campaign.setOrdinaryTotalUnused(ordinaryTotalUnused);
+			campaign.setTenderedTotalIssued(tenderedTotalIssued);
+			campaign.setTenderedTotalSpoilt(tenderedTotalSpoilt);
+			campaign.setTenderedTotalUnused(tenderedTotalUnused);
+			
+			logger.debug("GET Ward - all=" + campaign.toString());
+			send(request, response).json(campaign);
+			
+		} catch (Exception e) {
+			logger.error("Unexpected Exception", e);
+			send(request, response).status(Code.SERVER_ERROR_INTERNAL);
+		}
+	}
+}

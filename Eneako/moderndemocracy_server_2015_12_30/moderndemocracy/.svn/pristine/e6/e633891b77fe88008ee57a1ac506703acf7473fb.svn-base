@@ -1,0 +1,92 @@
+package com.moderndemocracy.jetty;
+
+import com.anaeko.service.auth.SessionContext;
+import com.anaeko.service.auth.User;
+import com.anaeko.service.dao.auth.Users;
+import com.anaeko.utils.app.ConfigurationException;
+import com.anaeko.utils.monitor.HasStats;
+import com.anaeko.utils.text.EmailTemplates;
+import com.moderndemocracy.dao.AuthenticatedUsersDao;
+//import com.moderndemocracy.email.EmailHelper;
+
+public class ModernDemocracyContext extends SessionContext implements HasStats {
+
+	private static final long serialVersionUID = 1L;
+
+	private ModernDemocracyService ProProjectService;
+
+	/** Email Templates. */
+	private EmailTemplates emailTemplates;
+
+	/**
+	 * @param ProProjectService
+	 */
+	public ModernDemocracyContext(ModernDemocracyService ProProjectService) {
+		super(ProProjectService);
+		this.ProProjectService = ProProjectService;
+	}
+
+	public ModernDemocracyService getProProjectService() {
+		return ProProjectService;
+	}
+
+	/**
+	 * Override this to provide custom User implementation and DAO access
+	 * 
+	 * @return an instance of a {@link Users} DAO
+	 */
+	public AuthenticatedUsersDao createUsersDAO() {
+		return new com.moderndemocracy.dao.AuthenticatedUsersDao(getDataSource());
+	}
+
+	@Override
+	public com.anaeko.service.auth.Session getSession(String sessionId) {
+		return (com.anaeko.service.auth.Session) super.getSession(sessionId);
+	}
+
+	@Override
+	public com.moderndemocracy.pojo.AuthenticatedUser getUser(String sessionId) {
+		return (com.moderndemocracy.pojo.AuthenticatedUser) super.getUser(sessionId);
+	}
+
+	@Override
+	public com.moderndemocracy.pojo.AuthenticatedUser getUser(int user) {
+		return (com.moderndemocracy.pojo.AuthenticatedUser) super.getUser(user);
+	}
+
+	@Override
+	public com.moderndemocracy.pojo.AuthenticatedUser findUserByName(String username) {
+		return (com.moderndemocracy.pojo.AuthenticatedUser) super
+				.findUserByName(username);
+	}
+
+	@Override
+	public com.anaeko.service.auth.Session findSessionForUser(User user) {
+		return (com.anaeko.service.auth.Session) super.findSessionForUser(user);
+	}
+
+	public void initialise() throws ConfigurationException {
+		loadRealms();
+		//initialiseEmailTemplates();
+	}
+
+	/**
+	 * Initialise email templates.
+	 * 
+	 * @throws ConfigurationException
+	 *             if an error occurs creating the EmailTemplates.
+	 */
+	/*private void initialiseEmailTemplates() throws ConfigurationException {
+		emailTemplates = new EmailTemplates(getConfiguration());
+		EmailHelper.configure(getConfiguration(), emailTemplates);
+	}
+	*/
+
+	/**
+	 * @return the base directory for stored templates
+	 */
+	public EmailTemplates getEmailTemplates() {
+		return emailTemplates;
+	}
+
+}

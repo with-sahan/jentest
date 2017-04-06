@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="gettopnotifications" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>gettopnotifications</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="gettopnotifications" useConfig="mdl_psm">
+    <sql>call gettopnotifications(?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;         "notification_id":$notification_id,&#xD;         "message":"$message",&#xD;         "att_url":"$att_url",&#xD;          "generatedon":"$generatedon",&#xD;          "isprivate":$isprivate, &#xD;          "response":"$response"&#xD;&#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="gettopnotifications">
+    <description>gettopnotifications</description>
+    <call-query href="gettopnotifications">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="gettopnotifications">
+    <description>gettopnotifications</description>
+    <call-query href="gettopnotifications">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

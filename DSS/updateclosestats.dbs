@@ -1,0 +1,50 @@
+<data name="updateclosestats" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>polling station manager service - update close stats&#13;                                </description>
+   <config id="mdl_psm">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="updateclosestats" useConfig="mdl_psm">
+      <sql>call updateclosestats (?,?,?,?,?,?,?,?,?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": [&#13;      {&#13;        "response": "$response",&#13;        &#13;      }&#13;    ]&#13;  }&#13;}&#13;</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="electionid" sqlType="INTEGER"/>
+      <param name="tot_ballots" sqlType="INTEGER"/>
+      <param name="tot_spoiled_replaced" sqlType="INTEGER"/>
+      <param name="tot_unused" sqlType="INTEGER"/>
+      <param name="tot_tend_ballots" sqlType="INTEGER"/>
+      <param name="tot_tend_spoiled" sqlType="INTEGER"/>
+      <param name="tot_tend_unused" sqlType="INTEGER"/>
+      <param name="pollingstationid" sqlType="INTEGER"/>
+   </query>
+   <operation name="updateclosestats">
+      <description>updateclosestats                                    &#13;                                    </description>
+      <call-query href="updateclosestats">
+         <with-param name="token" query-param="token"/>
+         <with-param name="electionid" query-param="electionid"/>
+         <with-param name="tot_ballots" query-param="tot_ballots"/>
+         <with-param name="tot_spoiled_replaced" query-param="tot_spoiled_replaced"/>
+         <with-param name="tot_unused" query-param="tot_unused"/>
+         <with-param name="tot_tend_ballots" query-param="tot_tend_ballots"/>
+         <with-param name="tot_tend_spoiled" query-param="tot_tend_spoiled"/>
+         <with-param name="tot_tend_unused" query-param="tot_tend_unused"/>
+         <with-param name="pollingstationid" query-param="pollingstationid"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="updateclosestats">
+      <description>updateclosestats                                    &#13;                                    &#13;                                    </description>
+      <call-query href="updateclosestats">
+         <with-param name="token" query-param="token"/>
+         <with-param name="electionid" query-param="electionid"/>
+         <with-param name="tot_ballots" query-param="tot_ballots"/>
+         <with-param name="tot_spoiled_replaced" query-param="tot_spoiled_replaced"/>
+         <with-param name="tot_unused" query-param="tot_unused"/>
+         <with-param name="tot_tend_ballots" query-param="tot_tend_ballots"/>
+         <with-param name="tot_tend_spoiled" query-param="tot_tend_spoiled"/>
+         <with-param name="tot_tend_unused" query-param="tot_tend_unused"/>
+         <with-param name="pollingstationid" query-param="pollingstationid"/>
+      </call-query>
+   </resource>
+</data>

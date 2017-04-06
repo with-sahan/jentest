@@ -1,0 +1,30 @@
+<ion-view title="Station Assignment" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-content class="has-header">
+    <div class="logo">
+      <img src="img/sheffield_city_council_banner.jpg">
+    </div>
+
+   <div class="contentWrapper">      
+
+    <ion-item>
+      <h2>Please be advised of your {{userInfo.areaName}} and station:</h2>
+    </ion-item>
+
+    <ion-item>
+      <label>Electoral {{userInfo.areaName}}:</label>
+      <h3>{{userInfo.wardName}}</h3>
+    </ion-item>
+
+    <ion-item>
+      <label>Polling Station:</label>
+      <h3>{{userInfo.pollingStationName}}</h3>
+    </ion-item>
+    <div class="content list buttonBar">
+     <button class="button button-full" ng-click="confirmUserAssignment();">Confirm</button>
+    </div>
+   </div>
+  </ion-content>
+</ion-view>

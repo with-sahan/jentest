@@ -1,0 +1,40 @@
+        <!-- BEGIN LOGIN BOX -->
+        <div class="container" id="login-block" ng-controller="mdl.mobileweb.controller.login as vm">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="account-wall">
+                        <i class="user-img icons-faces-users-03"></i>
+                        <form class="form-signin" role="form" method="post">
+                        	<div class="append-icon">
+                                <input type="text" name="organization" id="organization" class="form-control form-white username" ng-model='vm.user.organization_code' placeholder="Organization" required>
+                                <i class="icons-education-science-18"></i>
+                            </div>
+                            <div class="append-icon">
+                                <input type="text" name="name" id="name" class="form-control form-white username" ng-model='vm.user.username' placeholder="Username" required>
+                                <i class="icon-user"></i>
+                            </div>
+                            <div class="append-icon m-b-20">
+                                <input type="password" name="password" class="form-control form-white password" ng-model='vm.user.usersecret' placeholder="Password" required autocomplete="off">
+                                <i class="icon-lock"></i>
+                            </div>
+                            <button type="submit" id="submit-form" ng-click="vm.clickLogin(vm.user)" class="btn btn-lg btn-danger btn-block ladda-button" data-style="expand-left">Sign In</button>
+                            
+                        </form>
+                        <form class="form-password" role="form" method="post">
+                            <div class="append-icon m-b-20">
+                                <input type="password" name="password" class="form-control form-white password" placeholder="Password" required autocomplete="off">
+                                <i class="icon-lock"></i>
+                            </div>
+                            <button type="submit" id="submit-password" class="btn btn-lg btn-danger btn-block ladda-button" data-style="expand-left">Send Password Reset Link</button>
+                            <div class="clearfix">
+                                <p class="pull-left m-t-20"><a id="login" href="#">Already got an account? Sign In</a></p>
+                                <p class="pull-right m-t-20"><a href="user-signup-v1.html">New here? Sign up</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div><br /><br />
+            <p class="account-copyright">
+                <span>Copyright &copy; 2016 </span><span>MDL</span>.&nbsp;&nbsp;<span>All rights reserved.</span>
+            </p>          
+        </div>

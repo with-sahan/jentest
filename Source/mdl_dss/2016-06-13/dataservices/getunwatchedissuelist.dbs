@@ -1,0 +1,23 @@
+<data name="getunwatchedissuelist" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>     getunwatchedissuelist                           &#13;                                </description>
+   <config id="mdl_psm">
+      <property name="carbon_datasource_name">mdl-psm-ds</property>
+   </config>
+   <query id="getunwatchedissuelist" useConfig="mdl_psm">
+      <sql>call getunwatchedissuelist(?)</sql>
+      <result outputType="json">{&#13;    "result": {&#13;        "entry": [&#13;            {&#13;                "id": $id,&#13;                "description": "$description",&#13;"response": "$response"&#13;            }&#13;        ]&#13;    }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="getunwatchedissuelist">
+      <description>getunwatchedissuelist</description>
+      <call-query href="getunwatchedissuelist">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getunwatchedissuelist">
+      <description>getunwatchedissuelist</description>
+      <call-query href="getunwatchedissuelist">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

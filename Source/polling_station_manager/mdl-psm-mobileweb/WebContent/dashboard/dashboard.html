@@ -1,0 +1,133 @@
+<div class="panel psmhome"
+	ng-controller="mdl.mobileweb.controller.dashboard as vm">
+	<div class="panel-header">
+		<!-- <h3>
+			<i class="icon-target"></i> <strong>Dashboard</strong>
+		</h3> -->
+	</div>
+	<div class="row stationlist">
+		<div class="col-md-12">
+			<tabset class="tab-fade-in"> <tab
+				ng-repeat="election in vm.elections"
+				ng-click="vm.electionCheck(election.id)"> <tab-heading>
+			<b class="icons-education-science-18">&nbsp;&nbsp;&nbsp;&nbsp;
+				{{election.electionName}} </b> </tab-heading> <br />
+			<div class="row station_status" ng-show="vm.allStationsOpened>0">
+				<div class="col-md-12">
+					<div class="panel">
+						<div class="panel-content widget-info">
+							<div class="left"
+								ng-repeat="electionstat in vm.allElectionStats.dashboardData">
+								<i class="fa"
+									ng-class="electionstat.status=='0'? 'fa-lock bg-red' : 'fa-unlock bg-green'"></i><br />
+								{{electionstat.stationName}}
+							</div>
+							<div class="spacer_1px"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="panel">
+						<div class="panel-content widget-info">
+							<div class="row">
+								<div class="left">
+									<i class="fa fa-clipboard bg-green"></i>
+								</div>
+								<div class="right">
+									<p class="number countup" data-from="0" data-to="52000">{{vm.allElectionStats.ballotPapers}}</p>
+									<p class="text">Ballot Papers</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>	
+				<div class="col-md-4">
+					<div class="panel">
+						<div class="panel-content widget-info">
+							<div class="row">
+								<div class="left">
+									<i class="fa fa-line-chart bg-blue"></i>
+								</div>
+								<div class="right">
+									<p class="number countup" data-from="0" data-to="52000">{{vm.allElectionStats.percentage.toFixed(2)}} %</p>
+									<p class="text">Voter Turnout</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>							
+				<div class="col-md-4">
+					<div class="panel">
+						<div class="panel-content widget-info">
+							<div class="row">
+								<div class="left">
+									<i class="fa fa-suitcase bg-aero"></i>
+								</div>
+								<div class="right">
+									<p class="number countup" data-from="0" data-to="52000">{{vm.allElectionStats.postalPacks}}</p>
+									<p class="text">Postal Packs Remaining</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel">
+						<div class="panel-content tbl_scroll_x">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>Polling Station</th>
+										<th>Ballot Papers Issued</th>
+										<th>Postal Packs Collected/Received</th>
+										<th>Pending Issues/Total Issues</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="electionstat in vm.allElectionStats.dashboardData">
+										<td>{{electionstat.stationName}}</td>
+										<td>{{electionstat.ballotPapersIssued}}</td>
+										<td>{{electionstat.postalPackesCollected}} / {{electionstat.postalPackesRecevied}}</td>
+										<td>{{electionstat.issueStatus}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel">
+		                <div class="panel-header">
+		                    <h3><i class="fa fa-table"></i> <strong>Notifications</strong></h3>
+		                </div>					
+						<div class="panel-content notification tbl_scroll_x">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>Type</th>
+										<th>Description</th>
+										<th>Time</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="topNotification in vm.allElectionStats.dashboardNotifications" ng-click="vm.viewNotification(topNotification.id)">
+										<td ng-class="topNotification.messageType=='Private' ? 'cus_private' : 'cus_global'">{{topNotification.messageType}}</td>
+										<td>{{topNotification.message.substring(0, 15)}}...</td>
+										<td>{{topNotification.messageTime.split(' ')[0] +"T"+ topNotification.messageTime.split(' ')[1] | date:"yyyy-MM-dd 'at' h:mma"}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>			
+			</tabset>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,5 @@
+id,role_id,council_id,login_name,secret,api_key,encryption,uri,first_name,last_name,age,gender,timezone,locale,status,login_count,station_id,created_on,updated_on
+1,1,1,user1,password,NULL,None,userUri,Richard,Lyttle,17,male,GMT,en_GB,1,2,5,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+2,2,1,admin1,password,NULL,None,userUri,KianPeng,Yong,19,male,GMT,en_GB,1,2,0,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+3,3,1,admin2,password,NULL,None,userUri,KianPeng,Yong,19,male,GMT,en_GB,1,2,0,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+4,4,1,admin3,password,NULL,None,userUri,KianPeng,Yong,19,male,GMT,en_GB,1,2,0,"2011/08/01 10:11:00","2011/08/01 10:11:00"

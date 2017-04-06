@@ -1,0 +1,287 @@
+// Main SCSS 
+@import 'colours.scss';
+@import 'typography.scss';
+@import 'mixins.scss';
+@import 'media.scss';
+
+body{font-size:15px;}
+img {
+    height: auto;
+    max-width: 100%;
+}
+.item h2{font-size:20px;}
+h4{font-size:22px;}
+.clearfix:after {
+    clear: both;
+    content: "";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.menu-left {
+  background-color: #242424 !important; }
+  .menu-left .bar.bar-stable {
+    background-color: $black; }
+    .menu-left .bar.bar-stable .title {
+      color: #ecebeb;
+      text-align: left; }
+
+.menu {
+  background-color: $black;
+  color: white; }
+  .menu .item, .menu .item-complex .item-content{
+    background-color:$black;
+    color: $white; 
+	font-size:20px;
+	border-bottom:1px solid #434343;
+	}
+.list{margin-top:50px;}
+.center{text-align:center;}
+.pane, .view {
+  background-color: $white; } 
+  
+.bar {
+  background-size: 100% 0px; 
+  height:50px;
+  }
+  .bar.bar-stable {
+    background-color: $black; }
+    .bar.bar-stable .title {
+      color: $white; }
+    .bar.bar-stable .button {
+      color: $white; }
+      .bar.bar-stable .button:hover {
+        color: $white; }
+.bar{
+	.title{
+     color: $black;
+	 line-height:55px;	 
+	}	
+	h1{
+	 &.title{font-size:22px;font-weight:bold;}
+	}
+	h2{
+	 &.title{
+	  font-size:20px;
+	  text-shadow: 1px 1px 1px rgba(150, 150, 150, 0.54);
+	  }   
+	} 
+}
+
+.bar-subheader {
+  top: 44px;
+  border-bottom: 1px solid #ddd;
+  background-color:$grey-background;
+   }
+   
+.icon-button {
+  margin: 0 auto 10px;
+  background-color: $blue;
+  color: white;
+  width: 150px;
+  height: 150px;
+  line-height: 150px;
+  font-size: 80px;
+  border: solid 2px $grey; 
+   @include inset-box-shadow(0px, 0px, 5px, rgba(0,0,0,0.3));
+   @include linear-gradient(#69c4e8, #21a1d4);
+  }
+
+.contentWrapper{width:85%;margin:0 auto 1%;height:100%;padding-top:10px;}
+
+.logo{text-align:center;}
+
+.content.list{width:85%;margin:0 auto;
+     &.buttonBar{border-top:1px solid $grey;height:70px;} 
+     &.login{
+      label{
+        width:55%;
+        margin:0 auto;
+        @media screen and (max-width: $break-medium) {
+         width:100%;
+         }
+        }
+      .input-label{width:90px;}
+       }
+    }        
+
+   .border{
+     border-bottom:1px solid $grey;
+     padding:5px 0;
+	 h5{
+	  padding-left:60px;
+	  padding-top:5px;
+	  font-size:18px;
+	 }
+     }
+    
+   form{ margin-top:20px; 
+    .input-label {
+      color: $text-colour;
+	  width:500px; 
+	  position:relative;
+    }
+    .item {
+  		border-color: $white;
+  		color: $black;
+  		background-color: $white;
+  	}
+    
+   } 
+ textarea{
+     display:block;
+     min-height: 150px;
+	 position:relative;
+	 width:46%;
+   }
+.item-input{
+   padding: 6px 5px 5px 16px;
+   &.message{
+    align-items:flex-start;	
+   }
+   .input-label{font-size:17px;}
+   input{position:relative;}
+   .calculation{
+    border:1px solid $grey;
+    padding:8px 5px 5px 7px;
+    background:$white;
+    flex:1 0 34.5%;
+	margin:2px;
+   }
+}
+.content .list{   
+   &.notifications{
+   width:100%;
+  .item-input{
+   &.message{border-bottom:1px solid $grey;}
+  }
+ }
+}
+
+.button{font-size:20px;}
+.button.button-block, .button.ng-binding{
+    @include box-shadow(0, 1px, 2px, rgba(50, 50, 50, 0.35));
+    @include transition(all, 0.5s, ease-in-out);
+    &.button-positive{
+    background-color:$blue;
+    border-color:$dark-blue;
+    border-radius:0;
+    }
+    &.button-green{
+      background-color:$green;
+      border-color:$dark-green;
+      color:$white;
+      border-radius:0;
+	  width:43.5%;
+	  margin: 10px auto;
+     }
+}
+.button.button-full{
+    background-color:$blue;
+    border-color:$dark-blue;
+    border-radius:0;
+    color:$white;
+    width:43.5%;
+    margin:20px 0px;
+    float:right;
+    line-height:20px;
+    @include box-shadow(0, 1px, 2px, rgba(50, 50, 50, 0.35));
+    @include transition(all, 0.5s, ease-in-out);
+}
+.ion-alert{
+    color:$red;
+    padding-right:20px;
+}
+.ion-checkmark-round{
+   color:$green;
+   padding-right:20px;
+}
+.ion-information-circled{
+	color:$blue;
+	padding-right:20px;
+}
+.item-checkbox {
+  min-height: 50px; 
+  font-size: 14px;
+  margin: 0;
+  padding: 15px 5px 5px 60px;
+  }
+.checkbox input:before, .checkbox .checkbox-icon:before{border-color:$blue;}
+.checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before{background:$blue;}
+.bar{
+ &.footer{height:90px;}
+}
+
+.modalHeader{border-bottom: 2px solid $blue;}
+ion-modal-view{
+  ion-content{
+   &.has-footer{
+   bottom:90px;
+   }
+  }
+ }
+ 
+ .poweredBy{
+ 	text-align:center;
+	width:100%;
+	p{
+	 width:100px;
+	 display:inline-block;
+	 color:$text-colour;
+	 font-size:0.8em;
+	}
+	img{
+	 width:100px;
+	 display:inline-block;
+	 vertical-align:middle;
+	}
+}
+
+.popup-container {
+   .popup{
+    width:300px;
+   }
+}
+.popup-head{
+   border-bottom: 2px solid $blue;
+   background:rgba(46,79,79,0.95);
+   .popup-title{
+   font-size:22px;
+   color:$white;
+   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+   }
+}
+.popup-body {
+    background: $grey-background;
+    border-bottom: 1px solid $grey;
+    font-size: 16px;
+}
+.bulletpoint:after {
+    border-radius: 50%;
+    color: #2E4F4F;
+    content: "\f12e";
+	font-family: "Ionicons";
+	font-size:36px;
+    display: block;
+    height: 40px;
+    left: 5px;
+    line-height: 30px;
+    position: absolute;
+    text-align: center;
+    text-decoration: inherit;
+    text-transform: none;
+    top: 5px;
+    width: 36px;
+}
+.bulletpoint{border: 1px solid #2E4F4F;
+    border-radius: 50%;
+    height: 45px;
+    position: absolute;
+    width: 45px;
+    z-index: 20;
+	text-decoration:none;
+	opacity:0.7;	
+	}
+	
+.checklist{width:50%;display:inline-block;}
+.stationOpenBtn{display:inline;}

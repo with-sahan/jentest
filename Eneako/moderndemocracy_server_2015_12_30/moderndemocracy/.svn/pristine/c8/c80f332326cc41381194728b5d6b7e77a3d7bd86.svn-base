@@ -1,0 +1,12 @@
+id,role_id,login_name,secret,api_key,encryption,uri,first_name,last_name,timezone,locale,status,login_count,station_id,created_on,updated_on
+1,1,user1@moderndemocracy.com,password,NULL,None,userUri,Richard,Lyttle,GMT,en_GB,1,2,1,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+2,1,user2@moderndemocracy.com,password,NULL,None,userUri,KianPeng,Yong,GMT,en_GB,1,2,2,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+3,1,admin1@moderndemocracy.com,password,NULL,None,userUri,Colm,Hayden,GMT,en_GB,1,2,2,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+4,1,pamelashepherd@moderndemocracy.com,ps1301014,NULL,None,userUri,Pamela,Shapherd,GMT,en_GB,1,2,1,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+5,1,cherylsmalle@moderndemocracy.com,ps2301014,NULL,None,userUri,Cheryl,Smalle,GMT,en_GB,1,2,2,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+6,1,donnamoga@moderndemocracy.com,ps3301014,NULL,None,userUri,Donna,Moga,GMT,en_GB,1,2,1,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+7,1,paulspencer@moderndemocracy.com,ps4301014,NULL,None,userUri,Paul,Spencer,GMT,en_GB,1,2,2,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+8,1,johnpayne@moderndemocracy.com,ps5301014,NULL,None,userUri,John,Payne,GMT,en_GB,1,2,1,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+9,1,joanneparkes@moderndemocracy.com,ps6301014,NULL,None,userUri,Joanne,Parkes,GMT,en_GB,1,2,2,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+10,1,siobhandonaghy@moderndemocracy.com,Modern2014,NULL,None,userUri,Siobhan,Donaghy,GMT,en_GB,1,2,2,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+11,1,carmelquigg@moderndemocracy.com,Modern2014,NULL,None,userUri,Carmel,Quigg,GMT,en_GB,1,2,2,"2011/08/01 10:11:00","2011/08/01 10:11:00"

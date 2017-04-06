@@ -1,0 +1,14 @@
+{
+  "name": "ModernDemocracy",
+  "app_id": "",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://moderndemocracy.loc/api"
+    },
+    {
+      "path": "/pub",
+      "proxyUrl": "http://moderndemocracy.loc/pub"
+    }
+  ]
+}

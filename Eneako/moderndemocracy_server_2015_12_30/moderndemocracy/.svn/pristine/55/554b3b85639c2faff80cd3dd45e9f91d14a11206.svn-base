@@ -1,0 +1,8 @@
+<div>
+Email address: {email} successfully paid for ProProject meeting<br/>
+Cost Billed: {bookingcost}<br/>
+<br/>
+Thank You<br/> 
+<br/>
+ProProject<br/><br/><br/>
+</div>

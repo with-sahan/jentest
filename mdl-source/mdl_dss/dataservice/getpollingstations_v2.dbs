@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getpollingstations_v2" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getpollingstations_v2</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getpollingstations_v2" useConfig="mdl_psm">
+    <sql>call psm.getpollingstations_v2 (?)</sql>
+    <result outputType="json">{&#xD; "result":{&#xD;  "entry":[&#xD;   {"response":$response,&#xD;    "polling_station_id":$polling_station_id,&#xD;    "polling_station_name":$polling_station_name,&#xD;    "polling_station_address":$polling_station_address,&#xD;    "polling_station_postcode":$polling_station_postcode,&#xD;    "opentime":$opentime,&#xD;    "organization_id":$organization_id&#xD;   }&#xD;  ]&#xD; }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="getpollingstations_v2">
+    <description>getpollingstations_v2</description>
+    <call-query href="getpollingstations_v2">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getpollingstations_v2">
+    <description>getpollingstations_v2</description>
+    <call-query href="getpollingstations_v2">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

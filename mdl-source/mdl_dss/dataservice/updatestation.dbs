@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="updatestation" serviceNamespace="updatestation" transports="http https">
+  <description>updatestation</description>
+  <config id="updatestation">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="updatestation" useConfig="updatestation">
+    <sql>call psm.updatestation(?,?,?,?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": { &#xD;         "response": $response&#xD;   }    &#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="stationid" sqlType="INTEGER" />
+    <param name="electionid" sqlType="INTEGER" />
+    <param name="boxnumber" sqlType="STRING" />
+    <param name="stationname" sqlType="STRING" />
+  </query>
+  <operation name="updatestation">
+    <description>updatestation</description>
+    <call-query href="updatestation">
+      <with-param name="token" query-param="token" />
+      <with-param name="stationid" query-param="stationid" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="boxnumber" query-param="boxnumber" />
+      <with-param name="stationname" query-param="stationname" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="updatestation">
+    <description>updatestation</description>
+    <call-query href="updatestation">
+      <with-param name="token" query-param="token" />
+      <with-param name="stationid" query-param="stationid" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="boxnumber" query-param="boxnumber" />
+      <with-param name="stationname" query-param="stationname" />
+    </call-query>
+  </resource>
+</data>

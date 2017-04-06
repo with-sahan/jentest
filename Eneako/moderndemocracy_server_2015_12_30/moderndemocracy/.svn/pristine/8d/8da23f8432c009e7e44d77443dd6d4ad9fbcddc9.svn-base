@@ -1,0 +1,38 @@
+<div ng-include="'/templates/_header.html'"></div>
+<section class="grid-wrap">
+  <div class="grid-col content">
+    <table id="stations" class="table" cellspacing="0" class="boxProgress">
+     <tr class="caption"><td colspan="2">Ordinary Ballot Papers</td></tr>
+      <tr>
+        <td>Total ballot papers issued</td>
+        <td>{{wardData.ordinaryTotalIssued}}</td>
+      </tr>
+      <tr>
+        <td>Number of replacements for spoilt ballot papers</td>
+        <td>{{wardData.ordinaryNumberOfReplacements}}</td>
+      </tr>
+      <tr>
+        <td>Total ballot papers issued and not spoilt</td>
+        <td>{{wardData.ordinaryCalsIssuedAndNotSpoilt}}</td>
+      </tr>
+      <tr>
+        <td>Total unused ballot papers</td>
+        <td>{{wardData.ordinaryTotalUnused}}</td>
+      </tr>
+      <tr class="caption"><td colspan="2">Tendered Ballot Papers</td></tr>
+      <tr>
+        <td>Total ballot papers issued</td>
+        <td>{{wardData.tenderedTotalIssued}}</td>
+      </tr>
+      <tr>
+        <td>Total spoilt ballot papers</td>
+        <td>{{wardData.tenderedTotalSpoilt}}</td>
+      </tr>
+      <tr>
+        <td>Total unused ballot papers</td>
+        <td>{{wardData.tenderedTotalUnused}}</td>
+      </tr>
+    </table>
+  </div>
+</section>
+<div ng-include="'/templates/_footer.html'"></div>

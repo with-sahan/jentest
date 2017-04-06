@@ -1,0 +1,76 @@
+package com.moderndemocracy.json;
+
+import java.io.IOException;
+import java.util.List;
+
+import com.anaeko.utils.data.mime.json.DefaultJsonMarshaler;
+import com.anaeko.utils.io.MarshalerException;
+import com.anaeko.utils.json.JsonWriter;
+import com.moderndemocracy.pojo.Ward;
+
+public final class WardMarshaler extends DefaultJsonMarshaler {	
+
+	public static final String TOTAL_BALLOT_PAPERS_ISSUED = "totalBallotPapersIssued";
+	public static final String TOTAL_POSTAL_PACKS = "totalPostalPacks";
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void marshal(Object object, JsonWriter writer)
+			throws IOException, MarshalerException {
+
+		if (object instanceof List) {
+
+			int totalBallotPapersIssued = 0;
+			int totalPostalPacks = 0;
+			
+			writer.writeStartArray();
+
+			for (Ward ward : (Iterable<Ward>) object) {
+				
+				totalBallotPapersIssued += ward.getBallotPapersIssued();
+				totalPostalPacks += ward.getPostalPacksReceived();
+				
+				marshalWard(ward, writer);
+			}
+
+			writer.writeEndArray();
+			
+			writer.writeStartObject();
+			writer.writeField(TOTAL_BALLOT_PAPERS_ISSUED, totalBallotPapersIssued);
+			writer.writeField(TOTAL_POSTAL_PACKS, totalPostalPacks);
+			writer.writeEndObject();
+			
+		} else {
+			marshalWard((Ward) object, writer);
+		}
+	}
+
+	private void marshalWard(Ward ward, JsonWriter writer)
+			throws IOException {
+
+		writer.writeStartObject();
+
+		writer.writeField(Ward.WARD_NAME, ward.getWardName());
+		writer.writeField(Ward.STATION_NAME, ward.getStationName());
+		writer.writeField(Ward.BALLOT_PAPERS_ISSUED, ward.getBallotPapersIssued());
+		writer.writeField(Ward.POSTAL_PACKS_RECEIVED, ward.getPostalPacksReceived());
+		writer.writeField(Ward.ORDINARY_TOTAL_BALLOT_PAPER_ISSUED, ward.getOrdinaryTotalIssued());
+		writer.writeField(Ward.ORDINARY_SPOILT_BALLOT_PAPERS_REPLACEMENTS_ISSUED, ward.getOrdinaryNumberOfReplacements());
+		writer.writeField(Ward.ORDINARY_TOTAL_BALLOT_PAPERS_ISSUED_AND_NOT_SPOILT, ward.getOrdinaryCalsIssuedAndNotSpoilt());
+		writer.writeField(Ward.ORDINARY_TOTAL_UNUSED_BALLOT_PAPERS, ward.getOrdinaryTotalUnused());
+		writer.writeField(Ward.TENDERED_TOTAL_BALLOT_PAPERS_ISSUED, ward.getTenderedTotalIssued());
+		writer.writeField(Ward.TENDERED_TOTAL_SPOILT_BALLOT_PAPERS, ward.getTenderedTotalSpoilt());
+		writer.writeField(Ward.TENDERED_TOTAL_UNUSED_BALLOT_PAPERS, ward.getTenderedTotalUnused());
+		
+		writer.writeField(Ward.DISPATCH_TIME, ward.getDispatchTime());
+		writer.writeField(Ward.DELIVER_TIME, ward.getDeliverTime());
+		writer.writeField(Ward.ETA, ward.getEta());
+		
+		writer.writeField(Ward.BALLOT_BOX_NUMBER, ward.getBallot_box_number());
+		
+		writer.writeField(Ward.STATION_OPEN, ward.isStationOpen());
+
+		writer.writeEndObject();
+	}
+	
+}

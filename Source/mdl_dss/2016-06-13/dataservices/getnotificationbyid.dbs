@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getnotificationbyid" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getnotificationbyid</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getnotificationbyid" useConfig="mdl_psm">
+    <sql>call getnotificationbyid(?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;        "id": "$id",&#xD;        "message": "$message",&#xD;        "attachtment": "$attachtment",&#xD;        "senton": "$senton",&#xD;        "status":"$status",&#xD;        "response":"$response"&#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="notificationid" sqlType="INTEGER" />
+  </query>
+  <operation name="getnotificationbyid">
+    <description>getnotificationbyid</description>
+    <call-query href="getnotificationbyid">
+      <with-param name="token" query-param="token" />
+      <with-param name="notificationid" query-param="notificationid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getnotificationbyid">
+    <description>getnotificationbyid</description>
+    <call-query href="getnotificationbyid">
+      <with-param name="token" query-param="token" />
+      <with-param name="notificationid" query-param="notificationid" />
+    </call-query>
+  </resource>
+</data>

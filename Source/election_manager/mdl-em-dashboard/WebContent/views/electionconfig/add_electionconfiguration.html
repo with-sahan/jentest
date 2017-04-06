@@ -1,0 +1,96 @@
+<!-- 
+Project: MDL Dashboard Admin
+Author: Akarshani Amarasinghe
+Module: EM add election configuration HTML
+-->
+
+<div class="panel">
+    <div class="panel-header">
+        <h3><i class="fa fa-table"></i> <strong>Add New Election</strong></h3>
+    </div>
+    
+    <div class="panel-content" ng-controller="mdl.dashboard.controller.electionconfiguration as vm">
+        <div class="row stationlist">    
+	        <div class="col-md-12">
+	            <form class="form-horizontal ng-pristine ng-valid" role="form" name="form">
+					<div class="form-group">
+						<div class="col-sm-3">Election Name *</div>                                
+	                    <div class="col-sm-9">
+	                    	 <input type="text" class="col-md-6" ng-pattern="regex.words" 
+										style="float: center" ng-model="vm.electionconfig.ename">		
+	                    </div>
+	                </div>
+					<div class="form-group">
+						<div class="col-sm-3">Election Date *</div>                                
+	                    <div class="col-sm-9">
+	                    	 <input type="date" class="col-md-6"
+										style="float: center" ng-model="vm.electionconfig.edate">
+	                    </div>
+	                </div> 
+	                <div class="form-group">
+						<div class="col-sm-3">Election Start Time *</div>                                
+	                    <div class="col-sm-9">
+	                    	 <input type="time" class="col-md-6"
+										style="float: center" ng-model="vm.electionconfig.starttime">
+	                    </div>
+	                </div> 
+	                <div class="form-group">
+						<div class="col-sm-3">Election End Time *</div>                                
+	                    <div class="col-sm-9">
+	                    	 <input type="time" class="col-md-6"
+										style="float: center" ng-model="vm.electionconfig.endtime">
+	                    </div>
+	                </div> 
+	                <div class="form-group">
+						<div class="col-sm-3">Count Center Name *</div>                                
+	                    <div class="col-sm-9">
+	                    	 <input type="text" class="col-md-6" ng-pattern="regex.words" 
+										style="float: center" ng-model="vm.electionconfig.counting_center_name">
+	                    </div>
+	                </div>
+	                <div class="form-group">
+						<div class="col-sm-3">Count Center Address *</div>                                
+	                    <div class="col-sm-9">
+	                    	 <input type="text" class="col-md-6" ng-pattern="regex.address" 
+										style="float: center; writable: true;" ng-model="vm.electionconfig.counting_center_address">
+	                    </div>
+	                </div>
+	                <div class="input-group">
+                                <div class="icheck-inline">
+                                  <label>
+                                  <input type="checkbox" data-checkbox="icheckbox_square-blue" ng-true-value="2"
+                                                                           ng-false-value="1"
+                                                                           ng-model="vm.electionconfig.ballot_type_count"
+                                                                           applyicheck="vm.electionconfig.ballot_type_count"> Enable Second Ballot Paper</label>
+                                </div>
+                    </div>
+                      <div class="input-group">
+                                <div class="icheck-inline">
+                                  <label>
+                                  <input type="checkbox" data-checkbox="icheckbox_square-blue" ng-true-value="1"
+                                                                           ng-false-value="0"
+                                                                           ng-model="vm.electionconfig.BPA_identifier"
+
+                                                                           applyicheck="vm.electionconfig.BPA_identifier"> Ballot Paper Account Identifier</label>
+                                  
+                                </div>
+                    </div>
+	                <div class="form-group">
+	                    <div class="col-sm-12">
+	                        <!-- <button class="btn btn-success m-r-10" type="button">
+	                            Save
+	                        </button> -->
+	                        <button class="btn btn-success m-r-10" type="button" ng-click="vm.save(vm.electionconfig)" ng-disabled="vm.saveDisabled">Save</button>
+	                        <!-- <button class="btn btn-danger m-r-10" type="button">
+	                            Close
+	                        </button> -->
+	                        <button class="btn btn-danger m-r-10" type="button" ng-click="vm.cancel()">Cancel</button>
+	                    </div>
+	                </div>  
+	                	                    
+				</form>
+	        </div>
+        </div>
+    </div>
+    </div>
+</div>

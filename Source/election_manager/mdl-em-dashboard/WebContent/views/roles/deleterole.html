@@ -1,0 +1,48 @@
+
+
+<div class="panel" ng-controller="mdl.dashboard.controller.manageroles as vm">
+    <div class="panel-header">
+        <h3><i class="fa fa-table"></i> <strong>Delete Role - {{vm.newRole.rolename}}</strong></h3>
+    </div>
+    <div class="panel-content" >
+             <div class="row stationlist">
+        <div class="col-md-12">
+            <form class="form-horizontal ng-pristine ng-valid" role="form">
+            	<div class="form-group">
+					<div class="col-sm-3"></div>                                
+	                     <div class="col-sm-9">
+	                     	 Role could be deleted only after moving users inside this role to another Role. Please select a different role to transfer the users inside this role.
+	                     </div>
+                </div>
+				<div class="form-group">
+					<div class="col-sm-3">Alternative Role</div>                                
+	                     <div class="col-sm-9">
+	                     	 <select class="defaultWidth" data-style="white" id="rolelist" name="rolelist"  ng-model="vm.roles.selectedRole" wb-select3
+	                     	 ng-options="role.name for role in vm.roles.roleList track by role.id">
+                             </select><br>
+	                     </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button class="btn btn-success m-r-10" ng-click="vm.deleteData()" type="submit">Delete</button>
+                        <button class="btn btn-danger m-r-10" ng-click="vm.gotoManageScreen()" type="button">Close</button>
+                    </div>
+                </div> 
+                
+                <!-- <div class="form-group">
+					<div class="col-sm-3"></div>  
+						<div class="col-sm-9">
+                        	 <button class="btn btn-danger m-r-10" ng-click="vm.gotoManageScreen()" type="button">Close</button>
+                        </div>                              
+                        <div class="col-sm-9">
+                        	 <button class="btn btn-success m-r-10" ng-click="vm.deleteData()" type="submit">Delete Role</button>
+                        </div>
+                        
+                </div>   -->
+                	                    
+			</form>
+        </div>
+    </div>
+    </div>
+</div>

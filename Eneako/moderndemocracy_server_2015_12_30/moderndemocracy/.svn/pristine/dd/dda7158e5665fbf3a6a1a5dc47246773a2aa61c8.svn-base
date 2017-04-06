@@ -1,0 +1,7 @@
+id,text,order_id,status
+1,Not all staff have turned up at polling station,1,true
+2,Postal Vote Pack Handed in,2,true
+3,Not enough station ballot books,3,true
+4,Staff member is sick,4,true
+5,Urgently need Officer to attend,5,true
+6,Other,6,true

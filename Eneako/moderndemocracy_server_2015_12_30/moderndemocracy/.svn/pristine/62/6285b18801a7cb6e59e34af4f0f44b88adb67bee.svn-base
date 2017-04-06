@@ -1,0 +1,58 @@
+package com.moderndemocracy.jetty.handler;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+
+import com.anaeko.utils.http.Code;
+import com.anaeko.utils.io.MarshalerException;
+import com.moderndemocracy.dao.CandidatesDao;
+import com.moderndemocracy.dao.UsersDao;
+import com.moderndemocracy.pojo.AuthenticatedUser;
+import com.moderndemocracy.pojo.Candidates;
+import com.moderndemocracy.pojo.User;
+
+public class CandidatesHandler extends ModernDemocracyHandler {
+
+	private static final Logger logger = Logger.getLogger(CandidatesHandler.class);
+
+	@Override
+	protected String getSupportedMethods() {
+		return "GET";
+	}
+
+	@Override
+	protected void handleGet(String target, HttpServletRequest request,
+			HttpServletResponse response) throws MarshalerException,
+			IOException {
+		
+
+		try {
+			
+			// DAOs
+			UsersDao userDao = new UsersDao(getDataSource());
+			CandidatesDao candidatesDao = new CandidatesDao(getDataSource());
+						
+			// Get user info by sessionId
+			String id = read(request).sessionId();
+			AuthenticatedUser currentUser = (AuthenticatedUser)getServiceContext().getUser(id);
+			User user = userDao.getById(currentUser.getId());
+			
+			// Get Candidates by Council Id
+			List<Candidates> candidates = candidatesDao.getCandidatesByCouncilId(user.getCouncilId());
+			logger.debug("GET Candidates =" + candidates);
+			
+			// Return candidates for specific council to client
+			send(request, response).json(candidates);
+			
+		} catch (Exception e) {
+			logger.error("Unexpected Exception", e);
+			send(request, response).status(Code.SERVER_ERROR_INTERNAL);
+		}
+	}
+
+}

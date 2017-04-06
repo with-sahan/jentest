@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="updaterole" serviceNamespace="www.moderndemocracy.com/services/security" transports="http https">
+  <description>updaterole</description>
+  <config id="mdl_security">
+    <property name="carbon_datasource_name">mdl-security-ds</property>
+  </config>
+  <query id="updaterole" useConfig="mdl_security">
+    <sql>call updaterole(?,?,?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;        "response": "$response"&#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="roleid" sqlType="INTEGER" />
+    <param name="rolename" sqlType="STRING" />
+    <param name="description" sqlType="STRING" />
+  </query>
+  <operation name="updaterole">
+    <description>updaterole</description>
+    <call-query href="updaterole">
+      <with-param name="token" query-param="token" />
+      <with-param name="roleid" query-param="roleid" />
+      <with-param name="rolename" query-param="rolename" />
+      <with-param name="description" query-param="description" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="updaterole">
+    <description>updaterole</description>
+    <call-query href="updaterole">
+      <with-param name="token" query-param="token" />
+      <with-param name="roleid" query-param="roleid" />
+      <with-param name="rolename" query-param="rolename" />
+      <with-param name="description" query-param="description" />
+    </call-query>
+  </resource>
+</data>

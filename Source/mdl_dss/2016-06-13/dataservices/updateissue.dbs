@@ -1,0 +1,38 @@
+<data name="updateissue" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>updateissue</description>
+   <config id="mdl_psm">
+      <property name="carbon_datasource_name">mdl-psm-ds</property>
+   </config>
+   <query id="updateissue" useConfig="mdl_psm">
+      <sql>call updateissue(?,?,?,?,?,?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": [&#13;      {&#13;        "response": "$response"&#13;      }&#13;    ]&#13;  }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="issueid" sqlType="INTEGER"/>
+      <param name="userid" sqlType="INTEGER"/>
+      <param name="status" sqlType="INTEGER"/>
+      <param name="priority" sqlType="INTEGER"/>
+      <param name="comment" sqlType="STRING"/>
+   </query>
+   <operation name="updateissue">
+      <description>updateissue</description>
+      <call-query href="updateissue">
+         <with-param name="token" query-param="token"/>
+         <with-param name="issueid" query-param="issueid"/>
+         <with-param name="userid" query-param="userid"/>
+         <with-param name="status" query-param="status"/>
+         <with-param name="priority" query-param="priority"/>
+         <with-param name="comment" query-param="comment"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="updateissue">
+      <description>updateissue</description>
+      <call-query href="updateissue">
+         <with-param name="token" query-param="token"/>
+         <with-param name="issueid" query-param="issueid"/>
+         <with-param name="userid" query-param="userid"/>
+         <with-param name="status" query-param="status"/>
+         <with-param name="priority" query-param="priority"/>
+         <with-param name="comment" query-param="comment"/>
+      </call-query>
+   </resource>
+</data>

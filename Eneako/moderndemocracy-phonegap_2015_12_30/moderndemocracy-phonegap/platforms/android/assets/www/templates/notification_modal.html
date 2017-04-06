@@ -1,0 +1,48 @@
+<ion-modal-view>
+	<ion-header-bar class="modalHeader">
+		<h1 class="title notifications">  <i class="ion-information-circled"></i> <b>{{notificationData.length}} New Notifications</b></h1>
+
+</div>
+	</ion-header-bar>
+	<ion-content class="has-footer">
+        <div class="content list notifications">
+
+      		<ion-item ng-repeat="message in notificationData| orderBy:'-datetime'">
+
+				<div class="notificationContainer" style = "border-style: solid;border-width: 2px;border-radius:2px;border-color:#bbb">
+				  <div class="item item-divider" style="background-color:#30a9d8; font-size:150%; line-height:1.2;">
+				  	<div ng-if="message.private" style="width:50%; float:left;" ><b><u>New Private Message</u></b></div>
+				  	<div ng-if="!message.private" style="width:50%; float:left;"><b><u>New Global Message</u></b></div>
+				  	<div style="color:white; width:50%; float:left; text-align:right; padding-right:15px;">{{message.datetime | amDateFormat:'ddd, MMM Do YYYY, h:mm a'}}</div>		
+				  </div>
+
+				  <div class="item item-text-wrap item-button-right " style="background-color: #F0FFFF; font-size:160%;  ">
+					<div style="padding-right:15px;">{{message.text}}</div>
+					
+				    <button  ng-click="message.status = 'Comfirmed'; Acknowledge(message.id)"  class="button" ng-class ="message.status !='Comfirmed' ? 'orangy orangered' : 'blueish disabled'" style="font-size:60%">
+				    	Confirm
+				    </button>
+                   
+
+
+				  </div>
+				    <a class="item item-icon-right " ng-if="message.url" style="background-color:#f0ad4e; padding:10px; font-size:130%;display:block;"  ng-click="Download(message.url);">
+				    	 <i style="padding:7px; display:block;" class= "icon ion-android-download"></i> 
+				    	 {{message.url}}
+					    
+					   
+					</a>
+
+				
+		    </div>
+
+			</ion-item>
+
+        </div>        
+	</ion-content>
+    <ion-footer-bar align-title="left" class="bar footer clearfix">
+      <div class="content list buttonBar">
+		<button class="button button-full button-modern" ng-click="closeModal();">Close</button>
+      </div>
+    </ion-footer-bar>
+</ion-modal-view>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="adduser" serviceNamespace="www.moderndemocracy.com/services/security" transports="http https">
+  <description>adduser</description>
+  <config id="adduser">
+    <property name="carbon_datasource_name">mdl-security-ds</property>
+  </config>
+  <query id="adduser" useConfig="adduser">
+    <sql>call adduser(?,?,?,?,?,?,?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="firstname" sqlType="STRING" />
+    <param name="lastname" sqlType="STRING" />
+    <param name="email" sqlType="STRING" />
+    <param name="username" sqlType="STRING" />
+    <param name="userpassword" sqlType="STRING" />
+    <param name="language_id" sqlType="INTEGER" />
+  </query>
+  <operation name="adduser">
+    <call-query href="adduser">
+      <with-param name="token" query-param="token" />
+      <with-param name="firstname" query-param="firstname" />
+      <with-param name="lastname" query-param="lastname" />
+      <with-param name="email" query-param="email" />
+      <with-param name="username" query-param="username" />
+      <with-param name="userpassword" query-param="userpassword" />
+      <with-param name="language_id" query-param="language_id" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="adduser">
+    <description>adduser</description>
+    <call-query href="adduser">
+      <with-param name="token" query-param="token" />
+      <with-param name="firstname" query-param="firstname" />
+      <with-param name="lastname" query-param="lastname" />
+      <with-param name="email" query-param="email" />
+      <with-param name="username" query-param="username" />
+      <with-param name="userpassword" query-param="userpassword" />
+      <with-param name="language_id" query-param="language_id" />
+    </call-query>
+  </resource>
+</data>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getissuebyid" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getissuebyid</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getissuebyid" useConfig="mdl_psm">
+    <sql>call getissuebyid(?,?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "stationid": "$stationid",&#xD;                "stationname": "$stationname",&#xD;                "issuetype": "$issuetype",&#xD;                "issuedescription": "$issuedescription",&#xD;                "priority": "$priority",&#xD;                "resolutiondescription": "$resolutiondescription",&#xD;                "issuestatus": "$issuestatus",&#xD;                "assignedto": "$assignedto",&#xD;                "assignedon": "$assignedon",&#xD;                "createdon": "$createdon",&#xD;                "resolvedon": "$resolvedon",&#xD;                "userid": "$userid",&#xD;                "reportedby":"$reportedby",&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="issueid" sqlType="INTEGER" />
+  </query>
+  <operation name="getissuebyid">
+    <description>getissuebyid</description>
+    <call-query href="getissuebyid">
+      <with-param name="token" query-param="token" />
+      <with-param name="issueid" query-param="issueid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getissuebyid">
+    <description>getissuebyid</description>
+    <call-query href="getissuebyid">
+      <with-param name="token" query-param="token" />
+      <with-param name="issueid" query-param="issueid" />
+    </call-query>
+  </resource>
+</data>

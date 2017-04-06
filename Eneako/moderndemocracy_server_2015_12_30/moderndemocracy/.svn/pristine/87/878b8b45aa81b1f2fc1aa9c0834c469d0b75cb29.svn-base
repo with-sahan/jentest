@@ -1,0 +1,41 @@
+package com.moderndemocracy.jetty.handler;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+
+import com.anaeko.utils.http.Code;
+import com.anaeko.utils.io.MarshalerException;
+import com.moderndemocracy.dao.WardDao;
+import com.moderndemocracy.pojo.Ward;
+
+public class WardHandler extends ModernDemocracyHandler {
+
+	private static final Logger logger = Logger.getLogger(WardHandler.class);
+
+	@Override
+	protected String getSupportedMethods() {
+		return "GET";
+	}
+
+	@Override
+	protected void handleGet(String target, HttpServletRequest request,
+			HttpServletResponse response) throws MarshalerException,
+			IOException {
+		
+		WardDao wardDao = new WardDao(getDataSource());
+		
+		try {
+			List<Ward> res = wardDao.getAll();
+			logger.debug("Retrieved Ward: " + res);
+			send(request, response).json(res);
+		} catch (Exception e) {
+			logger.error("Unexpected Exception", e);
+			send(request, response).status(Code.SERVER_ERROR_INTERNAL);
+		}
+	}
+}

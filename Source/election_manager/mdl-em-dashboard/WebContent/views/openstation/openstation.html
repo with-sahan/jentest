@@ -1,0 +1,125 @@
+<!-- 
+Project: MDL Dashboard Admin
+Author: Vindya Hettige
+Module: EM Open Station HTML
+-->
+
+<div class="panel">
+	
+	<div class="panel-header panel-controls">
+		<h3>
+			<i class="icon-target"></i> <strong>Open</strong> Station
+		</h3>
+	</div>
+	<div class="row stationlist">
+		<div class="col-md-12">
+			<tabset class="tab-fade-in">
+			<div>
+				<div class="row">
+					<div class="col-lg-12 portlets">
+						<div class="panel">
+							<div class="panel-content">
+								<div class="row">
+									<div class="col-md-12">
+
+										<!-- <div class="row chk_selectall">
+											<div class="col-md-12">
+												<div class="input-group">
+													<div class="icheck-list">
+														<label> <input id="selectall" type="checkbox"
+															ng-true-value="1" ng-false-value="0"
+															ng-model="selectedAll" ng-change="checkAll()"
+															applyicheck="selectedAll"> Select All
+														</label>
+													</div>
+												</div>
+											</div>
+										</div> 
+										-->
+
+										<accordion class="panel-group panel-accordion"
+											close-others="true"> <accordion-group
+											is-open="open"
+											ng-repeat="prePollActivityGroup in prePollActivityGroups"
+											value="{{prePollActivityGroup.category}}">
+										<accordion-heading>
+										<div class="input-group">
+											<div class="icheck-list">
+												<label> <input type="checkbox" ng-true-value="1"
+													ng-false-value="0" ng-model="prePollActivityGroup.status"
+													applyicheck="prePollActivityGroup.status"
+													ng-disabled="true">
+													{{removeUnwantedStrings(prePollActivityGroup.category)}}
+												</label>
+											</div>
+										</div>
+
+										<i class="pull-right glyphicon"
+											ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}"
+											style="margin-top: -3%;"> </i> </accordion-heading>
+										<div class="panel-body"
+											ng-repeat="prePollActivity in prePollActivities | filter:prePollActivityGroup.category">
+											<div class="input-group">
+												<div class="icheck-list">
+													<input type="checkbox"
+														ng-model="prePollActivity.iscompleted" ng-true-value="1"
+														ng-false-value="0" data-checkbox="icheckbox_flat-blue"
+														applyicheck="prePollActivity.iscompleted"
+														ng-disabled="true">
+													{{prePollActivity.activity}}
+												</div>
+											</div>
+
+										</div>
+										</accordion-group> </accordion>
+									</div>
+								</div>
+								<div class="row">
+				<div class="col-md-12">
+					<a class="create_notification_button btn btn-danger m-r-10"
+											href="#/dashboard-summary"> Close </a>
+					<!-- <button class="btn btn-primary m-r-10" type="button"
+						ng-click="todashboard()">Close</button> -->
+					
+				</div>
+			</div> 
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- <div class="panel-body">
+                        <div class="form-group">
+                            <div class="row chk_selectall">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <div class="icheck-list">
+                                            <label> <input id="selectall" type="checkbox"
+                                                ng-model="vm.selectedAll" ng-change="vm.checkAll(selectedAll)" applyicheck>
+                                                Select All
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row select_target">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <div class="icheck-list">
+                                            <label ng-repeat="item in vm.activityList"> <input
+                                                type="checkbox" ng-model="item.status" ng-true-value="1"
+                                                ng-false-value="0" data-checkbox="icheckbox_flat-blue" applyicheck="item.status">{{item.activity}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> --> <br />
+			
+			
+			</tabset>
+		</div>
+	</div>
+</div>

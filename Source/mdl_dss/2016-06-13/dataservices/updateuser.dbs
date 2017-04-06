@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="updateuser" serviceNamespace="www.moderndemocracy.com/services/security" transports="http https">
+  <description>updateuser</description>
+  <config id="mdl_security">
+    <property name="carbon_datasource_name">mdl-security-ds</property>
+  </config>
+  <query id="updateuser" useConfig="mdl_security">
+    <sql>call updateuser(?,?,?,?,?,?,?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="userid" sqlType="INTEGER" />
+    <param name="firstname" sqlType="STRING" />
+    <param name="lastname" sqlType="STRING" />
+    <param name="email" sqlType="STRING" />
+    <param name="username" sqlType="STRING" />
+    <param name="roleid" sqlType="INTEGER" />
+  </query>
+  <operation name="updateuser">
+    <description>updateuser</description>
+    <call-query href="updateuser">
+      <with-param name="token" query-param="token" />
+      <with-param name="userid" query-param="userid" />
+      <with-param name="firstname" query-param="firstname" />
+      <with-param name="lastname" query-param="lastname" />
+      <with-param name="email" query-param="email" />
+      <with-param name="username" query-param="username" />
+      <with-param name="roleid" query-param="roleid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="updateuser">
+    <call-query href="updateuser">
+      <with-param name="token" query-param="token" />
+      <with-param name="userid" query-param="userid" />
+      <with-param name="firstname" query-param="firstname" />
+      <with-param name="lastname" query-param="lastname" />
+      <with-param name="email" query-param="email" />
+      <with-param name="username" query-param="username" />
+      <with-param name="roleid" query-param="roleid" />
+    </call-query>
+  </resource>
+</data>

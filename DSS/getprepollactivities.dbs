@@ -1,0 +1,32 @@
+<data name="getprepollactivities" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>getprepollactivities         </description>
+   <config id="mdl_psm">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="getprepollactivities" useConfig="mdl_psm">
+      <sql>call getprepollactivities (?,?,?)</sql>
+      <result outputType="json">{&#13;    "result": {&#13;        "entry": [&#13;            {&#13;                "id": "$id",&#13;                "activity": "$activity",&#13;                "status": "$status",&#13;            }&#13;        ]&#13;    }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="electionid" sqlType="INTEGER"/>
+      <param name="pollingstationid" sqlType="INTEGER"/>
+   </query>
+   <operation name="getprepollactivities">
+      <description>getprepollactivities                           &#13;                                    </description>
+      <call-query href="getprepollactivities">
+         <with-param name="token" query-param="token"/>
+         <with-param name="electionid" query-param="electionid"/>
+         <with-param name="pollingstationid" query-param="pollingstationid"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getprepollactivities">
+      <description>getprepollactivities                        &#13;                                    </description>
+      <call-query href="getprepollactivities">
+         <with-param name="token" query-param="token"/>
+         <with-param name="electionid" query-param="electionid"/>
+         <with-param name="pollingstationid" query-param="pollingstationid"/>
+      </call-query>
+   </resource>
+</data>

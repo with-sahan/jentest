@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getplaceslist" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getplaceslist</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getplaceslist" useConfig="mdl_psm">
+    <sql>call psm.getplaceslist (?)</sql>
+    <result outputType="json">{&#xD; "result":{&#xD;  "entry":[&#xD;   {"hierarchy_value_id":$hierarchy_value_id,&#xD;    "hierarchy_value_name":$hierarchy_value_name,&#xD;    "response":$response&#xD;   }&#xD;  ]&#xD; }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="getplaceslist">
+    <description>getplaceslist</description>
+    <call-query href="getplaceslist">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getplaceslist">
+    <description>getplaceslist</description>
+    <call-query href="getplaceslist">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

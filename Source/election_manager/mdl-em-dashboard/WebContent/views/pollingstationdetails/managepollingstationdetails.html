@@ -1,0 +1,91 @@
+<!-- 
+Project: MDL Dashboard Admin
+Author: Vindya Hettige
+Module: EM polling Station Details HTML
+-->
+
+<div class="panel">
+    <div class="panel-header">
+        <h3><i class="fa fa-table"></i> <strong>Polling Station Details</strong></h3>
+    </div>
+    <div class="panel-content" ng-controller="mdl.dashboard.controller.managepollingstationdetails as vm">
+    	<ng-include src="template" ></ng-include>
+        <div class="row">
+							<!-- <form ng-hide="stationList.filestatus=='success'"> -->
+			              	<form>
+								<input class="upload-file ng-pristine ng-invalid ng-invalid-required g_fl" type="file" ngf-select ng-model="vm.picFile" name="file"
+									data-max-size="10485760" class="upload-file" accept=".csv" required>
+									<button class="btn btn-success g_fl"
+			              	type="button" ng-click="vm.fileupload(vm.picFile)">Upload</button>
+			              			<button class="btn btn-primary" type="button" 
+			              	ng-click="vm.loadStatus(-1)"><i class="icons-multimedia-20"></i>&nbsp;view</button>
+			              	<button class="btn btn-danger m-r-10" type="button" ng-click="vm.backtoelist();">
+                            Close
+                        </button>
+							</form>
+								
+			<!-- </div><br/>
+			<div class="row">
+            <div class="form-group">
+                <div class="col-sm-3">Filter by area</div>
+                <div class="col-sm-9">
+                    <select class="issue_select_dropdown" ng-model="vm.selectedHrc" ng-change="vm.filterData()" ng-options="o|split:'|':1 as o|split:'|':0 for o in vm.geoHierarchy"></select>
+                </div>
+            </div> -->
+
+        </div><br /><br/>
+			
+			<div class="row">              	
+	         <table class="table table-hover">
+		          <thead>
+			            <tr>
+			              <th>Place</th>
+			              <th>Polling Station</th>
+			              <th>Ballot Box Number</th>
+			              <th>Ballot Paper Range</th>
+			              <th>Tendered Ballot Paper Range</th>
+			              <th>Presiding Officer</th>
+			              <th>Manage</th>
+			              <th>Delete</th>
+			            </tr>
+		          </thead>
+		          <tbody id="connectionOfElection">
+			            <tr ng-repeat="stationList in (filtered = (vm.listOfStations)) | pagination: (vm.curPage-1) * vm.pageSize | limitTo: vm.pageSize"
+  								    value="{{stationList.stationid}}"
+  								>
+			              <td>{{stationList.place}}</td>
+			              <td>{{stationList.stationname}}</td>
+			              <td>{{stationList.boxnumber}}</td>
+			              <td>{{add(stationList.ballotrange,1)}}</td>
+			              <td>{{add(stationList.tenderedrange,1)}}</td>
+			              <td>{{stationList.psmname}}</td>
+			              <td>
+			              	<a class="edit btn btn-sm btn-default" href="#/electionconfiguration/stationlist/{{elecid}}/editstation?id={{stationList.stationid}}">
+			            		<i class="icon-note"></i>
+			            	</a>
+			              	<!-- <a class="edit btn btn-sm btn-default" ng-href="#/editrole?id={{role.id}}" href="javascript:;"><i class="icon-note"></i></a> -->
+			              </td>
+			              <td>
+			              	<!-- <a class="delete btn btn-sm btn-danger" ng-href="#/deleterole?id={{role.id}}" href="javascript:;"><i class="icons-office-52"></i></a> -->
+			              	<a class="delete btn btn-sm btn-danger" href="#/electionconfiguration/delete_election/{{stationList.stationid}}">
+			            		<i class="icons-office-52"></i>
+			            	</a>
+			              </td>
+			            </tr>
+		          </tbody>
+	       </table>  
+      </div>
+      <div>
+		<table class="table table-striped">
+			<tr>
+				<td>
+		 			<pagination total-items="filtered.length" ng-model="vm.curPage" max-size="3" class="pagination-sm" ng-show="(filtered.length/vm.pageSize)>1" boundary-links="true" rotate="false"><pagination>
+		 		</td>
+		 		<td align="right">
+		 			Number of stations: {{filtered.length}}
+		 		</td>
+		 	</tr>
+		 </table>
+		</div>
+    </div>
+</div>

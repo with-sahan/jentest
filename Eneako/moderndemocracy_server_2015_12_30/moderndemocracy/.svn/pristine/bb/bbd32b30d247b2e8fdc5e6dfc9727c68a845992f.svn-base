@@ -1,0 +1,392 @@
+'use strict';
+var $APP = $APP || {}; // App namespace
+
+angular.module($APP.name).factory('Data', [
+	'$resource',
+	function($resource) {
+		return $resource('/data/api/:name.json', {}, {
+			query: {
+				method: 'GET',
+				isArray: true
+			},
+			get: {
+				method: 'GET'
+			}
+		});
+	}
+]);
+
+
+
+
+
+
+
+angular.module($APP.name).factory('messagesInterceptor', [
+	'$q',
+	'$rootScope',
+	'$location',
+	function($q, $rootScope, $location) {
+		return {
+			'response': function(response) {
+
+				try {
+					if(!response.data) {
+						response.data = $RESPONSE.data[response.config.url][response.config.method]["success"];
+					}
+					else if(!response.data.alert) {
+						response.data.success = $RESPONSE.data[response.config.url][response.config.method]["success"].success;
+						response.data.alert = $RESPONSE.data[response.config.url][response.config.method]["success"].alert;
+					}
+
+				}
+				catch(e) {
+				}
+
+				if(response.data && typeof response.data.alert !== 'undefined') {
+					$rootScope.$broadcast('messages', {
+						type: response.data.alert.type.toLowerCase(),
+						message: response.data.alert.message
+					});
+				}
+				return response;
+			},
+			'responseError': function(response) {
+
+				try {
+					if(!response.data) {
+						response.data = $RESPONSE.data[response.config.url][response.config.method]["error"];
+					}
+					if(!response.data.alert) {
+						response.data.success = $RESPONSE.data[response.config.url][response.config.method]["error"].success;
+						response.data.alert = $RESPONSE.data[response.config.url][response.config.method]["error"].alert;
+					}
+				}
+				catch(e) {
+				}
+
+				if((response.status === 401 || response.status === 403)) {
+					// public permission
+					if($rootScope.$root.permission !== 7) {
+						$location.path('/login');
+					}
+					return $q.reject(response);
+				} else {
+
+					if(response.data && typeof response.data.alert !== 'undefined') {
+						$rootScope.$broadcast('messages', {message: response.data.alert.message, type: 'error'});
+					}
+					else {
+						$rootScope.$broadcast('messages', {message: response.status + " Error", type: 'error'});
+					}
+					return $q.reject(response);
+				}
+			}
+		};
+	}
+]);
+
+
+
+
+
+
+angular.module($APP.name).factory('Form', [
+	'$resource',
+	function($resource) {
+
+		function transformRequest(data, headersGetter) {
+
+			var form = angular.copy(data);
+
+			if(form.fieldsets) {
+				for(var i = 0; i < form.fieldsets.length; ++i) {
+
+					if(form.fieldsets[i].fields) {
+						for(var j = 0; j < form.fieldsets[i].fields.length; ++j) {
+							var validation = {
+								minLength: form.fieldsets[i].fields[j].minLength,
+								maxLength: form.fieldsets[i].fields[j].maxLength,
+								minValue: form.fieldsets[i].fields[j].minValue,
+								maxValue: form.fieldsets[i].fields[j].maxValue
+							};
+							form.fieldsets[i].fields[j].validation = JSON.stringify(validation);
+						}
+					}
+				}
+			}
+
+			var map = {
+				label: 'name',
+				description: 'guidance',
+				fieldsets: 'field_group_designs',
+				fields: 'field_designs',
+				options: 'option_designs',
+				value: 'default_value',
+				text: 'name',
+			};
+
+			$UTL.reMap(form, map, {text: 4, value: 6});
+			$UTL.cleanJSON(form);
+			return JSON.stringify(form);
+		}
+
+		function transformResponse(data, headersGetter) {
+
+			if(!data) {
+				return data;
+			}
+			var form = angular.copy(JSON.parse(data));
+
+			var map = {
+				name: 'label',
+				guidance: 'description',
+				field_group_designs: 'fieldsets',
+				field_designs: 'fields',
+				option_designs: 'options',
+				default_value: 'value'
+			};
+
+			$UTL.reMap(form, map, {name: 6});
+			$UTL.reMap(form, {name: 'text'});
+
+			if(form.fieldsets) {
+				for(var i = 0; i < form.fieldsets.length; ++i) {
+					if(form.fieldsets[i].fields) {
+						for(var j = 0; j < form.fieldsets[i].fields.length; ++j) {
+							try {
+								var validation = JSON.parse(form.fieldsets[i].fields[j].validation);
+								form.fieldsets[i].fields[j].minLength = validation.minLength;
+								form.fieldsets[i].fields[j].maxLength = validation.maxLength;
+								form.fieldsets[i].fields[j].minValue = validation.minValue;
+								form.fieldsets[i].fields[j].maxValue = validation.maxValue;
+							}
+							catch(e) {
+							}
+						}
+					}
+				}
+			}
+
+			//$UTL.cleanJSON(form);
+			return form;
+		}
+
+		return $resource('/api/formdesign', {}, {
+			list: {
+				method: 'GET',
+				isArray: true
+			},
+			get: {
+				method: 'GET',
+				params: {'id': '@id'},
+				transformResponse: transformResponse
+			},
+			create: {
+				method: 'POST',
+				transformRequest: transformRequest
+			},
+			update: {
+				method: 'PUT',
+				transformRequest: transformRequest
+			},
+		});
+	}
+]);
+
+
+
+
+
+
+angular.module($APP.name).factory('Customer', [
+	'$resource',
+	function($resource) {
+		return $resource('/api/customer', {}, {
+			list: {
+				method: 'GET',
+				isArray: true,
+				transformResponse: function(data, headersGetter) {
+					data = JSON.parse(data);
+					var list = [];
+					if(data && data.length) {
+						for(var i = 0; i < data.length; ++i) {
+							list.push({value: data[i].id, text: data[i].name});
+						}
+					}
+					return list;
+				}
+			},
+			get: {
+				method: 'GET',
+				isArray: false,
+				params: {'id': '@id'},
+			}
+		});
+	}
+]);
+
+
+
+
+//---------------------------------------------------------------------
+// WARDS SERVICE
+//---------------------------------------------------------------------
+angular.module($APP.name).factory('Wards', [
+	'$http',
+	'$location',
+	'$rootScope',
+	function($http, $location, $rootScope) {
+
+		return {
+
+			getWards: function(successCallback, errorCallback) {
+
+				$http.get($APP.server + '/pub/wardretrieve')
+				.success(function(response) {
+
+					console.log("Wards.getWards success");
+					successCallback(response);
+
+				}).error(function(responseData, status, headers, config) {
+					console.log("Wards.getWards error: %o", responseData);
+
+					errorCallback(responseData);
+
+					if(status == 502) {
+						// service down
+						$rootScope.online = false;
+					}
+				});
+			}
+		};
+	}
+]);
+
+
+
+
+
+
+
+//---------------------------------------------------------------------
+// ISSUES SERVICE
+//---------------------------------------------------------------------
+angular.module($APP.name).factory('Issues', [
+	'$http',
+	'$location',
+	'$rootScope',
+	function($http, $location, $rootScope) {
+
+		return {
+
+			getIssues: function(successCallback, errorCallback) {
+
+				$http.get($APP.server + '/pub/issueretrieve')
+				.success(function(response) {
+
+					console.log("Issues.getIssues success");
+					successCallback(response);
+
+				}).error(function(responseData, status, headers, config) {
+					console.log("Issues.getIssues error: %o", responseData);
+
+					errorCallback(responseData);
+
+					if(status == 502) {
+						// service down
+						$rootScope.online = false;
+					}
+				});
+			},
+
+			closeIssue: function( data, successCallback, errorCallback) {
+				$http.put(
+					$APP.server + '/pub/issueclose',
+					data)
+				.success(function(response) {
+
+					console.log("Issues.closeIssue success");
+
+					$rootScope.online = true;
+					successCallback(response);
+
+				}).error(function(responseData, status, headers, config) {
+					console.log("Issues.closeIssue error: %o", responseData);
+
+					errorCallback(responseData);
+
+					if(status == 502) {
+						// service down
+						$rootScope.online = false;
+					}
+				});
+			}
+		};
+	}
+]);
+
+
+
+
+
+//---------------------------------------------------------------------
+// NOTIFICATION SERVICE
+//---------------------------------------------------------------------
+angular.module($APP.name).factory('Notification', [
+	'$http',
+	'$location',
+	'$rootScope',
+	function($http, $location, $rootScope) {
+
+		return {
+			sendNotification: function( data, successCallback, errorCallback) {
+				$http.post(
+					$APP.server + '/pub/notificationopen',
+					data)
+				.success(function(response) {
+
+					console.log("Notification.sendNotification success");
+
+					$rootScope.online = true;
+					successCallback(response);
+
+				}).error(function(responseData, status, headers, config) {
+					console.log("Notification.sendNotification error: %o", responseData);
+
+					errorCallback(responseData);
+
+					if(status == 502) {
+						// service down
+						$rootScope.online = false;
+					}
+				});
+			}
+		};
+	}
+]);
+
+
+
+
+
+
+
+
+//---------------------------------------------------------------------
+// TRACKING SERVICE
+//---------------------------------------------------------------------
+angular.module($APP.name).factory('Tracking', [
+	'$http',
+	function($http) {
+		return { 
+			list: function(successCallback) {
+				$http.get('/pub/trackingretrieve')
+				.success( function(data) {
+					successCallback(data);
+				});
+			}
+		};
+	}
+]);
+

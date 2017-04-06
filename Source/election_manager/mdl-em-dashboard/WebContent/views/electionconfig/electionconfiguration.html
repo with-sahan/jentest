@@ -1,0 +1,106 @@
+<!-- 
+Project: MDL Dashboard Admin
+Author: Akarshani Amarasinghe
+Module: EM election configuration HTML
+-->
+
+<div class="panel" ng-controller="mdl.dashboard.controller.electionconfiguration as vm">
+    <div class="panel-header col-md-6">
+        <h3><i class="fa fa-table"></i> <strong>Election Configuration</strong></h3>
+    </div>
+    <div class="form-group col-md-6 config-election-div " style="padding-top:15px;">
+                  <div class="input-group">
+                    <div class="icheck-inline" >
+                      <label><input type="radio" name="radio2"  applyicheck="electionstatus" ng-model="electionstatus" value="pre" data-radio="iradio_square-blue"> Pre-Election</label>
+                      <label><input type="radio" name="radio2"  applyicheck="electionstatus" ng-model="electionstatus" value="current" checked data-radio="iradio_square-blue"> Current-Election</label>
+                      <label><input type="radio" name="radio2"  applyicheck="electionstatus" ng-model="electionstatus" value="post" data-radio="iradio_square-blue"> Post-Election</label>
+                    <label><button class="btn-danger btn-sm btn btn-primary" 
+			              	type="button" ng-click="vm.resettenant()">Reset</button></label>
+                    </div>
+                  </div>
+                </div>
+                
+    <div class="panel-content">
+    	<ng-include src="template" ></ng-include>
+    	 <div class="row">
+	         <table class="table table-hover">
+		          <thead>
+			            <tr>
+			              <th>Election Name</th>
+			              <th>Date</th>
+			              <th>Count Center</th>
+			              <!-- <th>Election Start Time</th>
+			              <th>Election End Time</th> -->
+			              <th>Polling Station Details</th>
+			              <th>Upload File</th>
+			              <!-- <th class="text-right">Action</th> -->
+			              <th>Manage</th>
+			              <th>2nd</th>
+			              <th>Delete</th>
+			            </tr>
+		          </thead>
+		          <tbody id="connectionOfElection">
+			            <tr ng-repeat="electionList in vm.listOfElections" value="{{electionList.electionid}}">
+			              <td>{{electionList.election_name}}</td>
+			              <td>{{electionList.election_date.replace('+00:00', '')}}</td>
+			              <td>{{electionList.counting_center_name}}, {{electionList.counting_center_address}}</td>
+			              <!-- <td>{{electionList.election_start_time.replace(':00.000+00:00', '')}}</td>
+			              <td>{{electionList.election_end_time.replace(':00.000+00:00', '')}}</td> -->
+			              <td>
+			              	<!-- <input type="file" ngf-select ng-model="vm.picFile" name="file"
+									data-max-size="10485760" class="upload-file" required> -->
+							<span ng-show="electionList.filestatus=='success'">Completed</span>
+							
+							
+							<!-- <form ng-hide="electionList.filestatus=='success'"> -->
+			              	<form>
+								<input type="file" ngf-select ng-model="vm.picFile[electionList.electionid]" name="file"
+									data-max-size="10485760" class="upload-file" accept=".csv,.tsv" required>
+							</form>
+							
+							
+						  </td>
+			              <td class="text-center">			              
+			              	<button class="btn btn-success btn-sm" ng-show="vm.picFile[electionList.electionid]"
+			              	type="button" ng-click="vm.fileupload(vm.picFile[electionList.electionid],electionList.electionid)">Upload</button>
+			              	
+			              	<!-- <button class="btn btn-primary m-t-5 m-l-0 btn-sm" type="button" ng-disabled="electionList.filestatus=='nodata'"  -->
+			              	<button class="btn btn-primary m-t-5 m-l-0 btn-sm" type="button"
+			              	ng-click="vm.loadStatus(electionList.electionid)"><i class="icons-multimedia-20"></i>&nbsp;view</button>
+						  </td>
+						  
+						  
+			              <!-- <td class="text-right">
+			              	<a class="edit btn btn-sm btn-default"  href="javascript:;"><i class="icon-lock"></i></a>
+			              	<a class="edit btn btn-sm btn-default"   ng-href="#/editrole?id={{role.id}}" href="javascript:;"><i class="icon-note"></i></a>
+			              	<a class="delete btn btn-sm btn-danger" ng-href="#/deleterole?id={{role.id}}" href="javascript:;"><i class="icons-office-52"></i></a>
+			              </td> -->
+			              <td>
+			              	<a class="edit btn btn-sm btn-default" href="#/electionconfiguration/edit_election/{{electionList.electionid}}">
+			            		<i class="icon-note"></i>
+			            	</a>
+			              	<!-- <a class="edit btn btn-sm btn-default" ng-href="#/editrole?id={{role.id}}" href="javascript:;"><i class="icon-note"></i></a> -->
+			              </td>
+			              <td>
+			              	<a class="edit btn btn-sm btn-default" href="#/electionconfiguration/stationlist/{{electionList.electionid}}">
+			            		<i class="icon-note"></i>
+			            	</a>
+			              	<!-- <a class="edit btn btn-sm btn-default" ng-href="#/editrole?id={{role.id}}" href="javascript:;"><i class="icon-note"></i></a> -->
+			              </td>
+			              <td>
+			              	<!-- <a class="delete btn btn-sm btn-danger" ng-href="#/deleterole?id={{role.id}}" href="javascript:;"><i class="icons-office-52"></i></a> -->
+			              	<a class="delete btn btn-sm btn-danger" href="#/electionconfiguration/delete_election/{{electionList.electionid}}">
+			            		<i class="icons-office-52"></i>
+			            	</a>
+			              </td>
+			            </tr>
+		          </tbody>
+	       </table>  
+      </div>
+      <div class="row">
+           <div class="form-group">
+	           <a class="create_notification_button btn btn-primary m-r-10" href="#/electionconfiguration/add_election">Add New Election</a>
+           </div>  
+      </div>
+    </div>
+</div>

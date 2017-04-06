@@ -1,0 +1,209 @@
+package com.moderndemocracy.pojo;
+
+import java.io.IOException;
+
+import com.anaeko.service.auth.DefaultUser;
+import com.anaeko.utils.data.mime.json.DefaultJsonMarshaler;
+import com.anaeko.utils.io.MarshalerException;
+import com.anaeko.utils.json.JsonMarshaler;
+import com.anaeko.utils.json.JsonWriter;
+
+/**
+ * ProProject user. Extended from the Default user to add other fields.
+ * 
+ **/
+
+public class AuthenticatedUser extends DefaultUser {
+
+	/** Admin role. */
+	public static final int ROLE_ADMIN = 1;
+
+	/** Standard User role. */
+	public static final int ROLE_USER = 2;
+
+	/** Read-only User role. */
+	public static final int ROLE_READ_ONLY_USER = 3;
+
+	/** Session Timeout - 8 hours. */
+	private static final int SESSION_TIMEOUT = 43200; // 30 days = 720 hours
+	
+
+	private String bitmask;
+	private String title;
+	
+	private String stationName;
+	private String wardName;
+	private int ballotBoxNumber;
+
+
+	/**
+	 * Default constructor.
+	 * <p>
+	 * Set the session timeout to SESSION_TIMEOUT.
+	 */
+	public AuthenticatedUser() {
+		super();
+		setSessionTimeout(SESSION_TIMEOUT);
+	}
+
+	public String getBitmask() {
+		return bitmask;
+	}
+
+	public void setBitmask(String bitmask) {
+		this.bitmask = bitmask;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public String getStationName() {
+		return stationName;
+	}
+
+	public void setStationName(String stationName) {
+		this.stationName = stationName;
+	}
+
+	public String getWardName() {
+		return wardName;
+	}
+
+	public void setWardName(String wardName) {
+		this.wardName = wardName;
+	}
+	
+	public int getBallotBoxNumber() {
+		return ballotBoxNumber;
+	}
+
+	public void setBallotBoxNumber(int ballotBoxNumber) {
+		this.ballotBoxNumber = ballotBoxNumber;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "AuthenticatedUser [" + ", getId()=" + getId()
+				+ ", getCreatedOn()=" + getCreatedOn() + ", getUpdatedOn()="
+				+ getUpdatedOn() + ", getLocale()=" + getLocale()
+				+ ", getRole()=" + getRole() + ", getLoginName()="
+				+ getLoginName() + ", getEncryption()=" + getEncryption()
+				+ ", getHomeURL()=" + getHomeURL() + ", getSecret()="
+				+ getSecret() + ", getAPIKey()=" + getAPIKey()
+				+ ", getSessionTimeout()=" + getSessionTimeout()
+				+ ", getLoginCount()=" + getLoginCount()
+				+ ", incrementLoginCount()=" + incrementLoginCount()
+				+ ", hasValidSecret()=" + hasValidSecret() + ", toString()="
+				+ super.toString() + ", hashCode()=" + hashCode()
+				+ ", createMarshaller()=" + createMarshaller()
+				+ ", getClass()=" + getClass() + "]";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.anaeko.utils.json.ToJSON#createMarshaller()
+	 */
+	@Override
+	public JsonMarshaler createMarshaller() {
+		return new Marshaler();
+	}
+
+	public static final class Marshaler extends DefaultJsonMarshaler {
+
+		/*
+		 * Property Names for JSON
+		 */
+		public static final String TITLE = "title";
+		public static final String USER_NAME = "username";
+		public static final String BITMASK = "bitMask";
+		public static final String STATION_NAME = "stationName";
+		public static final String WARD_NAME = "wardName";
+		public static final String BALLOT_BOX_NUMBER = "ballotBoxNumber";
+
+		public static final String ALERT = "alert";
+		public static final String TYPE = "type";
+		public static final String MESSAGE = "message";
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * com.anaeko.utils.data.mime.json.DefaultJsonMarshaler#marshal(java
+		 * .lang.Object, com.anaeko.utils.json.JsonWriter)
+		 */
+		@SuppressWarnings("unchecked")
+		@Override
+		public void marshal(Object object, JsonWriter writer)
+				throws IOException, MarshalerException {
+			if (object instanceof Iterable) {
+				marshalCollection((Iterable<AuthenticatedUser>) object, writer);
+			} else {
+				marshalObject((AuthenticatedUser) object, writer);
+			}
+		}
+
+		private void marshalObject(AuthenticatedUser object, JsonWriter writer)
+				throws IOException {
+
+			AuthenticatedUser u = (AuthenticatedUser) object;
+			writer.writeStartObject();
+
+			writer.writeFieldName(ID);
+			writer.writeNumber(u.getId());
+
+			writer.writeFieldName(USER_NAME);
+			writer.writeString(u.getLoginName());
+			
+			writer.writeFieldName(STATION_NAME);
+			writer.writeString(u.getStationName());
+			
+			writer.writeFieldName(WARD_NAME);
+			writer.writeString(u.getWardName());
+			
+			writer.writeFieldName(BALLOT_BOX_NUMBER);
+			writer.writeNumber(u.getBallotBoxNumber());
+			
+			writeRoleFields(u, writer);
+
+			writer.writeEndObject();
+
+		}
+
+		protected void writeRoleFields(AuthenticatedUser u, JsonWriter writer)
+				throws IOException, MarshalerException {
+
+			writer.writeFieldName(ROLE);
+
+			writer.writeStartObject();
+
+			writer.writeFieldName(BITMASK);
+			writer.writeString(u.getBitmask());
+
+			writer.writeFieldName(TITLE);
+			writer.writeString(u.getTitle());
+
+			writer.writeEndObject();
+		}
+
+		private void marshalCollection(Iterable<AuthenticatedUser> object,
+				JsonWriter writer) throws IOException {
+			writer.writeStartArray();
+
+			for (AuthenticatedUser authenticatedUser : object) {
+				marshalObject(authenticatedUser, writer);
+			}
+
+			writer.writeEndArray();
+		}
+
+	}
+
+	
+}

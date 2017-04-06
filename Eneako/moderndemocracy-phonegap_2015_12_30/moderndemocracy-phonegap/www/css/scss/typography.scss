@@ -1,0 +1,13 @@
+$main-font: 'pt_sansregular', arial, helvetica, sans-serif;
+
+@font-face {
+    font-family: 'pt_sansregular';
+    src: url('pt_sans-web-regular-webfont.eot');
+    src: url('pt_sans-web-regular-webfont.eot') format('embedded-opentype'),
+         url('pt_sans-web-regular-webfont.woff') format('woff'),
+         url('pt_sans-web-regular-webfont.ttf') format('truetype'),
+         url('pt_sans-web-regular-webfont.svg') format('svg');
+    font-weight: normal;
+    font-style: none;
+}
+ 

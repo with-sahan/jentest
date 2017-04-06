@@ -1,0 +1,57 @@
+<ion-view title="Notifications" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
+    <a href="#/app/home"><button class="button button-icon icon ion-ios-home"></button></a>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+  </ion-nav-buttons>
+
+  <ion-content>
+
+   <div class="contentWrapper">
+      <div class="content list">
+ <!--
+	<div ng-repeat='message in filtered = (messages | filter:true)'></div>
+	<p style="padding-top:20px;">Unacknowledged notifications: {{filtered.length}}</p>
+-->
+<p style="padding-top:20px;"></p>
+		<div class="list" style="margin-top:-10px;">
+			<div ng-repeat="message in messages | orderBy:'-createdOn'">
+
+			<div class="notificationContainer" style = "border-style: solid;border-width: 2px;border-radius:2px;border-color:#bbb">
+				  <div class="item item-divider" style="background-color:#30a9d8; font-size:150%; line-height:1.2;">
+				  	<div ng-if="message.stationId > 0" style="width:50%; float:left;" ><b><u>New Private Message</u></b></div>
+				  	<div ng-if="message.stationId == 0" style="width:50%; float:left;"><b><u>New Global Message</u></b></div>
+				  	<div style="color:white; width:50%; float:left; text-align:right; padding-right:15px;">{{message.createdOn | amDateFormat:'ddd, MMM Do YYYY, h:mm a'}}</div>
+				  </div>
+
+				  <div class="item item-text-wrap item-button-right " style="background-color: #F0FFFF; font-size:160%;  ">
+					<div style="padding-right:15px;">{{message.text}}</div>
+
+				    <button  ng-click="message.status = 'Comfirmed'; Acknowledge(message.id)"  class="button" ng-class ="message.status !='Comfirmed' ? 'orangy orangered' : 'blueish disabled'" style="font-size:60%">
+				    	Confirm
+				    </button>
+
+
+
+				  </div>
+				    <a class="item item-icon-right " ng-if="message.url" style="background-color:#f0ad4e; padding:10px; font-size:130%;display:block;"  ng-click="Download(message.url);">
+				    	 <i style="padding:7px; display:block;" class= "icon ion-android-download"></i>
+				    	 {{message.url}}
+
+
+					</a>
+
+
+		    </div>
+		    <div style="height:20px;margin-botom:20px;"></div>
+			</div>
+
+		</div>
+
+
+      </div>
+  </div>
+
+  </ion-content>
+</ion-view>

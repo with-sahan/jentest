@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getelectionsbystationid" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getelectionsbystationid</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getelectionsbystationid" useConfig="mdl_psm">
+    <sql>call getelectionsbystationid(?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;        "response": "$response",&#xD;        "electionid": $electionid,&#xD;        "electionname": "$electionname",&#xD;        "startdate": "$startdate",&#xD;        "enddate": "$enddate",&#xD;        "status": "$status",&#xD;        "ballotboxno": "$ballotboxno",&#xD;        "isopened": "$isopened",&#xD;        "isclosed": "$isclosed",&#xD;        "electionstarttime": "$electionstarttime",&#xD;        "openedat": "$openedat",&#xD;        "closedat": "$closedat"&#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="stationid" sqlType="INTEGER" />
+  </query>
+  <operation name="getelectionsbystationid">
+    <description>getelectionsbystationid</description>
+    <call-query href="getelectionsbystationid">
+      <with-param name="token" query-param="token" />
+      <with-param name="stationid" query-param="stationid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getelectionsbystationid">
+    <description>getelectionsbystationid</description>
+    <call-query href="getelectionsbystationid">
+      <with-param name="token" query-param="token" />
+      <with-param name="stationid" query-param="stationid" />
+    </call-query>
+  </resource>
+</data>

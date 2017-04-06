@@ -1,0 +1,80 @@
+/* Tabs */
+.nav.nav-tabs > li > a { height: 50px; width: 245px; }
+.nav-tabs > li > a::before, .tab-default-behaviour .nav-tabs > li > a::before { top: 47px; background: #2eb82e;
+    content: "";
+    height: 3px;
+    left: 0;
+    position: absolute;
+    transform: scale(0);
+    transition: transform 0.3s ease 0s;
+    width: 100%; }
+.tab_left .nav.nav-tabs > li > a { width: 100%; }
+
+/* Login */
+.mdllogin .main-content, .mdllogin .main-content .page-content { background: transparent; }
+.mdllogin .sidebar-condensed:not(.sidebar-collapsed) .main-content, .mdllogin .main-content { margin-left: 0 !important; }
+.chk_selectall { padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px dotted #000000; }
+.stationlist input[type=checkbox] { outline:none }
+.defaultWidth { width: 60% }
+.g_fr { float: right; }
+.g_fl { float: left; }
+.photo_module .ng-isolate-scope { display: inline-block; }
+.photo_module .ng-camera-stack { width: 426px; height: auto; display: inline-block; }
+.photo_module .ng-camera { width: 426px; text-align:center; }
+.photo_module .btn_row { width: 426px; height: auto; display: inline-block; }
+.photo_module #ng-camera-action { border: medium none; border-radius: 4px; font-size: 14px; font-weight: 400; margin-bottom: 10px; margin-right: 10px; padding: 7px 24px 8px; transition: border 0.25s linear 0s, color 0.25s linear 0s, background-color 0.25s linear 0s; vertical-align: middle; background-color: #319db5; color: #fff; }
+.main-content .page-content .notification .panel-header .title, .main-content .page-content .notification .panel-footer .title { display: inline-block } 
+.main-content .page-content .notification .panel-footer .title { margin-right: 15px; }
+.main-content .page-content .notification .panel-footer.file { cursor: pointer }
+.notification .panel-header .date { float:right }
+.sidebar .logopanel h1 a { background: none; }
+.sidebar .logopanel h1 img { margin-left: 0; }
+.sidebar .sidebar-inner .menu-title { color: #ffffff;text-align:center; }
+.sidebar .sidebar-inner .nav-sidebar > li > a:hover { background-color: #319db5 !important;}
+.psmhome .notification tr { cursor: pointer; }
+.psmhome .station_status .widget-info .left { width: 20%; }
+.station_status { margin-bottom: 10px; }
+.spacer_1px { clear:both; height: 1px; }
+.cui_opacity.loader-overlay { opacity: 0.8 }
+.cus_private { color: blue; }
+.cus_global { color: red; }
+.nav-tabs > li.disabletab { display:none; }
+.topbar .header-right .header-menu .username { max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+table .btn.chat-click[tabindex]:focus { background-color: red !important; }
+.attachement_url { color: #337ab7; }
+.attachement_url:focus, .attachement_url:hover { color: #23527c !important; text-decoration: underline; cursor: pointer; }
+/* Open Station  */
+span.openstation_para { font-size: 16px; }  
+
+/* record Progress */
+.cus_recordprogress .widget-info .right { padding-left: 5px; margin-top:5px; }
+.cus_recordprogress .widget-info .right .number { font-size: 18px; }
+.cus_recordprogress .widget-info .left { width: 55px; }
+.cus_recordprogress .widget-info .left i::before { width: 40px; height: 40px; padding: 9px; }
+
+/* issue */
+.highlightRow { background: #319db5 !important; color: #ffffff; }
+
+@media screen and (max-width: 633px) {
+	.cus_recordprogress .widget-info .right { padding-left: 10px; margin-top: 0; }
+}
+
+/*waiting massage*/
+
+.waitting_div{
+	background-color:transparent;
+	width:100vw;
+	height:3vw;
+	color:#e4e0df;
+	text-align:center;
+}
+.waitting_lbl{
+	clear:both;
+    text-align: center;
+	font-family:Lato;
+	font-weight:normal;
+}
+.waiting_div_prnt{
+	
+	margin-top:1vw;
+}

@@ -1,0 +1,114 @@
+<!--
+Project: MDL EM
+Author: Akarshani Amarasinghe
+Module: EM PSI Checklist HTML
+ -->
+
+<div class="panel" ng-controller="mdl.em.controller.psichecklist as vm">
+	<ng-include src="vm.template"></ng-include>
+    <div class="panel-header panel-controls">
+        <h3>
+            <i class="icon-target"></i> <strong>PSI</strong> Checklist
+        </h3>
+    </div>
+    <div class="row stationlist">
+        <div class="col-md-12">
+            <tabset class="tab-fade-in tab_left"> 
+                <tab ng-repeat="placesList in vm.placesList"
+                	ng-click="vm.stationcheck(placesList.hierarchy_value_id)"
+                     value="{{placesList.hierarchy_value_id}}">
+                    <tab-heading>
+                        <b class="icons-education-science-18">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {{placesList.hierarchy_value_name}}
+                        </b>
+                    </tab-heading>
+
+                    <div>
+                        <div class="row">
+                            <div class="col-lg-12 portlets">
+                                <div class="panel">
+                                    <div class="panel-content">
+                                        <div class="row">
+                                            <div class="col-md-12">
+
+                                                <div class="row chk_selectall">
+                                                    <div class="col-md-12">
+                                                        <div class="input-group">
+                                                            <div class="icheck-list">
+                                                                <label>
+                                                                    <input id="selectall" type="checkbox"
+                                                                           ng-true-value="1"
+                                                                           ng-false-value="0"
+                                                                           ng-model="vm.selectedAll"
+                                                                           ng-change="vm.checkAll()"
+                                                                           applyicheck="vm.selectedAll">
+                                                                    Select All
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <accordion class="panel-group panel-accordion" close-others="true">
+                                                    <accordion-group is-open="open"
+                                                                     ng-repeat="psiChecklistGroups in vm.psiChecklistGroups"
+                                                                     value="{{psiChecklistGroups.categoryname}}">
+                                                        <accordion-heading>
+                                                            <div class="input-group">
+                                                                <div class="icheck-list">
+                                                                    <label>
+                                                                        <input type="checkbox"
+                                                                               ng-true-value="1"
+                                                                               ng-false-value="0"
+                                                                               ng-model="psiChecklistGroups.iscompleted"
+                                                                               ng-change="vm.checkGroup(psiChecklistGroups.iscompleted,psiChecklistGroups)"
+                                                                               applyicheck2="psiChecklistGroups.iscompleted">
+                                                                        {{vm.removeUnwantedStrings(psiChecklistGroups.categoryname)}}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+
+                                                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}" style="margin-top: -3%;"> </i>
+                                                        </accordion-heading>
+                                                        <div class="panel-body"
+                                                             ng-repeat="checkList in vm.checkList | filter:psiChecklistGroups.categoryname">
+                                                            <div class="input-group">
+                                                                <div>
+                                                                    <input type="checkbox"
+                                                                           ng-model="checkList.iscompleted"
+                                                                           ng-true-value="1"
+                                                                           ng-false-value="0"
+                                                                           ng-change="vm.setGroupChecked(checkList)"
+                                                                           >
+                                                                    <span class="openstation_para">{{checkList.activity}}</span>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </accordion-group>
+                                                </accordion>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-success m-r-10" type="button"
+                                    ng-click="vm.updatePSIChecklist(placesList.hierarchy_value_id);">
+                                Save
+                            </button>
+                            <a class="create_notification_button btn btn-danger m-r-10"
+							href="#/dashboard-summary"> Close 
+							</a>
+                        </div>
+                    </div>
+              </tab>
+           </tabset>
+        </div>
+    </div>
+</div>

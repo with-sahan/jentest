@@ -1,0 +1,186 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+	"Description"              : "MDL CloudFormation Stack",
+	"Parameters"               : {
+        "KeyName"      : {
+            "Description" : "The EC2 Key Pair to allow SSH access to EC2 instances",
+            "Type"        : "AWS::EC2::KeyPair::KeyName",
+            "ConstraintDescription" : "must be the name of an existing EC2 KeyPair."
+        },
+        "VPC"        : {
+            "Description" : "The VPC Id where the EC2 instances will be launched.",
+            "Type"        : "AWS::EC2::VPC::Id",
+            "ConstraintDescription" : "must be the name of an existing VPC."
+        },
+		"VPCDMZSubnet"    : {
+            "Description" : "Select a public subnet id",
+            "Type"        : "AWS::EC2::Subnet::Id"
+        },
+        "VPCPrivateSubnet"    : {
+            "Description" : "Select a private subnet id",
+            "Type"        : "AWS::EC2::Subnet::Id"
+        }
+    },
+
+    "Resources"                : {
+        "NginxServer" : {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+                "KeyName" : {
+                    "Ref" : "KeyName"
+                },
+                "ImageId" : "ami-97c4f7f1",
+                "NetworkInterfaces" : [{
+					"DeviceIndex"              : "0",
+					"DeleteOnTermination"      : "true",
+							  "GroupSet"                 : [
+                            {
+                                "Ref" : "NginxSecurityGroup"
+                            }
+                        ],
+					"SubnetId"	: { "Ref" : "VPCDMZSubnet" }
+				}],
+                "InstanceType"      : "t2.small"
+            }
+        },
+        "NginxSecurityGroup" : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Enable SSH and HTTP access from specific CIDR block",
+                "VpcId"            : {
+                    "Ref" : "VPC"
+                },
+                "SecurityGroupIngress" : [
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "22",
+                        "ToPort"     : "22",
+                        "CidrIp"     : "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "443",
+                        "ToPort"     : "443",
+                        "CidrIp"     : "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "80",
+                        "ToPort"     : "80",
+                        "CidrIp"     : "0.0.0.0/0"
+                    }
+                ]
+            }
+        },
+	        "DSSServer" : {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+                "KeyName" : {
+                    "Ref" : "KeyName"
+                },
+                "ImageId" : "ami-c8cefdae",
+                "NetworkInterfaces" : [{
+					"DeviceIndex"              : "0",
+					"DeleteOnTermination"      : "true",
+							  "GroupSet"                 : [
+                            {
+                                "Ref" : "DSSSecurityGroup"
+                            }
+                        ],
+					"SubnetId"	: { "Ref" : "VPCPrivateSubnet" }
+				}],
+                "InstanceType"      : "t2.small"
+            }
+        },
+        "DSSSecurityGroup" : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Enable SSH and HTTP access from specific CIDR block",
+                "VpcId"            : {
+                    "Ref" : "VPC"
+                },
+                "SecurityGroupIngress" : [
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "22",
+                        "ToPort"     : "22",
+                        "CidrIp"     : "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "3306",
+                        "ToPort"     : "3306",
+                        "CidrIp"     : "0.0.0.0/0"
+                    }
+                ]
+            }
+        },
+	        "AppServer" : {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+                "KeyName" : {
+                    "Ref" : "KeyName"
+                },
+                "ImageId" : "ami-89c4f7ef",
+                "NetworkInterfaces" : [{
+					"DeviceIndex"              : "0",
+					"DeleteOnTermination"      : "true",
+							  "GroupSet"                 : [
+                            {
+                                "Ref" : "AppSecurityGroup"
+                            }
+                        ],
+					"SubnetId"	: { "Ref" : "VPCPrivateSubnet" }
+				}],
+                "InstanceType"      : "t2.small"
+            }
+        },
+        "AppSecurityGroup" : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Enable SSH and HTTP access from specific CIDR block",
+                "VpcId"            : {
+                    "Ref" : "VPC"
+                },
+                "SecurityGroupIngress" : [
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "22",
+                        "ToPort"     : "22",
+                        "CidrIp"     : "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "8181",
+                        "ToPort"     : "8181",
+                        "CidrIp"     : "0.0.0.0/0"
+                    },
+					                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort"   : "8282",
+                        "ToPort"     : "8282",
+                        "CidrIp"     : "0.0.0.0/0"
+                    }
+                ]
+            }
+        },
+        "VpcIPAssoc" : {
+         "Type" : "AWS::EC2::EIPAssociation",
+         "Properties" : {
+             "InstanceId" : { "Ref" : "NginxServer" },
+             "AllocationId" : "eipalloc-affe0fc8"
+         }
+     }
+    },
+    "Outputs"                  : {
+        "NginxServerDNSName" : {
+            "Description" : "DNS Name of Nginx Server",
+            "Value"       : {
+                "Fn::GetAtt" : [
+                    "NginxServer",
+                    "PublicDnsName"
+                ]
+            }
+        }
+    }
+}

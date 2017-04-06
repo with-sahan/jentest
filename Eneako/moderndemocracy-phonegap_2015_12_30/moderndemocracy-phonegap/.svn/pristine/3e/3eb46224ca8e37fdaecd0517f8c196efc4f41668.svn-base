@@ -1,0 +1,49 @@
+<ion-side-menus>
+
+  <ion-pane ion-side-menu-content>
+    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+      <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
+  </ion-pane>
+
+  <ion-side-menu side="left">
+    <header class="bar bar-header bar-stable">
+      <h1 class="title"></h1>
+    </header>
+    <ion-content class="has-header menu">
+      <ion-list>
+        <ion-item nav-clear menu-close href="#/app/openstation">
+           <i class="ion-unlocked"></i> Open Station
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/reportissue">
+           <i class="ion-chatbox-working"></i> Report Issue
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/progress">
+           <i class="ion-clipboard"></i> Record Progress
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/closestation">
+          <i class="ion-locked"></i> Close Station
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/tracking">
+           <i class="ion-map"></i> Track Progress
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/accounts">
+           <i class="ion-calendar"></i> Accounts
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/messages">
+          <i class="ion-email"></i> Notifications
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/photo">
+          <i class="ion-camera"></i> Take Photo
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/logout">
+          <i class="ion-power"></i> Log Out
+        </ion-item>
+        <ion-item nav-clear menu-close>
+          <i class="ion-ios7-information-outline"></i> Version {{buildNumber}}
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>

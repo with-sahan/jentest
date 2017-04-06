@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getballotpapernames" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getballotpapernames</description>
+  <config id="getballotpapernames">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getballotpapernames" useConfig="getballotpapernames">
+    <sql>call psm.getballotpapernames(?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": {&#xD;       "paper1" : $paper1,&#xD;       "paper2" : $paper2,&#xD;       "response" : $response&#xD;      }&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="electionid" sqlType="INTEGER" />
+  </query>
+  <operation name="getballotpapernames">
+    <description>getballotpapernames</description>
+    <call-query href="getballotpapernames">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getballotpapernames">
+    <description>getballotpapernames</description>
+    <call-query href="getballotpapernames">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+    </call-query>
+  </resource>
+</data>

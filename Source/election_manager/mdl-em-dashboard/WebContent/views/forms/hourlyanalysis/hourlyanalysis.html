@@ -1,0 +1,94 @@
+<!-- 
+/***
+ * Project: MDL Dashboard
+ * Author: Rushan Arunod
+ * Module: EM Hourly Analysis
+ */ -->
+ 
+<div class="panel no-bd bd-3 panel-stat m-b-10" ng-controller="mdl.em.controller.reports as vm"><br>
+    <div class="row m-0">
+        <h3 style="display:none" class="m-0 col-md-6 p-r-0 p-l-0"><a href="#downloadreports">Download page</a></h3>
+        <h3 class="m-0 col-md-6 p-r-0">
+			<strong style="margin-right: 10px">Filter by</strong>
+			<select class="issue_select_dropdown defaultWidth geofilter" ng-model="selectedHrc" wb-Select-Forms>
+					<option ng-repeat="option in geoArray" value="{{option.id}}">{{option.name}}</option>
+			</select>
+		</h3>
+    </div>
+
+
+
+    <div class="forms-companions">
+        <div class="panel">
+            <div class="panel-header">
+                <h3 title="Please complete this form throughout polling day. This purpose of this form is to collate detail of the number of voters at each station and the times the station is busiest. Noting the number of ballots will help you with keep track of the numbers. ">
+				<i class="fa fa-pencil-square-o"></i> <strong>Report - Hourly Voting Analysis</strong>
+			</h3>
+            </div>
+            <div class="panel" style="margin-bottom: 0px;padding-left: 20px;padding-right: 20px; ">
+                <div class="m-0 col-md-2 col-xs-2" style="padding-left: 15px;">Ward</div>
+                <div class="m-0 col-md-2 col-xs-2">Polling District</div>
+                <div class="m-0 col-md-3 col-xs-3">Place</div>
+                <div class="m-0 col-md-3 col-xs-3">Polling Station</div>
+                <div class="m-0 col-md-2 col-xs-2">Running Total</div>
+            </div>
+            <div class="panel accordion_table">
+                <div class="panel-content">
+
+                    <div class="row tbl_scroll_x">
+                        <accordion class="panel-group panel-accordion" close-others="true">
+                            <accordion-group is-open="open" ng-repeat="station in vm.stations">
+                                <accordion-heading>
+                                    <span class="col-md-12 col-xs-12" ng-click="vm.loadHourlyProgress(station.stationid)">
+	                                    	<div class="col-md-2 padding-top-bottom-7">{{station.ward}}</div>
+	                                        <div class="col-md-2 padding-top-bottom-7">{{station.district}}</div>
+	                                        <div class="col-md-3 padding-top-bottom-7">{{station.place}}</div>
+	                                        <div class="col-md-3 padding-top-bottom-7">{{station.pollingstationname}}</div>
+	                                        <div class="col-md-2 padding-top-bottom-7">{{station.runningtotal}}</div>
+	                                        <i class="pull-right glyphicon" style="font-size: 12px;color: #2f3030;" ng-class="{'glyphicon-minus': open, 'glyphicon-plus': !open}"> </i>
+                                    	</span>
+
+                                </accordion-heading>
+                                    <table class="table table-hover text-center table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center"> Hour</th>
+                                                <th class="text-center"> Number of Ballot Papers Issued</th>
+                                                <th class="text-center"> Total Number Electors</th>
+                                                <th class="text-center"> Running Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody ng-repeat="items in station.timehourly">
+                                            <tr>
+                                                <td rowspan="2">{{items.hour}}</td>
+                                                <td class="text-center">
+                                                    <table>
+                                                        <tr ng-repeat="(key, value) in items.papersissued">
+                                                            <th style="padding-left:20px;">{{items.papersissued[key].ename}}</th>
+                                                            <td style="padding-left:40px;">{{items.papersissued[key].papers}}</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td rowspan="2">{{items.totalcount}}</td>
+                                                <td rowspan="2">{{items.runningtotal}}</td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            </accordion-group>
+
+                        </accordion>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                              <a class="btn btn-success m-r-10" ng-href="#/formreports">Back</a>
+                              <a class="btn btn-info m-r-10" ng-click="exportReport()">Export</a>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

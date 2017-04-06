@@ -1,0 +1,384 @@
+<?xml version="1.0"?>
+<!-- ==========================================================================
+
+  Copyrights:
+
+  Copyright - 2012 Anaeko Ltd. All rights reserved.
+ 
+  This product and related documentation are protected by copyright and
+  distributed under licenses restricting its use, copying, distribution, and
+  decompilation. No part of this product or related documentation may be
+  reproduced in any form by any means without prior written authorization of
+  Mobility Data Systems Ltd. and its licensors, if any.
+
+
+===============================================================================
+
+  Template:  XML-TEMPLATE-0001 Version 1.1
+
+  Mobility Data Systems Ltd
+  Weavers Court Business Park, Linfield Road, Belfast, BT12 5GL, N. Ireland
+
+
+  File Name           : Build.xml
+  Author              : G Wallace
+  Approver            : Colm Hayden
+ 
+  Notes               :
+
+
+===============================================================================
+
+ HISTORY
+
+ $LastChangedRevision: $
+ $LastChangedDate: $
+ $LastChangedBy:$ 
+
+=========================================================================== -->
+<project name="moderndemocracy" default="package" basedir=".">
+
+	<!-- ================================================================== -->
+	<!-- LOAD BUILD SETTINGS                                                -->
+	<!-- ================================================================== -->
+	<property file="ant.properties" />
+
+	<!-- delete the last test marker if it exists -->
+	<delete file="${target.dir}/PASSED" />
+
+	<!-- create the working dir if it doesn't already exist -->
+	<mkdir dir="${working.dir}" />
+
+	<!-- ================================================================== -->
+	<!-- Don't do a get/download if lib dir is OK                           -->
+	<!-- ================================================================== -->
+	<condition property="no.get" value="true">
+		<and>
+			<available file="${lib.dir}/${log4j.jar}" />
+			<available file="${lib.dir}/${junit.jar}" />
+			<available file="${lib.dir}/${postgres.jar}" />
+			<available file="${lib.dir}/${utilities.jar}" />
+			<available file="${lib.dir}/${services.jar}" />
+			<available file="${lib.dir}/${tomcat.jar}"/>
+   	        <available file="${lib.dir}/${tomcat.juli.jar}"/>
+			<available file="${lib.dir}/${opentok.jar}"/>
+			<available file="${lib.dir}/${stripe.jar}" />
+			<available file="${lib.dir}/${gson.jar}" />
+		</and>
+	</condition>
+
+	<!-- ================================================================== -->
+	<!-- CLEAN                                                              -->
+	<!-- ================================================================== -->
+	<target name="clean">
+		<!-- remove all binary files and packages -->
+		<!-- can also run additional cleaning tasks if needed -->
+		<delete dir="${target.dir}" />
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- FULL CLEAN                                                         -->
+	<!-- ================================================================== -->
+	<target name="full-clean" depends="clean">
+		<delete dir="${lib.dir}" />
+		<delete dir="${working.dir}" />
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- GET LIBRARIES                                                      -->
+	<!-- ================================================================== -->
+	<target name="get" unless="no.get" depends="download">
+		<!-- make sure the lib directory exists -->
+		<mkdir dir="${lib.dir}" />
+		<mkdir dir="${lib.src.dir}" />
+			
+		<!-- install Anaeko Http Services  -->
+		<delete>
+			<fileset dir="${lib.dir}">
+				<include name="anaeko-services*.jar}" />
+			</fileset>
+		</delete>
+		<unzip src="${working.dir}/${services.archive}" overwrite="true" dest="${working.dir}">
+			<patternset>
+				<include name="${services.dir}/${services.jar}" />
+				<include name="${services.dir}/lib/*.jar" />
+			</patternset>
+		</unzip>
+		<copy file="${working.dir}/${services.dir}/${services.jar}" todir="${lib.dir}" />
+		<copy todir="${lib.dir}">
+			<fileset dir="${working.dir}/${services.dir}/lib" defaultexcludes="true">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+		
+		<!-- install Anaeko Common  -->
+		<delete>
+			<fileset dir="${lib.dir}">
+				<include name="anaeko-utilities*.jar" />
+			</fileset>
+		</delete>
+		<unzip src="${working.dir}/${utilities.archive}" overwrite="true" dest="${working.dir}">
+			<patternset>
+				<include name="${utilities.dir}/${utilities.jar}" />
+			</patternset>
+		</unzip>
+		<copy file="${working.dir}/${utilities.dir}/${utilities.jar}" todir="${lib.dir}" />		
+		
+		<!-- install Mail  -->
+        <delete>
+            <fileset dir="${lib.dir}">
+                <include name="mail*.jar" />
+            </fileset>
+        </delete>
+        <copy file="${working.dir}/${mail.jar}" todir="${lib.dir}" />
+        
+		<!-- install PostgreSQL  -->
+		<delete>
+			<fileset dir="${lib.dir}">
+				<include name="postgres*.jar" />
+			</fileset>
+		</delete>
+		<copy file="${working.dir}/${postgres.jar}" todir="${lib.dir}" />
+		
+		<!-- install Opentok  -->
+		<delete>
+			<fileset dir="${lib.dir}">
+				<include name="opentok*.jar" />
+			</fileset>
+		</delete>
+		<copy file="${working.dir}/${opentok.jar}" todir="${lib.dir}" />
+		
+        <!-- install stripe -->      
+        <delete>
+            <fileset dir="${lib.dir}">
+                <include name="stripe*.jar" />
+            </fileset>
+        </delete>
+        <copy file="${working.dir}/${stripe.jar}" todir="${lib.dir}" />
+        
+        <!-- install gson -->        
+        <delete>
+            <fileset dir="${lib.dir}">
+                <include name="gson*.jar" />
+            </fileset>
+        </delete>
+        <copy file="${working.dir}/${gson.jar}" todir="${lib.dir}" />   
+		
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- DOWNLOAD                                                           -->
+	<!-- ================================================================== -->
+	<target name="download" unless="no.get">
+		<!-- make sure working directory exists -->
+		<mkdir dir="${working.dir}" />
+
+		<!-- download 3rd party packages from internal servers or the web -->		
+		<get src="${utilities.url}" dest="${working.dir}/${utilities.archive}" verbose="true" usetimestamp="true" username="${build.user}" password="${build.password}" />
+		<get src="${services.url}" dest="${working.dir}/${services.archive}" verbose="true" usetimestamp="true" username="${build.user}" password="${build.password}" />
+		<get src="${mail.url}" dest="${working.dir}/${mail.jar}" verbose="true" usetimestamp="true" username="${build.user}" password="${build.password}" />
+		<get src="${postgres.url}" dest="${working.dir}/${postgres.jar}" verbose="true" usetimestamp="true" username="${build.user}" password="${build.password}" />
+		<get src="${opentok.url}" dest="${working.dir}/${opentok.jar}" verbose="true" usetimestamp="true" username="${build.user}" password="${build.password}" />
+		<get src="${stripe.url}" dest="${working.dir}/${stripe.jar}" verbose="true" usetimestamp="true" username="${build.user}" password="${build.password}" />
+		<get src="${gson.url}" dest="${working.dir}/${gson.jar}" verbose="true" usetimestamp="true" username="${build.user}" password="${build.password}" />
+					    
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- COMPILE                                                            -->
+	<!-- ================================================================== -->
+	<target name="compile" depends="get">
+
+		<!-- make sure target binary dir is available -->
+		<mkdir dir="${classes.dir}" />
+
+		<!-- compile source tree -->
+		<javac srcdir="${src.java.dir}" destdir="${classes.dir}" optimize="off" debug="true" debuglevel="lines,vars,source">
+			<classpath>
+				<fileset dir="${lib.dir}">
+					<exclude name="src" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- PACKAGE                                                            -->
+	<!-- ================================================================== -->
+	<target name="package" depends="compile, package-src">
+
+		<mkdir dir="${target.dir}" />
+		
+		<tstamp>
+			<format property="package.timestamp" pattern="yyyy-MM-dd HH:mm:ss" locale="en_GB" />
+		</tstamp>
+		
+		<!-- update manifest file to track jar pedigree  -->
+		<delete file="${target.dir}/MANIFEST.MF"/>
+    	<manifest file="${target.dir}/MANIFEST.MF">
+        <attribute name="Implementation-Title"   value="ProProject" />
+        <attribute name="Implementation-Version" value="${build.version}.${build.number}" />
+        <attribute name="Implementation-Vendor"  value="Anaeko Ltd" />
+        <attribute name="Implementation-Vendor-Id" value="ie.moderndemocracy" />
+        <attribute name="Anaeko-Utilities-Version" value="${utilities.build.version}.${utilities.build.number}"/>
+        <attribute name="Anaeko-Services-Version" value="${services.build.version}.${services.build.number}"/>
+        <attribute name="MySQL-JDBC-Version" value="${mysql.version}"/>
+        <attribute name="OS" value="${os.name}"/>
+        <attribute name="OS-Arch" value="${os.arch}"/>
+        <attribute name="Built-By" value="${user.name}"/>
+        <attribute name="Built-On" value="${package.timestamp}"/>
+    	</manifest>
+		
+		<!-- create binary jar, include resource files where appropriate  -->
+		<jar index="true" jarfile="${target.dir}/anaeko-${ant.project.name}.jar" manifest="${target.dir}/MANIFEST.MF">
+			<fileset dir="${classes.dir}">
+				<patternset id="non-test.classes">
+					<exclude name="**/*Test*" />
+				</patternset>
+			</fileset>
+		</jar>
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- PACKAGE-SRC                                                        -->
+	<!-- ================================================================== -->
+	<target name="package-src" depends="" if="export.src">
+		<mkdir dir="${target.dir}" />
+
+		<!-- create src jar -->
+		<jar index="true" jarfile="${target.dir}/anaeko-${ant.project.name}-src.jar">
+			<fileset dir="${src.dir}/java">
+				<patternset id="orig.source">
+					<include name="**/*java" />
+				</patternset>
+			</fileset>
+		</jar>
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- DIST                                                               -->
+	<!-- ================================================================== -->
+	<target name="dist" depends="package, dist-src">
+		<mkdir dir="${dist.dir}" />
+
+		<!-- create a binary distribution zip   -->
+		<zip destfile="${dist.dir}/anaeko-${ant.project.name}-${build.version}.${build.number}.zip" update="true" compress="true" defaultexcludes="yes" description="MEDIASIGHTS {ant.project.name} project archive">
+			<zipfileset dir="${lib.dir}" prefix="${ant.project.name}/lib" />
+			<zipfileset dir="${config.dir}" prefix="${ant.project.name}/etc" excludes="tests, tests/**" />
+			<zipfileset dir="${src.dir}/javascript" prefix="${ant.project.name}/src/javascript" />
+			<zipfileset dir="${src.dir}/init.d" prefix="${ant.project.name}/src/init.d" />
+			<zipfileset dir="${src.dir}/sql" prefix="${ant.project.name}/src/sql" />
+			<zipfileset dir="${src.dir}/static" prefix="${ant.project.name}/src/static" />
+			<zipfileset dir="${basedir}/data" prefix="${ant.project.name}/data" />
+			<zipfileset dir="${basedir}/src/scripts" prefix="${ant.project.name}/src/scripts" />
+			<zipfileset dir="${basedir}" defaultexcludes="true" includes="*.sh *.cmd" prefix="${ant.project.name}" />
+			<zipfileset dir="${target.dir}" includes="anaeko-${ant.project.name}.jar" prefix="${ant.project.name}/lib" /> 
+		</zip>
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- DIST-SRC                                                           -->
+	<!-- ================================================================== -->
+	<target name="dist-src" if="export.src">
+		<mkdir dir="${dist.dir}" />
+
+		<!-- write to distribution zip   -->
+		<zip destfile="${dist.dir}/anaeko-${ant.project.name}-${build.version}.${build.number}.zip" update="true" compress="true" defaultexcludes="yes" description="MEDIASIGHTS {ant.project.name} project archive">
+			<zipfileset file="${target.dir}/anaeko-${ant.project.name}-src.jar" prefix="${ant.project.name}" />
+			<zipfileset file="${target.dir}/anaeko-${ant.project.name}-test-src.jar" prefix="${ant.project.name}" />
+
+		</zip>
+	</target>
+	
+	<!-- ================================================================== -->
+	<!-- Apply the DEV properties to the moderndemocracy.properties file         -->
+	<!-- ================================================================== -->
+	<target name="apply-dev-props">
+	    <!-- Backup the original moderndemocracy.properties file -->
+	    <copy file="${config.dir}/moderndemocracy.properties" tofile="${config.dir}/moderndemocracy.properties.backup" />
+	    
+	    <!-- Merge the properties in from moderndemocracy-dev.properties -->
+        <java classname="com.anaeko.ant.PropertiesMergeTask" fork="true" failonerror="true">
+            <arg value="${config.dir}/moderndemocracy.properties"/>
+            <arg value="${config.dir}/moderndemocracy-dev.properties"/>
+            <arg value="/tmp/moderndemocracy.properties.merged"/>
+            <classpath>
+                <pathelement location="${lib.dir}/anaeko-${ant.project.name}.jar"/>
+                <pathelement path="${classes.dir}"/>
+            </classpath>
+       </java>
+       
+       <!-- Move the merged file to the  moderndemocracy.properties file -->
+        <copy file="/tmp/moderndemocracy.properties.merged" tofile="${config.dir}/moderndemocracy.properties" />
+	</target>
+	
+	<!-- ================================================================== -->
+    <!-- Apply the APP properties to the moderndemocracy.properties file         -->
+    <!-- ================================================================== -->
+    <target name="apply-app-props">
+        <!-- Backup the original moderndemocracy.properties file -->
+        <copy file="${config.dir}/moderndemocracy.properties" tofile="${config.dir}/moderndemocracy.properties.backup" />
+        
+        <!-- Merge the properties in from moderndemocracy-dev.properties -->
+        <java classname="com.anaeko.ant.PropertiesMergeTask" fork="true" failonerror="true">
+            <arg value="${config.dir}/moderndemocracy.properties"/>
+            <arg value="${config.dir}/moderndemocracy-app.properties"/>
+            <arg value="/tmp/moderndemocracy.properties.merged"/>
+            <classpath>
+                <pathelement location="${lib.dir}/anaeko-${ant.project.name}.jar"/>
+                <pathelement path="${classes.dir}"/>
+            </classpath>
+       </java>
+       
+       <!-- Move the merged file to the  moderndemocracy.properties file -->
+        <copy file="/tmp/moderndemocracy.properties.merged" tofile="${config.dir}/moderndemocracy.properties" />
+    </target>
+
+	<!-- ================================================================== -->
+	<!-- HELP                                                               -->
+	<!-- ================================================================== -->
+	<target name="help">
+	<echo message="===================================================================" />
+	<echo message="Below is a list of the possible Ant 'tasks' that can be run. These " />
+	<echo message="can be run as separate tasks by typing: 'ant task-name' or they can" />
+	<echo message="be chained together by typing: 'ant task1 task2 task3' " />
+	<echo message="" />
+	<echo message="-------------------------------------------------------------------" />
+	<echo message="Task          Description                                          " />
+	<echo message="-------------------------------------------------------------------" />
+	<echo message="help        | Show this message (default task)                     " />
+	<echo message="clean       | Delete the target and working directories including  " />
+	<echo message="            | all class files and jars                             " />
+	<echo message="full-clean  | Delete all generated dirs (target, lib, docs and tmp)" />
+	<echo message="download    | Download the distribution archives for the libraries " />
+	<echo message="            | used by this project and store them for later use    " />
+	<echo message="get         | Fetch and install into the lib directory all         " />
+	<echo message="            | libraries needed for this project.                   " />
+	<echo message="compile     | Compile all classes and unit tests into the target   " />
+	<echo message="            | directory. This task will automatically check for the" />
+	<echo message="            | libraries needed and will use the get task to install" />
+	<echo message="            | them, unless the 'no.get' option is supplied on the  " />
+	<echo message="            | commandline (see get tasks)                          " />
+	<echo message="package     | Create the projects jar file(s) in the target        " />
+	<echo message="            | directory, use the export.tests and export.src       " />
+	<echo message="            | options is approriate                                " />
+	<echo message="dist        | Package the project binaries into a distributable    " />
+	<echo message="            | zip file and run all the unit tests. Use the         " />
+	<echo message="            | export.tests and export.src options only when        " />
+	<echo message="            | approriate                                           " />
+	<echo message="-------------------------------------------------------------------" />
+	<echo message="" />
+	<echo message="This project has the following file structure..." />
+	<echo message="" />
+	<echo message="project-name _" />
+	<echo message="              |_etc          - configuration files" />
+	<echo message="              |_lib          - compile and runtime libraries" />
+	<echo message="              |_src          - all project source files " />
+	<echo message="              |_java         - java source files " />
+	<echo message="              |_target       - binary jars and distribution zips" />
+	<echo message="              |_classes      - all compiled classes" />
+	<echo message="" />
+	<echo message="-------------------------------------------------------------------" />
+	</target>
+
+</project>

@@ -1,0 +1,189 @@
+<!-- 
+Project: MDL Dashboard
+Author: Akarshani Amarasinghe
+Modified by: Ashan Perera [30/01/16]
+Module: EM issue HTML
+-->
+
+<div class="panel issue_list">
+	<div class="panel-header">
+		<h3>
+			<i class="fa fa-table"></i> <strong>All</strong> Issues
+		</h3>
+	</div>
+	<div class="panel-content"
+		ng-controller="mdl.em.controller.emissue as vm">
+		
+		<div class="row">
+			<div class="form-group">
+					<div class="col-sm-3">Filter by area</div>                                
+	                     <div class="col-sm-9">
+	                     	 <select ng-model="selectedHrc" ng-change="vm.filterData()" ng-options="o|split:'|':1 as o|split:'|':0 for o in vm.geoHierarchy"></select>
+	                     </div>
+                </div>
+			
+		</div>
+		<div class="row">
+			<table class="table table-hover">
+			<thead>
+				<tr>
+					<th style="width: 163px;">Reason</th>
+					<th style="width: 379px;">Description</th>
+					<th>Priority</th>
+					<th style="width: 163px !important;">Polling Station</th>
+					<th>Status</th>
+					<th>Assigned To</th>
+					<!-- <th>Chat</th> -->
+					<th></th>
+				</tr>
+				<tr>
+					<th><select class="issue_select_dropdown"
+						ng-model="items.issuetitle">
+							<option value="">All</option>
+							<option value="{{items.issuetitle}}"
+								ng-repeat="items in vm.issueList | orderBy: 'items.issuetitle'">{{items.issuetitle}}</option>
+					</select></th>
+					<th></th>
+					<th><select class="issue_select_dropdown"
+						ng-model="items2.PriorityTitle">
+							<option value="">All</option>
+							<option value="{{items2.PriorityTitle}}"
+								ng-repeat="items2 in vm.priority | orderBy: 'items2.PriorityTitle'">{{items2.PriorityTitle}}</option>
+					</select></th>
+					<th><select class="issue_select_dropdown"
+						ng-model="station.name"
+						style="width: 163px !important;">
+							<option value="">All</option>
+							<option value="{{station.polling_station_name}}" ng-repeat="station in vm.pollingStationList">{{station.polling_station_name}}</option>
+					</select></th>
+					<th><select class="issue_select_dropdown"
+						ng-model="vm.issuestatus">
+							<option value="{{items4.id}}" ng-repeat="items4 in vm.status"
+								ng-init="vm.issuestatus=vm.status[1].id">{{items4.statusName}}</option>
+					</select></th>
+					<th><select class="issue_select_dropdown" ng-model="items7.id">
+							<option value="">All</option>
+							<option value="{{items7.id}}"
+								ng-repeat="items7 in vm.user | orderBy: 'items7.fullname'"
+								>{{items7.fullname}}</option>
+					</select></th>
+					<!-- <th></th> -->
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr
+					ng-repeat="issueData in (filtered = (vm.issue | filter:{ issuestatus: vm.issuestatus } |  filter:items.issuetitle | filter:items2.PriorityTitle | filter:station.name |filter: {'userid':items7.id} | orderBy: 'issuedate':true )) | pagination: (vm.curPage-1) * vm.pageSize | limitTo: vm.pageSize"
+					ng-model="vm.issueDetails" value="{{issueData.id}}">
+					<td>{{issueData.reason}}</td>
+					<td>{{issueData.description}}</td>
+					<td
+						value="{{issueData.priority}}"
+						ng-init="issueData.priorityTitle = vm.priorityTitle(issueData.priority)">{{issueData.priorityTitle}}</td>
+					<td>{{issueData.pollingstation}}</td>
+					<td 
+						value="{{issueData.issuestatus}}"
+						ng-init="issueData.statusTitle = vm.statusTitle(issueData.issuestatus)">{{issueData.statusTitle}}</td>
+					<td>
+						<span ng-show="issueData.asignee.length>0" value="{{issueData.userid}}">{{issueData.asignee}}
+						</span>
+					</td>
+					<!-- <td>
+						<button class="edit btn btn-sm btn-default chat-click" tabindex="1" type="button" ng-click="vm.getChat(issueData.id, issueData.pollingstationid); vm.addChat(true);">
+		                     <i class="fa fa-table" ></i>
+		                </button>
+		                <label><input type="radio" name="content" data-content="title" data-radio="iradio_flat" 
+		                		ng-click="vm.getChat(issueData.id, issueData.pollingstationid); vm.addChat(true);">
+		                </label>
+		            </td> -->
+					<td>
+						<a class="edit btn btn-sm btn-default" href="#/all_issues/manage/{{issueData.id}}">
+		            		<i class="icon-note"></i>
+		            	</a>
+		            </td>
+				</tr>
+			</tbody>
+		</table>
+		<!-- modified by Vindya -->
+		<div>
+		<table class="table table-striped">
+			<tr>
+				<td>
+		 			<pagination total-items="filtered.length" ng-model="vm.curPage" max-size="3" class="pagination-sm" ng-show="(filtered.length/vm.pageSize)>1" boundary-links="true" rotate="false"><pagination>
+		 		</td>
+		 		<td align="right">
+		 			Number of issues: {{filtered.length}}
+		 		</td>
+		 	</tr>
+		 </table>
+		</div>
+		
+		<!-- <div>
+			<h3 ng-show="vm.addChatShow"><i class="fa fa-table"></i> <strong>Chat</strong></h3>
+			<button ng-show="vm.addChatCloseShow"class="btn btn-success m-r-10" ng-click="vm.closeIssue(vm.issueid)" ng-disabled="vm.closeDisabled">Close Issue</button>
+	   		<button ng-show="vm.addChatResolveShow" class="btn btn-danger m-r-10" ng-click="vm.resolveIssue(vm.issueid)" ng-disabled="vm.resolveDisabled">Resolve Issue</button>
+			
+			 <div class="row" ng-show="vm.addChatShow">
+                <div class="col-md-12 form-horizontal">
+                     <div class="row">
+                         <div class="col-md-12">
+							<form name="myForm" id="myFormId">
+								<div class="form-group">
+									<label class="col-sm-3 control-label">Message</label>
+									<div class="col-sm-9">
+										<textarea placeholder="Type your message here..."
+											class="defaultWidth" rows="4" cols="50"
+											ng-model="vm.chatmessage"></textarea>
+										<br />
+									</div>
+								</div>
+								<form class="upload-form">
+									<input type="file" ngf-select ng-model="vm.picFile" name="file"
+										data-max-size="10485760" class="upload-file" required>
+								</form><br>
+								<button ng-disabled="vm.buttonHide" ng-click="uploadPic(vm.picFile, vm.issueid, vm.gettingpollingstationid, vm.chatmessage)"
+									class="btn btn-success m-r-10">Add</button>
+								<button class="btn btn-danger m-r-10"
+									ng-click="vm.cancelChatMessage()">Cancel</button>
+							</form>
+						</div>
+                     </div>
+                 </div>
+            </div>
+            
+			<div class="row">
+				<table class="table table-hover" style="margin-left: 34px; width: 93%;">
+					<tbody ng-show="vm.chatShow" ng-repeat="chatResult in vm.getChatResult" value="{{chatResult.chatid}}"
+					style="border: 3px solid black; border-collapse: collapse;">
+						<tr>
+							<td style="width:1px;"><img ng-src="{{vm.appendUrl}}{{chatResult.profile_picture}}" style="width:30px;"/></td>
+							<td></td>
+							<td>{{chatResult.userfullname}}</td>
+							<td>{{chatResult.createdon | date:"yyyy-MM-dd 'at' h:mma"}}</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>{{chatResult.chatmessage}}</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td ng-show="(chatResult.attachtment_url).length > 4">Attachment</td>
+							<td ng-show="(chatResult.attachtment_url).length > 4">{{chatResult.attachtment_url}}</td>
+							<td ng-show="(chatResult.attachtment_url).length > 4"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+           
+               </div> --> 
+		</div>
+
+	
+	</div>
+</div>

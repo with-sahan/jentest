@@ -1,0 +1,29 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="modalClose()"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{{station.stationName}}</h4>
+    </div>
+    <div class="modal-body">
+        <div class="col-half">
+            <ul>
+                <li class="{{checkList[0].status ? 'checked': ''}}">{{checkList[0].text}}</li>
+                <li class="{{checkList[2].status ? 'checked': ''}}">{{checkList[2].text}}</li>
+                <li class="{{checkList[4].status ? 'checked': ''}}">{{checkList[4].text}}</li>
+                <li class="{{checkList[6].status ? 'checked': ''}}">{{checkList[6].text}}</li>
+                <li class="{{checkList[8].status ? 'checked': ''}}">{{checkList[8].text}}</li>
+            </ul>
+        </div>
+        <div class="col-half">
+            <ul>
+                <li class="{{checkList[1].status ? 'checked': ''}}">{{checkList[1].text}}</li>
+                <li class="{{checkList[3].status ? 'checked': ''}}">{{checkList[3].text}}</li>
+                <li class="{{checkList[5].status ? 'checked': ''}}">{{checkList[5].text}}</li>
+                <li class="{{checkList[7].status ? 'checked': ''}}">{{checkList[7].text}}</li>
+                <li class="{{checkList[9].status ? 'checked': ''}}">{{checkList[9].text}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="modalClose()">Close</button>
+    </div>
+</div>

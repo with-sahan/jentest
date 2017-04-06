@@ -1,0 +1,65 @@
+
+<div class="panel photo_module"
+	ng-controller="mdl.mobileweb.controller.photo as vm">
+	<div class="panel-header panel-controls">
+		<h3>
+			<i class="icon-target"></i> <strong>Photo</strong>
+		</h3>
+
+	</div>
+	<div id="dropdownStation" class="col-sm-12 p-10 p-l-40" >
+		<label>Stations :</label>
+        <select class="issue_select_dropdown" style="min-width:165px;width:auto;" ng-model="vm.selectedStation" ng-change="vm.stationcheck(vm.selectedStation);">
+            <option value="{{station.id}}"  ng-repeat="station in vm.pollingStationList">{{station.name}}</option>
+        </select>
+    </div>
+	<div class="row stationlist">
+		<div class="col-md-12">
+			<div class="tab-fade-in" style="padding-left: 35px">
+				<ul id="stationName" class="nav nav-tabs">
+					<li ng-repeat="station in vm.pollingStationList"
+						ng-click="vm.stationcheck(station.id)" ng-class="{'active':station.id==vm.stationid}"> <a href="">
+					<b class="icons-education-science-18"> &nbsp;&nbsp;&nbsp;&nbsp;
+						{{station.name}} </b>
+						</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane ng-scope active" ng-class="{active: tab.active}" >
+						<div class="row">
+							<form class="form-horizontal" ng-readonly=false>
+								<div class="col-md-12" style="text-align: center;">
+									<img style="width:60%" ng-model="picture" name="file" ng-if="picture"
+										ng-src="{{picture}}" alt="web camera" ngf-select><br />
+									<div class="btn_row m-t-10" style="text-align: center;">
+										<button type="button" class="btn btn-success m-l-10" ng-if="picture" data-ng-click="uploadPic(picture,vm.stationid)">Upload
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+			<div class="col-md-12" style="text-align: center;" ng-readonly=false>
+				<!-- <ng-camera output-height="160" output-width="213"
+					viewer-height="320" viewer-width="426" image-format="jpeg"
+					image-url="overlay" jpeg-quality="100"
+					action-message="Take picture" snapshot="picture"
+					flash-fallback-url="/vendors/webcamjs/webcam.swf"
+					overlay-url="data/media/camera1.png" shutter-url="data/media/shutter.mp3"></ng-camera> -->
+				<!--	overlay-url="/overlay.png" shutter-url="/shutter.mp3" -->
+				<!-- for cropping:
+       							 crop-height="90"
+        						crop-width="120"-->
+				<!-- <input class="btn btn-success" type="file" accept="image/*"  onchange="angular.element(this).scope().setFile(this)"> -->
+				<form class="upload-form">
+					<input class="btn btn-success" type="file" ngf-select ng-model="vm.picFile" name="file"
+						data-max-size="10485760" class="upload-file" accept="image/*" onchange="angular.element(this).scope().setFile(this)" required/>
+				</form>
+			</div>
+		</div>
+	</div>

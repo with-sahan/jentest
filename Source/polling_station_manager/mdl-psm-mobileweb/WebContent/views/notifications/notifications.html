@@ -1,0 +1,18 @@
+<div ng-controller="mdl.mobileweb.controller.notifications as vm">
+	<div class="panel notification" ng-repeat="msg in vm.notifications" id="notification{{msg.notification_id}}">
+	    <div class="panel-header bg-dark">
+	        <!-- <h3 class="title">New <strong ng-if="msg.isprivate==0">Global</strong><strong ng-if="msg.isprivate==1">Private</strong> Message</h3>  (id-{{msg.notification_id}})<h5 class="date">{{msg.generatedon.split('+')[0] | date:"yyyy-MM-dd 'at' h:mma"}}</h5> -->
+					<h3 class="title">New <strong ng-if="msg.isprivate==0">Global</strong><strong ng-if="msg.isprivate==1">Private</strong> Message</h3><h5 class="date">{{msg.generatedon.split('+')[0] | date:"yyyy-MM-dd 'at' h:mma"}}</h5>
+	    </div>
+	    <div class="panel-content">
+	        <p>
+	            {{msg.message}}
+	        </p>
+           <button class="btn btn-success m-r-10" type="button" ng-click="vm.confirmMsg(msg.notification_id,(disabled=true))"
+            ng-disabled='disabled' ng-hide="{{msg.status==1}}">Confirm</button>
+	    </div>
+	    <div class="panel-footer file">
+			<div ng-show="msg.att_url !=null"><h3 class="title"><a ng-click="downloadCSV(vm.appendUrl + msg.att_url)"  download>Attachment&nbsp;&nbsp;<i class="glyphicon glyphicon-download-alt"></i></a></h3></div>
+	    </div>
+	</div>
+</div>

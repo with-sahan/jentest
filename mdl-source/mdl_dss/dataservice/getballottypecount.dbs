@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getballottypecount" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getballottypecount</description>
+  <config id="getballottypecount">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getballottypecount" useConfig="getballottypecount">
+    <sql>call psm.getballottypecount(?,?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": {&#xD;      "response": $response,&#xD;      "typecount": $typecount,&#xD;    }&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="electionid" sqlType="INTEGER" />
+  </query>
+  <operation name="getballottypecount">
+    <description>getballottypecount</description>
+    <call-query href="getballottypecount">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getballottypecount">
+    <description>getballottypecount</description>
+    <call-query href="getballottypecount">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+    </call-query>
+  </resource>
+</data>

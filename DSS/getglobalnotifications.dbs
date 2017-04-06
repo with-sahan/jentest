@@ -1,0 +1,26 @@
+<data name="getglobalnotifications" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>getglobalnotifications                  </description>
+   <config id="getglobalnotifications">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="getglobalnotifications" useConfig="getglobalnotifications">
+      <sql>call getglobalnotifications(?)</sql>
+      <result outputType="json">{&#13;    "result": {&#13;        "entry": [&#13;            {&#13;                "id": "$id",&#13;                "pollingstation": "$pollingstation",&#13;                "message": "$message",&#13;                "attachtment": "$attachtment",&#13;                "senton": "$senton",&#13;                "status": "$status",&#13;                "response": "$response"&#13;            }&#13;        ]&#13;    }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="getglobalnotifications">
+      <description>getglobalnotifications&#13;                                    </description>
+      <call-query href="getglobalnotifications">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getglobalnotifications">
+      <description>getglobalnotifications&#13;                                    </description>
+      <call-query href="getglobalnotifications">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

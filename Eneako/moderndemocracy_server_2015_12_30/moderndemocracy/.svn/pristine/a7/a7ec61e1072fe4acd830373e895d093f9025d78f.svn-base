@@ -1,0 +1,73 @@
+<div ng-include="'/templates/_header.html'"></div>
+<section class="grid-wrap">
+  <div class="grid-col pageTitle">
+    <h1>Dashboard</h1>
+  </div>
+  
+  <div class="grid-col content">
+    <div class="dashrow two clearfix">
+      
+      <div class="box">
+        <h3>Total Ballot Papers Issued</h3>
+        <div>{{wardData.totalBallotPapersIssued}}</div>
+      </div>
+      
+      <div class="box">
+        <h3>Total Postal Packs</h3>
+        <div>{{wardData.totalPostalPacks}}</div>
+      </div>
+    
+    </div>
+  
+
+    <div id="electoralArea" cellspacing="0" class="dashboardTable">
+      <h3>Electoral Area</h3>
+      
+      <div class="tableHead clearfix">
+          <h4 class="grid-col-nopad col-small-col"></h4>
+          <h4 class="grid-col-nopad col-main-col">Contests</h4>
+          <h4 class="grid-col-nopad col-main-col">Ballot Papers Issued</h4>
+          <h4 class="grid-col-nopad col-main-col">Postal Packs</h4>
+      </div>
+      
+      <div>
+        <div ng-repeat="ward in wardData.wards" ng-click="toggleWardVisibility(ward);"  class="tableRow clearfix">
+            <div class="details-control grid-col-nopad col-small-col"></div>
+            <div class="grid-col-nopad col-main-col">{{ward.wardName}}</div>
+            <div class="grid-col-nopad col-main-col">{{ward.totalBallotPapersIssued}}</div>
+            <div class="grid-col-nopad col-main-col">{{ward.totalPostalPacksRecieved}}</div>
+		    
+            <div ng-show="ward.visible" class="breakdownTable">
+              <table cellspacing="0" class="dashboard long">
+                <tr>
+                  <th>Polling Station</th>
+                  <th>Ballot Papers Issued</th>
+                  <th>Postal Packs</th>
+                  <th>Station Open</th>
+                  <th>Status</th>
+                </tr>
+                <tr ng-repeat="station in ward.stations">
+                  <td>{{station.stationName}}</td>
+                  <td>{{station.ballotPapersIssued}}</td>
+                  <td>{{station.postalPacksReceived}}</td>
+                  <td ng-show="station.stationOpen">OPEN</td>
+                  <td ng-show="!station.stationOpen">CLOSED</td>
+                  <td class="{{station.stationStatus}}"></td>
+                </tr>
+              </table>
+            </div>
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+
+
+  </div>
+
+
+</section>
+<div ng-include="'/templates/_footer.html'"></div>

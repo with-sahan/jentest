@@ -1,0 +1,58 @@
+<!--<map style="height:400px;width:800px" center="37.7699298, -122.4469157" zoom="11">
+                            <marker ng-repeat="pos in positions" position="{{pos.lat}}, {{pos.lng}}"></marker>
+                        </map>-->
+<div class="panel"
+	ng-controller="mdl.dashboard.controller.trackprogress as vm">
+	<div class="panel-content">
+
+		<div class="row">
+			<div class="form-group">
+				<div class="col-sm-3">Filter by area</div>
+				<div class="col-sm-9">
+					<select class="issue_select_dropdown" ng-model="vm.selectedHrc"
+						ng-change="vm.filterData()"
+						ng-options="o|split:'|':1 as o|split:'|':0 for o in vm.geoHierarchy"></select>
+							                     	
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row m-t-10">
+			<ng-map zoom="15" pan-control="true" zoom-control="true"
+				scale-control="true" center="{{vm.center}}"> 
+				<marker
+				ng-repeat="pos in vm.markers" id="{{pos.ballot_box_number}}" on-click="vm.showMakerName();" 
+				position="{{pos.latitude}},{{pos.longtitude}}"></marker> 
+				<marker
+				position="{{vm.center}}" id="countingcenter" on-click="vm.showCountingCenter();" 
+				icon="{path:'CIRCLE', scale: 8}" draggable="false"></marker> 
+			</ng-map>
+		</div>
+
+		<div class="row m-t-10 tbl_scroll_x">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Polling Station</th>
+						<th>Ballot Boxes</th>
+						<th>Counting Center</th>
+						<th>ETA</th>
+						<th>Arrival Time</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="pos in vm.markers">
+						<td>{{pos.polling_station}}</td>
+						<td>{{pos.ballot_box_number}}</td>
+						<td>{{pos.counting_center_id}}</td>
+						<td><span ng-show="pos.status==2">Arrived</span><span ng-hide="pos.status==2">{{pos.eta}}</span></td>
+						<td><span ng-show="pos.status==2">{{pos.arrivaltime}}</span><span ng-hide="pos.status==2"> </span></td>
+						<!-- <td>{{pos.arrivaltime}}</td> -->
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</div>

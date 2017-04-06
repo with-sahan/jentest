@@ -1,0 +1,26 @@
+<data name="getballotissuegraphstats" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>getballotissuegraphstats</description>
+   <config id="mdl_psm">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="getballotissuegraphstats" useConfig="mdl_psm">
+      <sql>call getballotissuegraphstats(?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": [&#13;      {&#13;        "electionname": "$electionname",&#13;        "issuehour": "$issuehour",&#13;        "ballotpaperissued": "$ballotpaperissued",&#13;        "response": "$response"&#13;      }&#13;      &#13;    ]&#13;  }&#13;}&#13;</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="getballotissuegraphstats">
+      <description>getballotissuegraphstats&#13;                                    </description>
+      <call-query href="getballotissuegraphstats">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getballotissuegraphstats">
+      <description>getballotissuegraphstats&#13;                                    </description>
+      <call-query href="getballotissuegraphstats">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

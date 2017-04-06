@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getissuecountgraphstats" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getissuecountgraphstats</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getissuecountgraphstats" useConfig="mdl_psm">
+    <sql>call getissuecountgraphstats(?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;        "openissues": "$openissues",&#xD;        "response": "$response"&#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="getissuecountgraphstats">
+    <description>getissuecountgraphstats</description>
+    <call-query href="getissuecountgraphstats">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getissuecountgraphstats">
+    <description>getissuecountgraphstats</description>
+    <call-query href="getissuecountgraphstats">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

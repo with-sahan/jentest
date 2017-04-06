@@ -1,0 +1,50 @@
+package com.moderndemocracy.json;
+
+import java.io.IOException;
+import java.util.List;
+
+import com.anaeko.utils.data.mime.json.DefaultJsonMarshaler;
+import com.anaeko.utils.io.MarshalerException;
+import com.anaeko.utils.json.JsonWriter;
+import com.moderndemocracy.pojo.Candidates;
+
+public final class CandidatesMarshaler extends DefaultJsonMarshaler {	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void marshal(Object object, JsonWriter writer)
+			throws IOException, MarshalerException {
+
+		if (object instanceof List) {
+			
+			writer.writeStartArray();
+
+			for (Candidates candidates : (Iterable<Candidates>) object) {
+				marshalCandidates(candidates, writer);
+			}
+
+			writer.writeEndArray();
+			
+		} else {
+			marshalCandidates((Candidates) object, writer);
+		}
+	}
+
+	private void marshalCandidates(Candidates candidates, JsonWriter writer)
+			throws IOException {
+
+		writer.writeStartObject();
+
+		writer.writeField(Candidates.ID, candidates.getId());
+		writer.writeField(Candidates.TITLE, candidates.getTitle());
+		writer.writeField(Candidates.SUMMARY, candidates.getSummary());
+		writer.writeField(Candidates.CONTENT, candidates.getContent());
+		writer.writeField(Candidates.TITLE_IMAGE, candidates.getTitleImage());
+		writer.writeField(Candidates.FLAG_IMAGE, candidates.getFlagImage());
+		writer.writeField(Candidates.PARTY_NAME, candidates.getPartyName());
+		writer.writeField(Candidates.CREATED, candidates.getCreated());
+
+		writer.writeEndObject();
+	}
+	
+}

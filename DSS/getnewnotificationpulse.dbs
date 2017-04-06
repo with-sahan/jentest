@@ -1,0 +1,26 @@
+<data name="getnewnotificationpulse" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>getnewnotificationpulse</description>
+   <config id="mdl_psm">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="getnewnotificationpulse" useConfig="mdl_psm">
+      <sql>call getnewnotificationpulse(?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": [&#13;      { &#13;         "has_new_notification":$has_new_notification,&#13;         "response":"$response"&#13;      }&#13;    ]&#13;  }&#13;}&#13;</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="getnewnotificationpulse">
+      <description>getnewnotificationpulse&#13;                                    </description>
+      <call-query href="getnewnotificationpulse">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getnewnotificationpulse">
+      <description>getnewnotificationpulse&#13;                                    </description>
+      <call-query href="getnewnotificationpulse">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

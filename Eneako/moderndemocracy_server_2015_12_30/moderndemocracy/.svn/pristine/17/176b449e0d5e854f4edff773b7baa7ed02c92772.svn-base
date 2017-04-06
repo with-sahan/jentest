@@ -1,0 +1,576 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          moderndemocracy
+# Required-Start:    $nginx $postgresql
+# Required-Stop:     $nginx $postgresql
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Anaeko APP Service
+# Description:       An Anaeko HTTP Service is an extensible REST Service.
+#
+### END INIT INFO
+
+# set -e
+. /lib/lsb/init-functions
+
+#==============================================================================
+# /etc/init.d/daemon: start and stop an http service daemon
+#
+# App options:
+#==============================================================================
+NAME="moderndemocracy";                           #a UNIQUE single word code name for this APP
+
+DESC="ModernDemocracy HTTP Service"               #a one line description
+DEFAULT_CONFIG="$NAME.properties"                 #the default configuration file to use
+COMMAND="java"                                    #the command to execute
+PROCESS_NAME="ServiceManager"                     #the name of the process spawned
+PID_FILE="/var/run/$NAME.pid"                     #UNIQUE file name for daemon PID
+
+#==============================================================================
+# App dependencies, if any
+#==============================================================================
+#DEPENDENCY_LIST="RegistryImpl"                   #space separated list of process names which
+                                                  #will be distinct and show up in the output of
+                                                  #a `ps -ef` command
+
+#==============================================================================
+# Java options
+#==============================================================================
+JAVA_CLASS="com.anaeko.service.ServiceManager"    #the Java Service launcher class
+                                                  #note that to have a uniquely
+                                                  #identifiable process/daemon this
+                                                  #class can be extended, without
+                                                  #providing any extended implementation
+JAVA_MIN_MEMORY="-Xms32m"                         #JVM argument
+JAVA_MAX_MEMORY="-Xmx384m"                        #JVM argument
+
+#JMX_PORT="7000"                                  #optional port for remote JMX monitoring
+
+APP_HOSTNAME=${APP_HOSTNAME:-`hostname`}          #host name
+APP_SERVICE_CONFIG_FILE=${2:-$DEFAULT_CONFIG}     #service config file
+
+if [ "$2" = "-v" ]; then
+  FLAG_VERBOSE="true";
+  APP_SERVICE_CONFIG_FILE="$DEFAULT_CONFIG";
+fi
+
+log_action_msg "Launching $NAME with configuration $APP_SERVICE_CONFIG_FILE";
+
+#==============================================================================
+# Find the directory of the running script or exit
+#==============================================================================
+CURRENT_SCRIPT_DIR=`dirname $(readlink -f $0)`;
+SCRIPT_DIR=${SCRIPT_DIR:-"$CURRENT_SCRIPT_DIR"};
+
+if [ -d "$SCRIPT_DIR" ]; then
+    log_action_msg  "Using script directory $SCRIPT_DIR as basis of daemon configuration"
+else
+    log_failure_msg "Failed to find the directory of the script, if this is not a debian based Linux try setting the SCRIPT_DIR environment variable"
+fi
+
+#==============================================================================
+# Find the key directories and configuration files
+#==============================================================================
+INITIAL_DIR=$PWD;
+cd $SCRIPT_DIR;
+APP_HOME=$SCRIPT_DIR;                            #root path for deployment
+APP_CONFIG="$APP_HOME/etc"                       #main configuration directory
+
+while ([ ! -d "$APP_CONFIG" ])
+do
+    cd "$APP_HOME/../";
+    APP_HOME=$PWD;
+    if [ "/" = $APP_HOME ] || [ "/home" = $APP_HOME ]; then
+        log_failure_msg "Could not find main service configuration directory 'etc'";
+        cd $INITIAL_DIR;
+        exit 2;
+    fi
+    APP_CONFIG="$APP_HOME/etc"
+done
+
+log_action_msg "Using application base directory: $APP_HOME"
+
+APP_SYSTEM="${APP_HOME}/.runtime"                                                    #default runtime directory
+APP_DATA=`find $APP_HOME -type d -name "data" | grep -vE "(test|docs|java|target)"`  #data directory
+APP_STATIC=`find $APP_HOME -type d -name "static" | grep -v en_`                     #static file directory - GREP FIX FOR EXTRA STATIC DIRECTORY BEING FOUND
+APP_LIB=`find $PWD -type d -name lib | grep -v '/static/'`                           #lib directory
+
+if [ ! -d "$APP_LIB" ]; then
+ log_failure_msg "Failed to find required java lib directory:  $APP_LIB";
+ exit 2;
+fi
+
+if [ ! -d "$APP_STATIC" ]; then
+ log_failure_msg "Failed to find required static file root directory:  $APP_STATIC";
+# exit 2;
+fi
+
+log_action_msg "Using configuration directory: $APP_CONFIG"
+log_action_msg "Using static file root directory: $APP_STATIC";
+log_action_msg "Using lib directory: $APP_LIB";
+
+cd $INITIAL_DIR;
+
+#==============================================================================
+# Find the owner and group of the configuration file
+#==============================================================================
+CONFIG_OWNER=`ls -l $APP_HOME | grep 'etc' | awk '{print $3}'`
+CONFIG_GROUP=`ls -l $APP_HOME | grep 'etc' | awk '{print $4}'`
+
+#==============================================================================
+# Configure general JVM command line OPTIONS
+#==============================================================================
+set_jvm_options(){
+    OPTS="-server";
+    OPTS="$OPTS $JAVA_MIN_MEMORY";
+    OPTS="$OPTS $JAVA_MAX_MEMORY";
+
+    log_action_msg "Setting service's timezone to UTC, independent of system timezone";
+    OPTS="$OPTS -Duser.timezone=UTC";
+
+	local DISRUPTOR=`find $APP_LIB -type f -name 'disruptor*.jar'`
+	if [ -f "$DISRUPTOR" ]; then
+		log_action_msg "Configuring Logging to use LMAX/disruptor" 
+		OPTS="$OPTS -DLog4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector";
+	fi
+
+    if [ -n "$JMX_PORT" ]; then
+        OPTS="$OPTS -Dcom.sun.management.jmxremote";
+        OPTS="$OPTS -Dcom.sun.management.jmxremote.port=${JMX_PORT}";
+        OPTS="$OPTS -Dcom.sun.management.jmxremote.authenticate=false";
+        OPTS="$OPTS -Dcom.sun.management.jmxremote.ssl=false";
+    fi
+
+}
+
+#==============================================================================
+# Configure service's runtime directory (optional)
+# Note: must run after user is resolved because of dependency on $HOME directory
+#==============================================================================
+set_runtime_dir(){
+
+  if [ ! -d "$APP_SYSTEM" ]; then
+    APP_SYSTEM="$APP_USER_HOME/.anaeko";
+
+    if [ ! -d "$APP_SYSTEM" ]; then
+      APP_SYSTEM="/tmp/.anaeko";
+    fi
+
+    if [ ! -d "$APP_SYSTEM" ]; then
+      log_action_msg  "Creating system dir $APP_SYSTEM and setting owner/permissions to $APP_USER:$APP_GROUP";
+      mkdir "$APP_SYSTEM" || exit 1;
+      chown "$APP_USER:$APP_GROUP" $APP_SYSTEM
+      chmod g+rws "$APP_SYSTEM"
+    fi
+
+    log_action_msg "Optional runtime directory not found, using fallback $APP_SYSTEM";
+
+  else
+    log_action_msg "Found runtime directory $APP_CONFIG";
+  fi
+
+}
+
+#==============================================================================
+# Add A-DAS libraries to classpath
+# Add configuration paths to classpath
+#==============================================================================
+set_classpath(){
+
+    CPATH="-cp ./"
+    
+    if [ -d "${APP_HOME}/target/classes" ]; then
+      CPATH="${CPATH}:${APP_HOME}/target/classes/";
+
+    elif [ -d "${APP_HOME}/target" ]; then
+
+      for jar in `ls $APP_HOME/target/*`;
+      do
+        CPATH="${CPATH}:${jar}";
+      done
+
+    fi
+    
+    for jar in `find $APP_LIB -name *.jar`;
+    do
+      CPATH="${CPATH}:${jar}";
+    done
+    
+    for src_dir in `find $APP_LIB -type d`;
+		do
+			CPATH="${CPATH}:${src_dir}/";
+		done
+    
+	CPATH="${CPATH}:${APP_CONFIG}";
+    CPATH="${CPATH}:${APP_SYSTEM}";
+    CPATH="${CPATH}:${APP_STATIC}";
+
+    if [ -d "$APP_DATA" ]; then
+      CPATH="${CPATH}:${APP_DATA}";
+    fi
+
+		JAVASCRIPT_DIR=`find $APP_HOME -type d -name javascript | grep 'src/javascript'`;
+		if [ -d "$JAVASCRIPT_DIR" ]; then
+			CPATH="${CPATH}:${JAVASCRIPT_DIR}";
+		fi
+
+    for dir in `find $APP_HOME -type d -name tests`;
+    do
+      CPATH="${CPATH}:${dir}";
+
+      for subdir in `find $dir  -maxdepth 1 -mindepth 1 -type d -name "[a-zA-Z]*"`;
+      do
+         CPATH="${CPATH}:${subdir}";
+      done
+
+    done
+
+}
+
+#==============================================================================
+# Configure Java
+# Note: default to the pre-set JAVA_HOME environment variable
+# Note: default to using the Sun JVM as deployed on Debian based systems
+#==============================================================================
+configure_java() {
+    log_action_msg "Configuring Java..."
+
+    local LIB_JVM="/usr/lib/jvm"
+
+    if [ ! -d "$JAVA_HOME" ]; then
+      JVM_OPTIONS=`ls -1 $LIB_JVM | grep -v common | grep -E 'java-(1.)?7'`
+      for j in $JVM_OPTIONS
+      do
+          if [ -d "$LIB_JVM/$j" ]; then
+              JAVA_HOME="$LIB_JVM/$j"
+              break;
+          fi
+      done
+    fi
+
+    if [ ! -d "$JAVA_HOME" ]; then
+      for j in `ls -1 $LIB_JVM | grep -v common | grep -E 'java-(1.)?6'`
+      do
+
+        if [ -d "$LIB_JVM/$j" ]; then
+          JAVA_HOME="$LIB_JVM/$j"
+          break;
+        fi
+      done
+    fi
+
+    if [ ! -d "$JAVA_HOME" ]; then
+        t=/opt/java && test -d $t && JAVA_HOME=$t
+    fi
+
+    if [ ! -d "$JAVA_HOME" ]; then
+        log_failure_msg "Could not find Java, set JAVA_HOME environment variable or install Java if necessary"
+        exit 1;
+    fi
+
+    local PATH_OK=`echo $PATH | grep -c $JAVA_HOME`
+
+    if [ ! $PATH_OK -eq 1 ]; then
+        PATH=$JAVA_HOME/bin:$PATH;
+    fi
+
+    COMMAND=`which java`
+    log_action_msg "Using java installation found here: $COMMAND"
+
+    local CURRENT_USER=`id -un`
+    if [ "root" = "$CURRENT_USER" ]; then
+        touch /tmp
+        chmod 01777 /tmp
+    fi
+}
+
+#==============================================================================
+# Set the User and Group that should be used to run the Daemon
+# Note: the default is app-name:app-name - which may not be configured
+# Note: the current user will be used as a fallback option
+# Note: running a service as root user will not be allowed
+#==============================================================================
+set_user() {
+
+    APP_USER=${APP_USER:-"$CONFIG_OWNER"}            #name of user to use
+    APP_GROUP=${APP_GROUP:-"$CONFIG_GROUP"}          #name of user group to use
+
+    local USER_OK=`id $APP_USER 2>/dev/null`
+    if [ -z "$USER_OK" ]; then
+        log_warning_msg "Expected user '$APP_USER' does not exist, trying current user..."
+        APP_USER=`id -un`
+    fi
+    if [ "root" = "$APP_USER" ]; then
+        log_warning_msg "Will not run Service as root user"
+
+        log_action_msg "Will attempt to use the SUDO_USER, if available"
+        USER_OK=`id $SUDO_USER 2>/dev/null`
+        if [ -z "$USER_OK" ]; then
+            log_failure_msg "Invalid or missing SUDO_USER, cannot find a valid user to launch $DESC, exiting"
+            exit 1;
+        else
+            APP_USER=$SUDO_USER;
+            if [ "root" = "$APP_USER" ]; then
+                log_warning_msg "root user cannot be the SUDO_USER, exiting"
+                exit 1;
+            fi
+        fi
+    fi
+
+    local GROUP_OK=`groups $APP_USER | grep -c $APP_GROUP`
+
+    if [ $GROUP_OK -eq 0 ]; then
+        log_warning_msg "Expected group '$APP_GROUP' does not exist, trying default group"
+        APP_GROUP="users"
+
+        GROUP_OK=`groups $APP_USER | grep -c $APP_GROUP`
+
+        if [ $GROUP_OK -eq 0 ]; then
+            log_warning_msg "Expected group: $APP_GROUP does not exist, trying alternative  group"
+            APP_GROUP=$APP_USER
+            GROUP_OK=`groups $APP_USER | grep -c $APP_GROUP`
+            if [ $GROUP_OK -eq 0 ]; then
+                log_failure_msg "valid user group not defined, exiting"
+                exit 1;
+            fi
+        fi
+    fi
+
+    APP_USER_HOME="/home/$APP_USER"
+    log_action_msg "$DESC user is $APP_USER:$APP_GROUP"
+
+}
+
+
+#==============================================================================
+# Check configure options
+#
+# Note: the set_user function should be run before this one to ensure that a
+#       valid user has been configured.
+# Note: if a valid configuration is not specified the script assumes that
+#       $APP_USER_HOME is the home directory of the user
+#==============================================================================
+configure_daemon() {
+    log_action_msg "Configuring service options"
+    set_runtime_dir
+    set_classpath
+    set_jvm_options
+
+    #==============================================================================
+    # Configure service specific command line OPTIONS
+    #==============================================================================
+    OPTS="$OPTS -Dservicemanager.properties=$APP_SERVICE_CONFIG_FILE";
+    if [ -n "$APP_HOSTNAME" ]; then
+        OPTS="$OPTS -Dlocalhost=${APP_HOSTNAME}";
+    fi
+
+    OPTS="$OPTS -Danaeko.system.dir=${APP_SYSTEM}";
+
+    #==============================================================================
+    # Configure custom PID to allow deamon to launch when not root
+    #==============================================================================
+    CURRENT_USER=`id -un`
+    if [ "root" != "$CURRENT_USER" ]; then
+      PID_FILE="$APP_SYSTEM/$NAME.pid";
+      log_warning_msg "Not running as root/sudo using alternative PID location: $PID_FILE"
+
+      CHUID=""
+
+    else
+      CHUID="--chuid $APP_USER:$APP_GROUP"
+
+    fi
+}
+
+#==============================================================================
+# Check that the all declared DEPENDENCY_LIST of this service are already running
+#==============================================================================
+assert_dependency_list_running() {
+    if [ -n "$DEPENDENCY_LIST" ]; then
+        for ENTRY in $DEPENDENCY_LIST
+        do
+            assert_service_running $ENTRY
+        done
+    fi
+}
+
+#==============================================================================
+# set the PID of the expected/monitored service
+#==============================================================================
+lookup_pid() {
+    DAEMON_PID=`jps | grep $1 | awk '{print $1}'`;
+    if [ -z "$DAEMON_PID" ];then
+        log_action_msg "$1 not found in process list"
+    else
+        log_action_msg "$1 process id: $DAEMON_PID"
+    fi
+}
+
+#==============================================================================
+# if the specified Service is running exit with an error
+#==============================================================================
+assert_not_running() {
+    log_action_msg "Checking that service is not already running: $PROCESS_NAME"
+    lookup_pid $PROCESS_NAME $NAME
+    if [ -n "$DAEMON_PID" ];then
+        if [ -e "$PID_FILE" ]; then
+            local EXISTING_PID=`cat $PID_FILE`
+            if [ "$EXISTING_PID" != "$DAEMON_PID" ]; then
+                `echo $DAEMON_PID > $PID_FILE`
+            fi
+        else
+            `echo $DAEMON_PID > $PID_FILE`
+        fi
+        log_failure_msg ${DESC}" is running, PID: "${DAEMON_PID}", exiting"
+        exit 1;
+    fi
+}
+
+#==============================================================================
+# Wait for the defined number of seconds
+# if a Service name has been supplied then check if its there and break if not
+#==============================================================================
+wait_for_process_to_end() {
+    log_action_msg "Waiting for $1"
+
+    for n in {1..10}
+    do
+        sleep 1
+        local WATCH_PID=`jps | grep $1 | awk '{print $1}'`
+        if [ -z "$WATCH_PID" ]; then
+            log_action_msg "Process $PROCESS_NAME:$1 has ended"
+            break
+        fi
+    done
+}
+
+#==============================================================================
+# Check that the Service as started and fail if it has not.
+#==============================================================================
+assert_service_running() {
+    log_action_msg "Checking for Service: $1"
+    local REGISTRY_PID=`jps | grep $1 | awk '{print $1}'`;
+    if [ -z "$REGISTRY_PID" ];then
+        log_failure_msg "$1 Service is not running, cannot launch $DESC"
+        exit 1
+    fi
+}
+
+
+#==============================================================================
+# Start the service
+#
+# Note: this function does NOT rely on the start-stop-daemon to manage existing
+#       services using the PID_FILE as the service may have been managed outside
+#       of the normal start/stop process and java applications do not use PID_FILEs
+#
+# 1 check the java setup is OK
+# 2 assert that the service is not already running
+# 3 check that a valid user can be found to run the service (not root)
+# 4 run the service specific configuration function
+# 5 execute the start-stop-daemon function
+#==============================================================================
+start() {
+    configure_java
+    set_user
+    configure_daemon
+    assert_not_running
+    assert_dependency_list_running
+
+    if [ "true" = "$FLAG_VERBOSE" ]; then
+      log_action_msg "start-stop-daemon --background --quiet --start --make-pidfile --chdir $APP_HOME --pidfile $PID_FILE $CHUID "
+      log_action_msg "$COMMAND $CPATH $OPTS $JAVA_CLASS"
+    fi
+    start-stop-daemon --background --quiet --start --make-pidfile --chdir $APP_HOME --pidfile $PID_FILE $CHUID --exec $COMMAND -- $CPATH $OPTS $JAVA_CLASS 
+    sleep 2
+
+    local RESULT=$?
+    if [ ! "$RESULT" -eq 0 ]; then
+       log_failure_msg "Request to started Daemon $DESC failed!"
+       exit $RESULT;
+    fi
+
+    lookup_pid $PROCESS_NAME $NAME
+    if [ -n "$DAEMON_PID" ]; then
+        log_action_msg "Waiting for $DESC initialisation..."
+        sleep 5
+        log_action_msg "Completed $DESC start-up as daemon, PID file: $PID_FILE"
+
+    else
+        log_failure_msg "Failed to start service $DESC"
+
+        
+        exit 1
+    fi
+
+}
+
+#==============================================================================
+# Stop the service
+#
+# Note: this function does not rely on the PID_FILE and the start-stop-daemon
+#       as the service may have been started outside of the normal daemon process
+#
+# 1 check the java setup is OK
+# 2 check that the service is actually running
+# 3 execute the start-stop-daemon function
+#==============================================================================
+stop() {
+    configure_java
+    set_user
+    configure_daemon
+    lookup_pid $PROCESS_NAME $NAME
+
+    if [ -n "$DAEMON_PID" ]; then
+        if [ ! -e "$PID_FILE" ]; then
+            `echo $DAEMON_PID > $PID_FILE`
+        fi
+
+        start-stop-daemon --stop --pidfile $PID_FILE --exec $COMMAND --retry 4
+        local RESULT=$?
+        if [ "$RESULT" -eq 0 ]; then
+            log_action_msg "Service $DESC stopping..."
+            wait_for_process_to_end $DAEMON_PID
+
+        else
+            log_failure_msg "An Error occurred stopping service $DESC"
+            exit $RESULT
+        fi
+
+        rm -f $PID_FILE 2> /dev/null
+
+    else
+        log_warning_msg "Service $DESC not running"
+    fi
+}
+
+case "$1" in
+  start)
+        log_daemon_msg "Starting $DESC" "$NAME"
+        start
+        ;;
+  stop)
+        log_daemon_msg "Stopping $DESC" "$NAME"
+        stop
+        ;;
+  restart|force-reload)
+        #
+        #       If the "reload" option is implemented, move the "force-reload"
+        #       option to the "reload" entry above. If not, "force-reload" is
+        #       just the same as "restart".
+        #
+        log_daemon_msg "Restarting $DESC" "$NAME"
+        #set +e
+        stop
+        #set -e
+        #sleep 1
+        start
+        ;;
+  *)
+        echo "Usage: /etc/init.d/$NAME {start|stop|restart|force-reload} [<alternative.properties>|-v]" >&2
+        exit 1
+        ;;
+esac
+
+exit 0

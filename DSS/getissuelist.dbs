@@ -1,0 +1,26 @@
+<data name="getissuelist" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>getissuelist               &#13;                                &#13;                                </description>
+   <config id="mdl_psm">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="getissuelist" useConfig="mdl_psm">
+      <sql>call getissuelist (?)</sql>
+      <result outputType="json">{&#13;    "result": {&#13;        "entry": [&#13;            {&#13;                "id": $id,&#13;                "issuetitle": "$issuetitle"&#13;            }&#13;        ]&#13;    }&#13;}</result>
+      <param name="token" sqlType="STRING"/>
+   </query>
+   <operation name="getissuelist">
+      <description>getissuelist                      &#13;                                    </description>
+      <call-query href="getissuelist">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getissuelist">
+      <description>getissuelist                     &#13;                                    </description>
+      <call-query href="getissuelist">
+         <with-param name="token" query-param="token"/>
+      </call-query>
+   </resource>
+</data>

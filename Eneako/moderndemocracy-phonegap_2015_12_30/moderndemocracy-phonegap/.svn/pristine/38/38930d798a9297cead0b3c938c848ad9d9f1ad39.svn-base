@@ -1,0 +1,21 @@
+<div class="polling-stations-container">
+	<label class="polling-stations item item-input item-select" ng-if="data.pollingStations && inline && data.station">
+		<span class="input-label">Station:</span>
+		<select ng-options="(station.name + ' - ' + station.place_name + ' - ' + station.council_name + ' (' + (station.status ? 'Open' : 'Closed') + ')') disable when station.disabled for station in data.pollingStations track by station.id"
+			ng-model="data.station"
+			ng-change="onChange()"></select>
+	</label>
+
+	<label class="polling-stations item item-input" ng-if="data.pollingStations && !inline && data.station" style="margin-bottom : -25px;">
+		<span class="input-label">Station:</span>
+	</label>
+	<label class="polling-stations item item-input item-select" ng-if="data.pollingStations && !inline && data.station" style="margin-bottom : -25px;">
+		<select ng-options="(station.name + ' - ' + station.place_name + ' - ' + station.council_name + ' (' + (station.status ? 'Open' : 'Closed') + ')') disable when station.disabled for station in data.pollingStations track by station.id"
+			ng-model="data.station"
+			ng-change="onChange()"></select>
+	</label>
+	<label class="polling-stations item item-input" ng-if="!data.station" style="margin-bottom : -25px;">
+   		<h3 class="message">All stations are already {{disable}}.</h3>
+	</label>
+
+</div>

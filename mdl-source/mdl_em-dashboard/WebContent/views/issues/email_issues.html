@@ -1,0 +1,61 @@
+<!-- 
+Project: MDL Dashboard
+Author: Akarshani Amarasinghe
+Module: EM email issue HTML
+-->
+
+<div class="panel issue_list">
+	<div class="panel-header">
+		<h3>
+			<i class="fa fa-table"></i> <strong>Manage</strong> Issues
+		</h3>
+	</div>
+	<div class="panel-content"
+		ng-controller="mdl.em.controller.ememailissue as vm">
+		<div class="row">
+          <div class="col-md-12 form-horizontal">
+              <div class="row">
+                  <div class="col-md-12">
+                      <form name="myForm" id="myFormId" ng-model="vm.emailDetails">
+                          <div class="form-group">
+                              <label class="col-sm-3 control-label">Email To*</label>
+                              <div class="col-sm-9">
+                              	<select class="issue_select_dropdown" 
+									ng-model="vm.emailDetails.emailTo">
+									<!-- <option value="null" selected disabled>--- Select an option ---</option> -->
+									<option value="{{items7.email}}"
+									ng-repeat="items7 in vm.user | orderBy: 'items7.email'">{{items7.fullname}}</option> 
+								</select>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-sm-3 control-label">Subject</label>
+                              <div class="col-sm-9" ng-model="vm.emailDetails.emailSubject" value="{{vm.resolvedIssue.issuedescription}}">
+                                  {{vm.resolvedIssue.issuedescription}} 
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-sm-3 control-label">Content*</label>
+                              <div class="col-sm-9">
+                                  <textarea placeholder="Write your email content here" class="defaultWidth" rows="4" cols="50" 
+                                  ng-model="vm.emailDetails.emailBody"></textarea>
+                                  <br />
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="col-sm-12">
+                                  <button class="btn btn-primary m-r-10" ng-click="vm.creatingEmail(vm.emailDetails)">Send</button>
+								  <td align="right">
+									<a class="create_notification_button btn btn-danger m-r-10"
+											href="#/all_issues"> Close </a>
+									</td>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+		
+	</div>
+</div>

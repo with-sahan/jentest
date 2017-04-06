@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getallapplications" serviceNamespace="www.moderndemocracy.com/services/subscription" transports="http https">
+  <description>getallapplications</description>
+  <config id="mdl_subscription">
+    <property name="carbon_datasource_name">mdl-subscription-ds</property>
+  </config>
+  <query id="getallapplications" useConfig="mdl_subscription">
+    <sql>call getallapplications(?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;        "applicationid": "$applicationid",&#xD;        "applicationname": "$applicationname",&#xD;        "response": "$response"&#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="getallapplications">
+    <description>getallapplications</description>
+    <call-query href="getallapplications">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getallapplications">
+    <description>getallapplications</description>
+    <call-query href="getallapplications">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

@@ -1,0 +1,196 @@
+#------------------------------------------------------------------------------
+# service manager options
+#------------------------------------------------------------------------------
+servicemanager.main.class=com.moderndemocracy.jetty.ModernDemocracyService
+
+http.trace=true
+aes.password=XXXXXXXXXXX
+page.view.archive=60
+
+#------------------------------------------------------------------------------
+# Define the base path of secured handlers
+#------------------------------------------------------------------------------
+path.public=pub
+path.protected=api
+
+#------------------------------------------------------------------------------
+# Install custom handlers into the public URL realm, e.g. /pub
+# typically public requests are for password resets
+#------------------------------------------------------------------------------
+
+
+#------------------------------------------------------------------------------
+# Install custom handlers into the API URL realm, i.e. /api
+#------------------------------------------------------------------------------
+
+######################
+### AUTHENTICATION ###
+######################
+
+# /me Service
+protected.handler.me.class=com.moderndemocracy.jetty.handler.AuthenticatedUserHandler
+protected.handler.me.pattern=me
+
+##########################
+### STATION SETUP LIST ###
+##########################
+
+# /stationsetuplist service
+protected.handler.station.setuplist.class=com.moderndemocracy.jetty.handler.StationSetupListHandler
+protected.handler.station.setuplist.pattern=stationsetuplist
+
+##################
+### ISSUE LIST ###
+##################
+
+# /issuelist service
+protected.handler.station.issuelist.class=com.moderndemocracy.jetty.handler.IssueListHandler
+protected.handler.station.issuelist.pattern=issuelist
+
+############
+### WARD ###
+############
+
+# /ward service
+public.handler.ward.read.class=com.moderndemocracy.jetty.handler.WardHandler
+public.handler.ward.read.pattern=wardretrieve
+
+###############
+### STATION ###
+###############
+
+# /stationopen service
+protected.handler.station.open.class=com.moderndemocracy.jetty.handler.StationSetupStatusHandler
+protected.handler.station.open.pattern=stationopen
+
+# /stationprogress service
+protected.handler.station.progress.class=com.moderndemocracy.jetty.handler.StationProgressHandler
+protected.handler.station.progress.pattern=stationprogress
+
+# /stationclose service
+protected.handler.station.close.class=com.moderndemocracy.jetty.handler.StationCloseHandler
+protected.handler.station.close.pattern=stationclose
+
+# /stationcollected service
+#protected.handler.station.collected.class=com.moderndemocracy.jetty.handler.StationCollectedHandler
+#protected.handler.station.collected.pattern=stationcollected
+
+# /stationarrival service
+#protected.handler.station.delivered.class=com.moderndemocracy.jetty.handler.StationDeliveredHandler
+#protected.handler.station.delivered.pattern=stationdelivered
+
+#############
+### ISSUE ###
+#############
+
+# /issueopen service
+protected.handler.issue.create.class=com.moderndemocracy.jetty.handler.IssueHandler
+protected.handler.issue.create.pattern=issueopen
+
+# /issueretrieve service
+public.handler.issue.read.class=com.moderndemocracy.jetty.handler.IssueHandler
+public.handler.issue.read.pattern=issueretrieve
+
+# /issueclose service
+public.handler.issue.close.class=com.moderndemocracy.jetty.handler.IssueHandler
+public.handler.issue.close.pattern=issueclose
+
+####################
+### NOTIFICATION ###
+####################
+
+# /notificationopen service
+public.handler.notification.create.class=com.moderndemocracy.jetty.handler.NotificationHandler
+public.handler.notification.create.pattern=notificationopen
+
+# /noficiationretrieve service
+protected.handler.notification.read.class=com.moderndemocracy.jetty.handler.NotificationHandler
+protected.handler.notification.read.pattern=notificationretrieve
+
+################
+### TRACKING ###
+################
+
+# /tracking service
+protected.handler.tracking.send.class=com.moderndemocracy.jetty.handler.TrackingHandler
+protected.handler.tracking.send.pattern=trackingsend
+
+# /tracking service
+public.handler.tracking.read.class=com.moderndemocracy.jetty.handler.TrackingHandler
+public.handler.tracking.read.pattern=trackingretrieve
+
+
+#------------------------------------------------------------------------------
+# optional directory to use for storing transient service data
+#------------------------------------------------------------------------------
+#anaeko.system.dir=[a safe location (full path)]
+
+#------------------------------------------------------------------------------
+# service URI
+#------------------------------------------------------------------------------
+service.port=8080
+service.name=moderndemocracy
+service.host=localhost
+
+#------------------------------------------------------------------------------
+# task services configuration - threadpool sizes (default = CPUs * 2)
+#------------------------------------------------------------------------------
+#taskservices.pool.size=8
+#taskservices.pool.timeout=60000
+
+#------------------------------------------------------------------------------
+# turn on statistics gathering
+#------------------------------------------------------------------------------
+service.statistics=true
+
+#------------------------------------------------------------------------------
+# Disable DNS caching (positive values set a timeout in seconds)
+#------------------------------------------------------------------------------
+networkaddress.cache.ttl=0
+
+#------------------------------------------------------------------------------
+# SLAMMER database definition
+#------------------------------------------------------------------------------
+jdbc.skip.conn.tests=true
+jdbc.pool.provider=com.anaeko.utils.jdbc.Tomcat
+jdbc.driver=org.postgresql.Driver
+jdbc.url=jdbc:postgresql://localhost:5432/moderndemocracy
+jdbc.user=slammer
+jdbc.password=:M0b1l1ty
+
+#------------------------------------------------------------------------------
+# Optional performance watch criteria (in milliseconds)
+# comment these out to reset to default warning levels
+#------------------------------------------------------------------------------
+jdbc.slow.select.nodata=100
+jdbc.slow.select=150
+jdbc.slow.update=150
+jdbc.slow.batch.select=200
+jdbc.slow.batch.udpate=200
+
+#------------------------------------------------------------------------------
+# email template directory
+#------------------------------------------------------------------------------
+# NB : This dir is appended with the locale of the server 'eg: data/email/en_GB'
+#      when looking for templates
+email.templates.dir=data/email/
+
+#------------------------------------------------------------------------------
+# Email options for use with the Java Mail service
+#------------------------------------------------------------------------------
+mail.smtp.user=admin@moderndemocracy.com
+mail.smtp.host=mailtrap.io
+mail.smtp.port=2525
+mail.from=admin@moderndemocracy.com
+mail.debug=true
+mail.bcc=
+mail.username=moderndemocracy-dbc71c1f1e00e016
+mail.password=0f11562c6eecadce
+mail.smtp.starttls.enable=false
+mail.smtp.ssl.enable=false
+
+#------------------------------------------------------------------------------
+# Mobile App
+#------------------------------------------------------------------------------
+#mobile.test=true
+#mobile.testdomain=http://localhost:8000

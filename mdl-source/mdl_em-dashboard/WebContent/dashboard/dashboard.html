@@ -1,0 +1,345 @@
+<div class="dashboard em-dashboard dashboard-analytics">
+	<div class="row" style="display: none">
+		<div class="col-md-12">
+			<div class="panel bg-dark widget-map">
+				<div class="panel-header">
+					<h3>
+						<i class="icon-globe-alt"></i> <strong>Interactif</strong> Map
+					</h3>
+				</div>
+				<div class="panel-content widget-full">
+					<div class="row">
+						<div class="col-md-12">
+							<div id="map"></div>
+						</div>
+						<div class="col-md-3 c-white">
+							<div id="listdiv"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="panel no-bd bd-3 panel-stat m-b-10">
+			<div class="panel-header p-b-0 m-10">
+				<h3 class="m-0">
+					<strong style="margin-right: 10px">Filter by</strong> <select
+						class="issue_select_dropdown defaultWidth geofilter" ng-model="selectedHrc"
+						wb-select2>
+						<option ng-repeat="option in geoArray" value="{{option.id}}">{{option.name}}</option>
+					</select>
+				</h3>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 p-l-0" ng-click="notOpenAndCloseControl(true)">
+			<div class="panel m-b-10 ">
+				<div class="panel-content widget-info p-t-10">
+					<div class="row">
+						<div class="left">
+							<i class="fa fa-power-off  bg-aero"></i>
+						</div>
+						<div class="right">
+							<a class="number">{{opencount_v2}}-{{closecount_v2}}</a><br>
+							<a class="text">Stations Open-Close</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 p-r-0">
+			<div class="panel m-b-10 ">
+				<div class="panel-content widget-info p-t-10">
+					<div class="row">
+						<div class="left">
+							<i class="fa icon-bulb  bg-red"></i>
+						</div>
+						<div class="right">
+							<a class="number" ng-href="#/all_issues">{{pending_issues_v2}}</a><br>
+							<a class="text" ng-href="#/all_issues">Pending Issues</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row"  id="openClose" ng-show="notOpenAndClose">
+	
+		<div class="panel no-bd bd-3 panel-stat p-t-10">
+		<div class="panel-body">
+		<button class="btn btn-danger g_fr" type="button" ng-click="notOpenAndCloseControl(false)">Close</button>
+  		<div class="spacer_1px"></div>
+				<accordion class="panel-group panel-accordion" close-others="true">
+				<accordion-group is-open="open">
+				<accordion-heading> Not Open Station<i
+					class="pull-right glyphicon"
+					ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}">
+				</i> </accordion-heading>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Place</th>
+							<th>Polling Station</th>
+							<th>Key Contact Name</th>
+							<th>Contact Details</th>
+							<th>Station Status</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="s_stat in allStationsClosed">
+							<td>{{s_stat.place}}</td>
+							<td>{{s_stat.pollingStation}}</td>
+							<td>{{s_stat.keyContactName}}</td>
+							<td>{{s_stat.contactDetails}}</td>
+							<td>Close</td>
+								
+							
+						</tr>
+					</tbody>
+				</table>
+				</accordion-group> 
+				<accordion-group is-open="open2">
+				<accordion-heading> Open Station<i
+					class="pull-right glyphicon"
+					ng-class="{'glyphicon-chevron-down': open2, 'glyphicon-chevron-right': !open2}">
+				</i> </accordion-heading>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Place</th>
+							<th>Polling Station</th>
+							<th>Key Contact Name</th>
+							<th>Contact Details</th>
+							<th>Station Status</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="s_stat in allStationsOpened">
+							<td>{{s_stat.place}}</td>
+							<td>{{s_stat.pollingStation}}</td>
+							<td>{{s_stat.keyContactName}}</td>
+							<td>{{s_stat.contactDetails}}</td>
+							<td>Open</td>
+								
+							
+						</tr>
+					</tbody>
+				</table>
+				</accordion-group> 
+				</accordion>
+			</div>
+	</div>
+	</div>
+		<div class="row dashboard-summary">
+				<div class="row" ng-repeat="election in allElections">
+					<div class="col-sm-3">
+						<div class="panel m-b-10">
+							<div class="panel-content widget-info elect-name">
+									<div>
+										<h3 class="m-0" style="font-weight: bold; font-size: 14px;">{{election.sumstats.electionname}}</h3>
+									</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="panel m-b-10">
+							<div class="panel-content widget-info p-t-10">
+								<div class="row">
+									<div class="left">
+										<i class="fa fa-clipboard bg-green"></i>
+									</div>
+									<div class="right">
+										<p class="number countup" data-from="0" data-to="52000">{{election.sumstats.ballotPapers}}</p>
+										<p class="text">Ballot Papers</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="panel m-b-10">
+							<div class="panel-content widget-info p-t-10">
+								<div class="row">
+									<div class="left">
+										<i class="fa fa-line-chart bg-blue"></i>
+									</div>
+									<div class="right">
+										<p class="number countup" data-from="0" data-to="52000">{{election.sumstats.voterturnout.toFixed(2)}}
+											%</p>
+										<p class="text">Voter Turnout</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="panel m-b-10">
+							<div class="panel-content widget-info p-t-10">
+								<div class="row">
+									<div class="left">
+										<i class="fa fa-suitcase bg-aero"></i>
+									</div>
+									<div class="right">
+										<p class="number countup" data-from="0" data-to="52000">{{election.sumstats.packestobecollected}}</p>
+										<p class="text">Postal Packs (TBC)</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="col-md-2" style="width: 210px;">
+						<div class="panel">
+							<div class="panel-content widget-info">
+								<div class="row">
+									<div class="left">
+										<i class="fa fa-suitcase bg-aero"></i>
+									</div>
+									<div class="right">
+										<p class="number countup" data-from="0" data-to="52000">{{election.sumstats.opencount}}-{{election.sumstats.closecount}}</p>
+										<p class="text">Stations Open-Close</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> -->
+	
+				</div>	
+		</div>
+	<div class="row stat-charts">
+		<div class="col-md-6">
+			<div class="panel no-bd bd-3 panel-stat m-b-10">
+				<div class="panel-header">
+					<h3 class="g_fl">
+						<i class="icon-graph"></i> <strong>Ballot Papers</strong> Issued<br />
+						<span class="dash-chart-xy">(Number of Ballot papers / hour)</span>
+					</h3>
+					<div class="control-btn">
+						<a href="#" class="panel-reload hidden"><i class="icon-reload"></i></a>
+					</div>
+					<div class="big-icon m-r-10 g_fr">
+						<i class="icon-envelope-letter "></i>
+					</div>
+					<div class="spacer_1px"></div>
+				</div>
+				<div class="panel-stat-chart">
+					<div id="visitors-chart1-legend">{{vm.ballotIssue_legend}}</div>
+					<canvas id="visitors-chart1" width="250" height="100"></canvas>
+					<ul class="dashboard_mainlegend">
+						<li ng-repeat="ballotIssue in ballotIssue_legend"><span
+							style="color: {{ballotIssue.color}}">{{ballotIssue.name}}</span> -
+							{{ballotIssue.total}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel no-bd bd-3 panel-stat m-b-10">
+				<div class="panel-header">
+					<h3 class="g_fl">
+						<i class="icon-graph"></i> <strong>Postal Packs</strong> Collected<br />
+						<span class="dash-chart-xy">(Number of postal packs / hour)</span>
+					</h3>
+					<div class="control-btn">
+						<a href="#" class="panel-reload hidden"><i class="icon-reload"></i></a>
+					</div>
+					<div class="big-icon  m-r-10 g_fr">
+						<i class="icon-briefcase"></i>
+					</div>
+					<div class="spacer_1px"></div>
+				</div>
+				<div class="panel-stat-chart">
+					<div id="visitors-chart2-legend">{{vm.postalCollected_legend}}</div>
+					<canvas id="visitors-chart2" width="250" height="100"></canvas>
+					<ul class="dashboard_mainlegend">
+						<li ng-repeat="postalCollected in postalCollected_legend"><span
+							style="color: {{postalCollected.color}}">{{postalCollected.name}}</span>
+							- {{postalCollected.total}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row stat-charts">
+		<div class="col-md-6">
+			<!-- <div class="row">
+				<div class="col-md-12">
+					<div class="panel">
+						<div class="panel-content widget-info">
+							<div class="row">
+								<div class="left">
+									<i class="fa icon-bulb  bg-red"></i>
+								</div>
+								<div class="right">
+									<a class="number" ng-href="#/all_issues">{{pending_issues}}</a><br>
+									<a class="text" ng-href="#/all_issues">Pending Issues</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> 
+			<div class="row">
+				<div class="col-md-12">-->
+					<div class="panel no-bd bd-3 panel-stat m-b-10">
+						<div class="panel-header">
+							<h3>
+								<i class="icon-graph"></i> <strong>Reported Issue
+									Categories</strong>
+							</h3>
+							<div class="control-btn">
+								<a href="#" class="panel-reload hidden"><i
+									class="icon-reload"></i></a>
+							</div>
+						</div>
+						<div class="panel-body p-15 p-b-0" style="text-align: center"
+							id="pie-chart-parent">
+							<canvas id="pie-chart" width="250" height="250"></canvas>
+						</div>
+						<ul class="category_list">
+							<li ng-repeat="category in cat_summary"><span
+								style="color: {{category.colour}}">{{category.name}}</span> - <span>{{category.val}}%</span>&nbsp;&nbsp;<span>({{category.act_val}})</span></li>
+						</ul>
+					</div>
+				<!-- </div>
+			</div> -->
+		</div>
+		<div class="col-md-6">
+			<div class="panel no-bd bd-3 panel-stat m-b-10">
+				<div class="panel-header">
+					<h3 class="g_fl">
+						<i class="icon-graph"></i> <strong>Time to resolve Issue</strong><br />
+						<span class="dash-chart-xy" ng-show="angular.equals({}, $scope.items)">(Average time in minutes / Number of issues)</span>
+					</h3>
+					<div class="control-btn">
+						<a href="#" class="panel-reload hidden"><i class="icon-reload"></i></a>
+					</div>
+					<div class="big-icon g_fr m-r-10">
+						<i class="icon-clock"></i>
+					</div>
+					<div class="spacer_1px"></div>
+				</div>
+				<div class="widget-cash-in-hand" ng-hide="angular.equals({}, $scope.items)">
+	                <div class="cash">
+	                    <div class="txt">Time</div>
+	                    <div class="number c-primary">{{issueResolveData.issuehour}}:00 - {{issueResolveData.issuehourafter}}:00 </div>
+	                </div>
+	                <div class="cash">
+	                	<div class="txt">Time to resolve (minutes)</div>
+	                    <div class="number c-red">{{issueResolveData.avgresolvetime}}</div>
+	                </div>
+	                <div class="cash">
+	                	<div class="txt">Number of issues</div>
+	                    <div class="number c-green">{{issueResolveData.reported}}</div>
+	                </div>
+	            </div>	
+				<div class="panel-stat-chart">
+					<canvas id="visitors-chart3"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

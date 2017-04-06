@@ -1,0 +1,46 @@
+package com.moderndemocracy.json;
+
+import java.io.IOException;
+import java.util.List;
+
+import com.anaeko.utils.data.mime.json.DefaultJsonMarshaler;
+import com.anaeko.utils.io.MarshalerException;
+import com.anaeko.utils.json.JsonWriter;
+import com.moderndemocracy.pojo.IssueList;
+import com.moderndemocracy.pojo.StationSetupList;
+
+public final class IssueListMarshaler extends DefaultJsonMarshaler {
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void marshal(Object object, JsonWriter writer)
+			throws IOException, MarshalerException {
+
+		if (object instanceof List) {
+
+			writer.writeStartArray();
+
+			for (IssueList issueList : (Iterable<IssueList>) object) {
+				marshalIssueList(issueList, writer);
+			}
+
+			writer.writeEndArray();
+		} else {
+			marshalIssueList((IssueList) object, writer);
+		}
+	}
+
+	private void marshalIssueList(IssueList issueList, JsonWriter writer)
+			throws IOException {
+
+		writer.writeStartObject();
+
+		writer.writeField(StationSetupList.ID, issueList.getId());
+		writer.writeField(StationSetupList.TEXT, issueList.getText());
+		writer.writeField(StationSetupList.ORDER_ID, issueList.getOrderId());
+		writer.writeField(StationSetupList.STATUS, issueList.getStatus());
+
+		writer.writeEndObject();
+	}
+
+}

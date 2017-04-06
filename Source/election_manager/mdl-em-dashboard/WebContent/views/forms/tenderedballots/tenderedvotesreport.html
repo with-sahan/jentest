@@ -1,0 +1,103 @@
+<!--
+ * Project: MDL Dashboard
+ * Author: Rushan Arunod
+ * Module: Tendered Ballots
+ 	-->
+
+<div class="panel no-bd bd-3 panel-stat m-b-10" ng-controller="mdl.em.controller.tenderedvotes as vm"><br>
+    <div class="row m-0">
+        <h3 style="display:none" class="m-0 col-md-6 p-r-0 p-l-0">
+          <a href="#downloadreports">
+            Download page
+          </a>
+        </h3>
+        <h3 class="m-0 col-md-6 p-r-0">
+    			<strong style="margin-right: 10px">Filter by</strong>
+    			<select class="issue_select_dropdown defaultWidth geofilter" ng-model="selectedHrc" wb-Select-Forms>
+    					<option ng-repeat="option in geoArray" value="{{option.id}}">
+                {{option.name}}
+              </option>
+    			</select>
+    		</h3>
+        <h3 class="m-0 col-md-6 pull-right" style="display:none">
+    			<button class="btn btn-danger g_fr" type="button" ng-click="DownloadService.startExportMarkedVotesReport()">
+            Export to PDF
+          </button>
+    		</h3>
+    </div>
+
+    <div class="forms-companions">
+        <ng-include src="vm.infoTendered"></ng-include>
+        <div class="panel-header">
+            <h3>
+          				<i class="fa fa-pencil-square-o"></i> <strong>Report - List of Tendered votes</strong>
+                  <a title="info" class="delete btn btn-sm btn-danger" style="border-radius: 30px; background-color: #5EB1F2; margin-top: 5px;"
+                        ng-click="vm.getInfoTendered()">
+                           <i class="fa fa-info p-l-5"></i>
+                  </a>
+          			</h3>
+        </div>
+        <div class="panel-content">
+            <div class="row tbl_scroll_x m-0">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Polling District</th>
+                            <th rowspan="2">Ward</th>
+                            <th rowspan="2">Polling station</th>
+                            <th rowspan="2">Presiding Officer</th>
+                            <th title="Number on Register of Electors" rowspan="2">Number on Register of Electors (inc Polling District)</th>
+                            <th title="Name of voter" rowspan="2">Name of Voter</th>
+                            <th title="Reason for Tendered Ballot being issued" colspan="2" class="text-center">Reason for Tendered Ballot being issued</th>
+
+                        </tr>
+                        <tr>
+                            <th title="Already marked on Register">Already marked on Register
+                            </th>
+                            <th title="To replace a Postal Vote">
+                                To replace a Postal Vote</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="items in (filtered = (vm.tenderedvoterlist | filter:{pollingstationname:items2.pollingstationname })) | pagination: (vm.curPage-1) * vm.pageSize | limitTo: vm.pageSize">
+                            <td>{{items.district}}</td>
+                            <td>{{items.ward}}</td>
+                            <td>{{items.pollingstationname}}</td>
+                            <td>{{items.pofficername}}</td>
+                            <td class="text-center">{{items.electornumber}}</td>
+                            <td>{{items.votername}}</td>
+                            <td>
+                                <span ng-show="{{(items.isalreadymarked==1)}}">
+                                      <i class="fa fa-check-circle c-green"></i>
+                                    </span>
+                            </td>
+                            <td>
+                                <span ng-show="{{(items.isalreadymarked==0)}}">
+                                      <i class="fa fa-check-circle c-green"></i>
+                                    </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- <a class="btn btn-success m-r-10">Export</a> -->
+                        <a class="btn btn-danger m-r-10" ng-href="#/formreports">Back</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table table-striped">
+                    <tr>
+                        <td>
+                            <pagination total-items="filtered.length" ng-model="vm.curPage" max-size="3" class="pagination-sm" ng-show="(filtered.length/vm.pageSize)>1" boundary-links="true" rotate="false">
+                                <pagination>
+                        </td>
+                        <td align="right">Number of records: {{filtered.length}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

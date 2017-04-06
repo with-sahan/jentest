@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getuserbyid" serviceNamespace="www.moderndemocracy.com/services/security" transports="http https">
+  <description>getuserbyid</description>
+  <config id="mdl_security">
+    <property name="carbon_datasource_name">mdl-security-ds</property>
+  </config>
+  <query id="getuserbyid" useConfig="mdl_security">
+    <sql>call getuserbyid(?,?)</sql>
+    <result outputType="json">{  "result": {    "entry": [      {        "firstname": "$firstname",        	"lastname": "$lastname", 			"email": "$email", 			"username": "$username",        "gender": "$gender",        "response": "$response"      }    ]  }}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="userid" sqlType="INTEGER" />
+  </query>
+  <operation name="getuserbyid">
+    <call-query href="getuserbyid">
+      <with-param name="token" query-param="token" />
+      <with-param name="userid" query-param="userid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getuserbyid">
+    <call-query href="getuserbyid">
+      <with-param name="token" query-param="token" />
+      <with-param name="userid" query-param="userid" />
+    </call-query>
+  </resource>
+</data>

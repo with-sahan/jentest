@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.mdl</groupId>
+  <artifactId>mdl-parent</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+  <name>mdl-parent</name>
+  <description>mdl-parent</description>
+  <modules>
+    <module>mdl_psm-mobileweb</module>
+    <module>mdl_em-dashboard</module>
+    <module>mdl_rest-api</module>
+    <module>mdl_dss</module>
+    <module>mdl_capp</module>
+  </modules>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <buildcommands />
+          <projectnatures>
+            <projectnature>org.wso2.developerstudio.eclipse.mavenmultimodule.project.nature</projectnature>
+          </projectnatures>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

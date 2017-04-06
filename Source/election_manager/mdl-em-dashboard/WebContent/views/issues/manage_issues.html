@@ -1,0 +1,221 @@
+<!-- 
+Project: MDL Dashboard
+Author: Akarshani Amarasinghe
+Module: EM manage issue HTML
+-->
+
+<div class="panel issue_list">
+	<div class="panel-header">
+		<h3>
+			<i class="fa fa-table"></i> <strong>Manage</strong> Issues
+		</h3>
+	</div>
+	<div class="panel-content"
+		ng-controller="mdl.em.controller.emmanageissue as vm">
+		<div class="row">
+          <div class="col-md-12 form-horizontal">
+              <div class="row">
+                  <div class="col-md-12">
+                      <form name="myForm" id="myFormId">
+                      	  <div class="form-group">
+                              <!-- <div class="col-sm-12">
+                              	<a class="btn btn-primary m-r-10" href="#/all_issues/email/{{vm.issueID}}">
+				            		Email
+				            	</a>
+                                  <button class="btn btn-primary m-r-10">Email</button>
+                                  <button ng-disabled="vm.buttonHide"  class="btn btn-success m-r-10" ng-click="vm.updateIssue(vm.issueID)">Save</button>
+								  <button class="btn btn-success m-r-10" ng-click="vm.resolveIssue(vm.issueID)">Resolve</button>
+								  <td align="right">
+									<a class="create_notification_button btn btn-danger m-r-10"
+											href="#/all_issues"> Back </a>
+									</td>
+                              </div> -->
+                          </div>
+                          
+                          <div class="form-group">
+                              <label class="col-sm-3 control-label">Reason</label>
+                              <div class="col-sm-9">
+                                  {{vm.resolvedIssue.issuetype}}
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-sm-3 control-label">Description</label>
+                              <div class="col-sm-9">
+                                  {{vm.resolvedIssue.issuedescription}}
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-sm-3 control-label">Priority</label>
+                             <!--  <div class="col-sm-6" 
+                              ng-model="vm.resolvedIssue.priority" 
+                              ng-init="vm.priorityTitle(vm.oneIssue.priority)"
+                              ng-show="vm.resolvedIssue.issuestatus==1">
+                              {{vm.priorityTitle(vm.resolvedIssue.priority)}}
+                              </div> -->
+                              <div class="col-sm-6" >
+                              	<select class="issue_select_dropdown"  
+                              	ng-model="vm.resolvedIssue.priority" ng-disabled="vm.disableField" >
+									<option value="{{items2.ID}}" 
+										ng-selected="vm.resolvedIssue.priority == items2.ID"
+										ng-repeat="items2 in vm.priority | orderBy: 'items2.PriorityTitle'">
+										{{items2.PriorityTitle}}
+									</option>
+								</select><br>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-sm-3 control-label">Polling Station</label>
+                              <div class="col-sm-9">
+                                  {{vm.resolvedIssue.stationname}}
+                              </div>
+                          </div>
+                          <!-- <div class="form-group">
+                              <label class="col-sm-3 control-label">Status</label> -->
+                              <!-- <div class="col-sm-6" 
+                              ng-model="vm.resolvedIssue.issuestatus" 
+                              ng-init="vm.statusTitle(vm.resolvedIssue.issuestatus)"
+                              ng-show="vm.resolvedIssue.issuestatus==1">
+                              {{vm.statusTitle(vm.resolvedIssue.issuestatus)}}
+                              </div> -->
+                              <!-- <div class="col-sm-9" >
+                              	<select class="issue_select_dropdown" 
+                              	ng-model="vm.resolvedIssue.issuestatus" ng-disabled="vm.disableField">
+									<option value="{{items3.id}}" 
+										ng-selected="(items3.id == vm.resolvedIssue.issuestatus)"
+										ng-repeat="items3 in vm.status | orderBy: 'items3.statusName'">
+										{{items3.statusName}}
+									</option>
+								</select><br>
+                              </div>
+                          </div> -->
+                          <div class="form-group">
+                              <label class="col-sm-3 control-label">Reported By</label>
+                              <div class="col-sm-9">
+                                  {{vm.resolvedIssue.reportedby}} on {{vm.resolvedIssue.createdon.split('+')[0] | date:"yyyy-MM-dd 'at' h:mma"}}
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-sm-3 control-label">Assigned To</label>
+                              <!-- <div class="col-sm-9" ng-show="vm.resolvedIssue.issuestatus==1">
+                                  {{vm.resolvedIssue.assignedto}}
+                              </div> -->
+                              <div class="col-sm-9">
+                              	<select class="issue_select_dropdown" ng-model="vm.resolvedIssue.userid" ng-disabled="vm.disableField">									
+									<!-- <option ng-repeat="items10 in vm.user | orderBy: 'items10.fullname'"
+									value="{{items10.id}}" ng-selected="vm.resolvedIssue.userid == items10.id">
+									{{items10.fullname}} 
+									</option> -->
+									<option ng-repeat="items10 in vm.user | orderBy: 'items10.firstName'"
+									value="{{items10.userId}}" ng-selected="vm.resolvedIssue.userid == items10.userId">
+									{{items10.firstName}} {{items10.lastName}} 
+									</option>
+								</select><br>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-sm-3 control-label">Action Taken To Resolve</label>
+                              <div class="col-sm-9">
+                               	<!-- <textarea ng-show="vm.resolvedIssue.issuestatus==1" class="defaultWidth" rows="4" cols="50"
+                               	placeholder="{{vm.resolvedIssue.resolutiondescription}}" 
+                               	ng-disabled="true"
+                                  ng-model="vm.resolvedIssue.resolutiondescription"></textarea> -->
+                                  <textarea placeholder="Write your comment here" class="defaultWidth" rows="4" cols="50" 
+                                  ng-pattern="regex.description"
+                                  ng-disabled="vm.disableField" ng-model="vm.resolvedIssue.resolutiondescription"></textarea>
+                                  <br />
+                              </div>
+                          </div>
+                          
+                          <div class="col-sm-12">
+                          	<button ng-disabled="vm.buttonHide"  class="btn btn-success m-r-10" ng-click="vm.updateIssue(vm.issueID)">Save</button>
+							<button class="btn btn-danger m-r-10" ng-click="vm.closeIssue_v2(vm.issueid)" ng-disabled="vm.closeDisabled">Close Issue</button>
+							<td align="right">
+								<a class="create_notification_button btn btn-primary m-r-10"
+									href="#/all_issues"> Back </a>
+							</td>
+                          </div>
+                            
+                          <hr class="chat-horzontal-line">
+                            
+                          <div>
+							<h3><i class="fa fa-table"></i> <strong>Chat</strong></h3>
+							<!-- <button ng-show="vm.addChatCloseShow"class="btn btn-success m-r-10" ng-click="vm.closeIssue(vm.issueid)" ng-disabled="vm.closeDisabled">Close Issue</button>
+					   		<button ng-show="vm.addChatResolveShow" class="btn btn-danger m-r-10" ng-click="vm.resolveIssue(vm.issueid)" ng-disabled="vm.resolveDisabled">Resolve Issue</button> -->
+							
+							 <div class="row">
+				                <div class="col-md-12 form-horizontal">
+				                     <div class="row">
+				                         <div class="col-md-12">
+											<form name="myForm" id="myFormId">
+												<div class="form-group">
+													<div class="col-sm-12" style="width: 100%;">
+														<textarea placeholder="Type your message here..."
+															class="defaultWidth" rows="4" cols="50"
+															style=" width: 93%;"
+															ng-model="vm.chatmessage"></textarea>
+														<button id="chat_send" ng-disabled="vm.buttonAddChatHide" 
+														ng-click="uploadPic(vm.picFile, vm.issueid, vm.issuePollingStationID, vm.chatmessage)"
+														class="btn btn-primary m-r-10" style="margin-bottom: 30px;">Send</button>
+														<br />
+													</div>
+												</div>
+												<form class="upload-form">
+													<input type="file" ngf-select ng-model="vm.picFile" name="file"
+														data-max-size="10485760" class="upload-file">
+												</form><br>
+												<!-- <button ng-disabled="vm.buttonAddChatHide" ng-click="uploadPic(vm.picFile, vm.issueid, vm.issuePollingStationID, vm.chatmessage)"
+													class="btn btn-success m-r-10">Send</button> -->
+												<!-- <button class="btn btn-danger m-r-10"
+													ng-click="vm.cancelChatMessage()">Cancel</button> -->
+											</form>
+										</div>
+				                     </div>
+				                 </div>
+				            </div>
+				            
+				            <!-- <button ng-disabled="vm.buttonAddChatHide" ng-click="uploadPic(vm.picFile, vm.issueid, vm.issuePollingStationID, vm.chatmessage)"
+													class="btn btn-primary m-r-10">Send</button> -->
+				            <!-- <button ng-show="vm.addChatCloseShow"class="btn btn-danger m-r-10" ng-click="vm.closeIssue(vm.issueid)" ng-disabled="vm.closeDisabled">Close Issue</button>
+					   		<button ng-show="vm.addChatResolveShow" class="btn btn-success m-r-10" ng-click="vm.resolveIssue(vm.issueid)" ng-disabled="vm.resolveDisabled">Resolve Issue</button> -->
+					   		
+							<div class="row tbl_scroll_x">
+								<table class="table table-hover" style="margin-left: 34px; width: 93%;">
+									<tbody ng-show="vm.chatShow" ng-repeat="chatResult in vm.getChatResult" value="{{chatResult.chatid}}"
+									style="border: 3px solid #ddd; border-collapse: collapse;">
+										<tr>
+											<!-- <td style="width:1px;"><img ng-src="{{vm.appendUrl}}{{chatResult.profile_picture}}" style="width:30px;"/></td> -->
+											<td style="color: blue; font-size: 21px;">{{chatResult.userfullname}}</td>
+											<td></td>
+											<td style="font-size: 12px; -webkit-filter: grayscale(100%); text-align: right;">{{chatResult.createdon | date:"yyyy-MM-dd 'at' h:mma"}}</td>
+										</tr>
+										<tr>
+											<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{chatResult.chatmessage}}</td>
+											<td></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td ng-show="(chatResult.attachtment_url).length > 4"></td>
+											<!-- <td ng-show="(chatResult.attachtment_url).length > 4" alt="{{vm.appendUrl}}/{{chatResult.attachtment_url}}">{{chatResult.attachtment_url}} -->
+											<!-- <td ng-show="(chatResult.attachtment_url).length > 4">
+												<a href="{{vm.appendUrl}}/{{chatResult.attachtment_url}}" target="popup" ng-click="vm.attachementWindowOpen(chatResult.attachtment_url);">{{chatResult.attachtment_url}}</a>
+											</td> -->
+											<td class="attachement_url" ng-show="(chatResult.attachtment_url).length > 4" alt="{{vm.appendUrl}}/{{chatResult.attachtment_url}}" ng-click="vm.attachementWindowOpen(chatResult.attachtment_url);">{{chatResult.attachtment_url}}</td>
+											<td ng-show="(chatResult.attachtment_url).length > 4"></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+               			</div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+		
+	</div>
+</div>

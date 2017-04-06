@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getpollingstationelectiondetails" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getpollingstationelectiondetails</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getpollingstationelectiondetails" useConfig="mdl_psm">
+    <sql>call psm.getpollingstationelectiondetails(?,?,?)</sql>
+    <result outputType="json">{&#xD; "result":{&#xD;  "entry":[&#xD;   {"response":$response,&#xD;    "BPAIdentifier":$BPAIdentifier,&#xD;    "ballotstart":$ballotstart,&#xD;    "ballotend":$ballotend,&#xD;    "tenderstart":$tenderstart,&#xD;    "tenderend":$tenderend&#xD;   }&#xD;  ]&#xD; }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="electionid" sqlType="INTEGER" />
+    <param name="pollingstationid" sqlType="INTEGER" />
+  </query>
+  <operation name="getpollingstationelectiondetails">
+    <description>getpollingstationelectiondetails</description>
+    <call-query href="getpollingstationelectiondetails">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="pollingstationid" query-param="pollingstationid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getpollingstationelectiondetails">
+    <description>getpollingstationelectiondetails</description>
+    <call-query href="getpollingstationelectiondetails">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="pollingstationid" query-param="pollingstationid" />
+    </call-query>
+  </resource>
+</data>

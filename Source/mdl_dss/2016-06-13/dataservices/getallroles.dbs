@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getallroles" serviceNamespace="www.moderndemocracy.com/services/security" transports="http https">
+  <description>getallroles</description>
+  <config id="getallroles">
+    <property name="carbon_datasource_name">mdl-security-ds</property>
+  </config>
+  <query id="getallroles" useConfig="getallroles">
+    <sql>call getallroles(?)</sql>
+    <result outputType="json">{&#xD;  "result": {&#xD;    "entry": [&#xD;      {&#xD;        "id": "$id",&#xD;        "name": "$name",&#xD;        "description": "$description",&#xD;        "response":"$response"&#xD;      }&#xD;    ]&#xD;  }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+  </query>
+  <operation name="getallroles">
+    <description>getallroles</description>
+    <call-query href="getallroles">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getallroles">
+    <description>getallroles</description>
+    <call-query href="getallroles">
+      <with-param name="token" query-param="token" />
+    </call-query>
+  </resource>
+</data>

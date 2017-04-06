@@ -1,0 +1,3 @@
+id,role_id,login_name,secret,api_key,encryption,uri,first_name,last_name,timezone,locale,status,login_count,station_id,created_on,updated_on
+599999,2,admin@moderndemocracy.com,password,NULL,None,adminUri,Gregory,admin,GMT,en_GB,1,2,1,"2011/08/01 10:11:00","2011/08/01 10:11:00"
+600000,1,user@moderndemocracy.com,password,NULL,None,userUri,John,user,GMT,en_GB,1,2,1,"2011/08/01 10:11:00","2011/08/01 10:11:00"

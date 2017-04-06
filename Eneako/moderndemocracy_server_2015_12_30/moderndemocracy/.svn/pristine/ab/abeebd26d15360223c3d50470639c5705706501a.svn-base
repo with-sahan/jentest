@@ -1,0 +1,72 @@
+package com.moderndemocracy.pojo;
+
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.anaeko.utils.data.mime.json.DefaultJsonMarshaler;
+import com.anaeko.utils.json.JsonMarshaler;
+import com.anaeko.utils.json.ToJSON;
+import com.moderndemocracy.json.CampaignMarshaler;
+
+public class Campaign implements ToJSON {
+
+	protected static final Logger logger = LogManager.getLogger(Campaign.class);
+	
+	public static final String TOTAL_BALLOT_PAPERS_ISSUED = "totalBallotPapersIssued";
+	public static final String TOTAL_POSTAL_PACKS = "totalPostalPacks";
+	public static final String WARDS = "wards";
+	
+	private int totalBallotPapersIssued = 0;
+	private int totalPostalPacks = 0;
+	private List<Wards> wards;
+
+
+	public int getTotalBallotPapersIssued() {
+		return totalBallotPapersIssued;
+	}
+
+	public void setTotalBallotPapersIssued(int totalBallotPapersIssued) {
+		this.totalBallotPapersIssued = totalBallotPapersIssued;
+	}
+
+	public int getTotalPostalPacks() {
+		return totalPostalPacks;
+	}
+
+	public void setTotalPostalPacks(int totalPostalPacks) {
+		this.totalPostalPacks = totalPostalPacks;
+	}
+
+	public List<Wards> getWards() {
+		return wards;
+	}
+
+	public void setWards(List<Wards> wards) {
+		this.wards = wards;
+	}
+
+	@Override
+	public String toString() {
+		return " Ward [ "
+				+ " totalBallotPapersIssued=" + totalBallotPapersIssued
+				+ " totalPostalPacks=" + totalPostalPacks
+				+ " wards=" + wards.toString()
+				+ " ] ";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.anaeko.utils.json.ToJSON#createMarshaller()
+	 */
+	@Override
+	public JsonMarshaler createMarshaller() {
+		return new CampaignMarshaler();
+	}
+
+	public static final class Marshaler extends DefaultJsonMarshaler {
+	}
+
+}

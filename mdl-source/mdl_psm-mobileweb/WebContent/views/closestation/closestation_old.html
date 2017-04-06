@@ -1,0 +1,159 @@
+<div class="panel"
+	ng-controller="mdl.mobileweb.controller.closestationold as vm">
+	<div class="panel-header panel-controls">
+		<h3>
+			<i class="icon-target"></i> <strong>Close</strong> Station
+		</h3>
+	</div>
+	<div class="row stationlist">
+		<div class="col-md-12">
+			<tabset class="tab-fade-in"> <tab
+				ng-repeat="station in vm.pollstationlist"
+				ng-click="vm.stationcheck(station.id,selected.electionid)"> <tab-heading>
+			<b class="icons-education-science-18">&nbsp;&nbsp;&nbsp;&nbsp;
+				{{station.name}} </b> </tab-heading>
+
+			<table cellspacing="0" class="stationStats" border="0px solid black"
+				style="width: 100%; border-collapse: separate; border-spacing: 1em;">
+				<div class="row">
+					<div class="form-horizontal">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<div>
+											<label class="col-sm-3 control-label">Select Election</label>
+											<!-- <select class="defaultWidth" id="singleSelectId"
+												name="singleSelect" ng-model="item.electionid"
+												ng-change="vm.closeStationButton(station.id,item.electionid)">
+												<option value="" selected disabled>--- Select an
+													option ---</option>
+												<option ng-repeat="item in vm.electionlist"
+													value="{{item.electionid}}">{{item.electionname}}</option>
+											</select> -->
+											<select
+												ng-options="item as item.electionname for item in vm.electionlist track by item.electionid"
+												ng-change="vm.closeStationButton(station.id,selected.electionid)"
+												ng-model="selected">
+												<!--  <option value="" selected disabled>--- Select an option ---</option> -->
+											</select>
+										</div>
+										<div class="row col-sm-12">
+											<tbody>
+												<tr style="text-align: left;">
+													<th><i class="fa fa-file-text p-r-10 f-18"></i>
+														Ordinary Ballot Papers</th>
+													<th></th>
+												</tr>
+
+												<tr style="text-align: left;">
+													<td>Total ballot papers issued</td>
+													<td class="ng-binding"><input type="number"
+														id="tot_ballots" ng-model='vm.closestation.tot_ballots'
+														min="0"></td>
+												</tr>
+
+												<tr style="text-align: left;">
+													<td id="problem1">How many spoilt ballot papers did
+														you issue replacements for?</td>
+													<td class="ng-binding"><input type="number"
+														id="tot_spoiled_replaced"
+														ng-model='vm.closestation.tot_spoiled_replaced' min="0">
+													</td>
+												</tr>
+
+												<tr style="text-align: left;">
+													<td id="problem2">Total ballot papers issued and not
+														spoilt</td>
+													<td class="ng-binding"><input type="text"
+														id="tot_subs"
+														value="{{((vm.closestation.tot_ballots) - (vm.closestation.tot_spoiled_replaced))>0 ? ((vm.closestation.tot_ballots) - (vm.closestation.tot_spoiled_replaced)) : '0'}}"
+														ng-class="{'reddish' : vm.calculate()}" disabled></td>
+												</tr>
+
+												<tr style="text-align: left;">
+													<td id="problem3">Total unused ballot papers</td>
+													<td class="ng-binding"><input type="number"
+														id="tot_unused" ng-model='vm.closestation.tot_unused'
+														min="0"></td>
+												</tr>
+
+												<tr style="text-align: left;">
+													<th><i class="fa fa-file-text p-r-10 f-18"></i>
+														Tendered Ballot Papers</th>
+													<th></th>
+												</tr>
+
+												<tr style="text-align: left;">
+													<td>Total ballot papers issued</td>
+													<td class="ng-binding"><input type="number"
+														id="tot_tend_ballots"
+														ng-model='vm.closestation.tot_tend_ballots' min="0"></td>
+												</tr>
+
+												<tr style="text-align: left;">
+													<td>Total spoilt tenderd ballot papers</td>
+													<td class="ng-binding"><input type="number"
+														id="tot_tend_spoiled"
+														ng-model='vm.closestation.tot_tend_spoiled' min="0"></td>
+												</tr>
+
+												<tr style="text-align: left;">
+													<td>Total unused tenderd ballot papers</td>
+													<td class="ng-binding"><input type="number"
+														id="tot_tend_unused"
+														ng-model='vm.closestation.tot_tend_unused' min="0"></td>
+												</tr>
+												<tr></tr>
+												<tr>
+													<td></td>
+													<td><button class="btn btn-success m-r-10"
+															type="button" style="float: center;"
+															ng-disabled="vm.buttonHidedisable"
+															ng-click="vm.closePollingStation(station.id,vm.closestation,selected.electionid)">
+															{{vm.buttonLable}}</button></td>
+												</tr>
+											</tbody>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</table>
+			<!-- 
+			<accordion-group is-open="open2"> <accordion-heading>
+			Entrance and Parking facilities<i class="pull-right glyphicon"
+				ng-class="{'glyphicon-chevron-down': open2, 'glyphicon-chevron-right': !open2}">
+			</i> </accordion-heading>
+			<div class="panel-body">.</div>
+			</accordion-group> <accordion-group is-open="open3"> <accordion-heading>
+			Inside Building<i class="pull-right glyphicon"
+				ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}">
+			</i> </accordion-heading>
+			<div class="panel-body">.</div>
+			</accordion-group> <accordion-group is-open="open3"> <accordion-heading>
+			General Observation<i class="pull-right glyphicon"
+				ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}">
+			</i> </accordion-heading>
+			<div class="panel-body">Anim pariatur cliche reprehenderit,
+				enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
+				moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+				quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+				aliqua put a bird on it squid single-origin coffee nulla assumenda
+				shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes
+				anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
+				butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw
+				denim aesthetic synth nesciunt you probably haven't heard of them
+				accusamus labore sustainable VHS.</div>
+			</accordion-group> </accordion> </tab> 
+			 --></tabset>
+		</div>
+
+	</div>
+
+
+</div>

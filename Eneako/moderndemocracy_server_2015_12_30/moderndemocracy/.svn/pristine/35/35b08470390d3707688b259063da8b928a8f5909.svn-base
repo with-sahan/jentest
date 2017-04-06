@@ -1,0 +1,35 @@
+### AUTHENTICATION ###
+http -v --session=user -form POST http://localhost:8080/pub/login?user=true login.user.name=user@moderndemocracy.com login.user.password=password
+http -a "user1@moderndemocracy.com":password http://localhost:8080/api/me
+
+### STATION SETUP LIST ###
+http -a "user1@moderndemocracy.com":password http://localhost:8080/api/stationsetuplist
+
+### ISSUE LIST ###
+http -a "user1@moderndemocracy.com":password http://localhost:8080/api/issuelist
+
+### WARD ###
+http GET localhost:8080/pub/wardretrieve
+
+### STATION ###
+http -a "user1@moderndemocracy.com":password GET localhost:8080/api/stationopen
+http -a "user1@moderndemocracy.com":password POST localhost:8080/api/stationopen < tests/httpie/json/stationOpen.json 
+http -a "user1@moderndemocracy.com":password POST localhost:8080/api/stationprogress < tests/httpie/json/stationProgress.json 
+http -a "user1@moderndemocracy.com":password POST localhost:8080/api/stationclose < tests/httpie/json/stationClose.json
+
+http -a "user1@moderndemocracy.com":password POST localhost:8080/api/stationcollected < tests/httpie/json/stationCollected.json
+http -a "user1@moderndemocracy.com":password POST localhost:8080/api/stationdelivered < tests/httpie/json/stationDelivered.json
+
+### ISSUE ###
+http -a "user1@moderndemocracy.com":password POST localhost:8080/api/issueopen < tests/httpie/json/issueOpen.json 
+http GET localhost:8080/pub/issueretrieve
+http PUT localhost:8080/pub/issueclose < tests/httpie/json/issueClose.json 
+
+### NOTIFICATION ###
+http POST localhost:8080/pub/notificationopen < tests/httpie/json/notificationOpen.json 
+http -a "user2@moderndemocracy.com":password GET localhost:8080/api/notificationretrieve
+
+### TRACKING ###
+http -a "user1@moderndemocracy.com":password POST localhost:8080/api/trackingsend < tests/httpie/json/tracking.json
+http GET localhost:8080/pub/trackingretrieve
+

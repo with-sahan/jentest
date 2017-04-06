@@ -1,0 +1,273 @@
+<div class="panel"
+	ng-controller="mdl.mobileweb.controller.closestation as vm">
+	<ng-include src="vm.template"></ng-include>
+	<div class="panel-header panel-controls">
+		<h3>
+			<i class="icon-target"></i> <strong>Close Station</strong>
+		</h3>
+	</div>
+	<div class="row stationlist">
+		<div class="col-md-12">
+			<tabset class="tab-fade-in tab_left"> <tab
+				ng-repeat="station in vm.pollingStationList"
+				ng-click="vm.stationcheck(station.id)"> <tab-heading>
+			<b class="icons-education-science-18"> &nbsp;&nbsp;&nbsp;&nbsp;
+				{{station.name}} </b> </tab-heading> <tabset class="tab-fade-in tab-default-behaviour"> <tab
+				ng-repeat="item in vm.electionlist"
+				ng-click="vm.checkElection(item.electionid,station.id);"> <tab-heading>
+			<b class="icons-education-science-18">&nbsp;&nbsp;&nbsp;&nbsp;
+				{{item.electionname}} </b></tab-heading>
+				<!-- EID - {{item.electionid}} Station ID - {{station.id}} <br />
+				Station status - {{vm.checkElectionClosed}}<br/>
+				is BPA generated - {{vm.isBPAgenerated}}	
+				**{{vm.checkElectionClosed}}	 -->
+				<div class="panel bg-success" style="text-align:center;padding:10px 10px 10px 20px;">				
+				<button type="button" class="btn m-r-10"
+				ng-if="vm.isBPAgenerated==0"
+				ng-disabled="vm.checkElectionClosed==0"
+				ng-class="(vm.checkElectionClosed==0 ? 'btn-default' : 'btn-primary')"
+				ng-click="vm.generateBPA(station.id,item.electionid)">Generate Ballot Paper Account</button>
+				<button type="button" class="btn m-r-10"
+				ng-disabled="vm.checkElectionClosed==0"
+				ng-class="(vm.checkElectionClosed==0 ? 'btn-default' : 'btn-primary')"
+				ng-click="vm.gotoPostalVotes();">Generate Statement of Postal Votes</button>	
+				<p ng-if="vm.isBPAgenerated==1">Ballot paper account is already generated.</p>
+				<button ng-if="vm.isBPAgenerated==1"  class="btn m-r-10 btn-primary" ng-click="vm.loadPaperCount(item.electionid,station.id)">View Ballot Account</button><br/>
+				<span ng-if="vm.isStationClosed==1">(The station is already closed.)</span>	
+				</div>				
+				</tabset> 
+				<div class="panel" ng-if="vm.isStationClosed==0">
+					<div class="panel-header">
+						<h3>
+							<i class="icon-target"></i> <strong>Election Close Check List</strong>
+						</h3>
+					</div>
+					<div class="panel-content">
+                         <div class="row chk_selectall">
+                             <div class="col-md-12">
+                                 <div class="input-group">
+                                     <div class="icheck-list">
+                                         <label>
+                                             <input id="selectall" type="checkbox"
+                                                    ng-true-value="1"
+                                                    ng-false-value="0"
+                                                    ng-model="vm.selectedAll"
+                                                    ng-change="vm.checkAll()"
+                                                    applyicheck="vm.selectedAll">
+                                             Select All
+                                         </label>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>					
+						<div class="row m-b-10" ng-repeat="(key1, value) in vm.postPollActivities">
+							<div class="col-md-12">
+								<div class="input-group">
+									<div class="icheck-list">
+										<input type="checkbox" ng-model="vm.postPollActivities[key1].iscompleted"
+											data-checkbox="icheckbox_flat-blue"
+											applyicheck="prePollActivity.iscompleted"
+                                            ng-true-value="1"
+                                            ng-false-value="0"											
+											ng-change="vm.setGroupChecked(prePollActivityGroup)">
+										<span class="openstation_para">{{vm.postPollActivities[key1].activity}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<button type="button" class="btn m-t-10 m-l-20 m-b-10 btn-success" ng-click="vm.saveStationChecklist(station.id)">Save</button>
+					<button type="button" class="btn m-t-10 m-b-10" ng-disabled="vm.closeStationEnabled==0" ng-class="vm.closeStationEnabled==0 ? 'btn-default' : 'btn-danger'" ng-click="vm.closePollingStation(station.id)">Close
+				Station</button>
+				</div>			
+
+<hr />
+<div class="panel" ng-show="vm.showBallotStats" id="ballotAcc">
+	<div class="panel-header panel-controls">
+		<h3>
+			<i class="icon-target"></i> <strong>Ballot</strong> Accounts
+		<!--  <button style="float: right;" ng-if="vm.isViewed==1" class="btn btn-default"
+		              ng-csv="getArray" filename="{{station.name}}_{{elecid}}.csv" field-separator="," decimal-separator="." lazy-load="true"
+		              >Export to CSV</button> -->
+		</h3>
+	</div>
+	
+	<div class="row stationlist" >
+		<div class="col-md-12">
+			<table cellspacing="0" class="stationStats" border="0px solid black" style="width:100%; border-collapse:separate; border-spacing: 1em;">
+			<div class="row">
+				<div class="form-horizontal">
+					<div class="col-md-12">
+						<div class="row">					
+							<div class="col-md-12">					
+								<div class="form-group">
+									<div class="row col-sm-12">
+										<tbody>
+											<tr>
+												<th style="text-align: left;"> <i class="fa fa-file-text p-r-10 f-18"></i>{{vm.bpNames.paper1}}</th>
+												<th style="text-align: right;"></th>
+											</tr>
+											
+											<tr>
+												<th style="text-align: left;"> <i class="fa fa-file-text p-r-10 f-18"></i> Ordinary Ballot Papers</th>
+												<th style="text-align: right;"></th>
+											</tr>
+							
+											<tr>
+												<td  style="text-align: left;">Total ballot papers issued</td>
+												<td  style="text-align: right;" class="ng-binding"><span ng-init="vm.closedstation.tot_ballots='0'">{{vm.closedstation.tot_ballots}}</span></td>
+											</tr>
+											
+											<tr>
+												<td style="text-align: left;" id="problem1">How many spoilt ballot papers did you issue replacements for?</td>
+												<td style="text-align: right;" class="ng-binding"><span ng-init="vm.closedstation.tot_spoiled_replaced='0'">{{vm.closedstation.tot_spolied_issued}}</span>
+												</td>
+											</tr>
+											
+											<tr>
+												<td style="text-align: left;" id="problem2">Total ballot papers issued and not spoilt</td>
+												<td style="text-align: right;" class="ng-binding"><span>{{(vm.closedstation.tot_ballots) - (vm.closedstation.tot_spolied_issued)}}</span></td>
+											</tr>
+											
+											<tr>
+												<td style="text-align: left;" id="problem3">Total unused ballot papers</td>
+												<td style="text-align: right;" class="ng-binding">
+												<span ng-init="vm.closedstation.tot_unused='0'">{{vm.closedstation.tot_unused}}</span>
+												</td>
+											</tr>
+										
+											<tr>
+												<th style="text-align: left;"> <i class="fa fa-file-text p-r-10 f-18"></i> Tendered Ballot Papers</th>
+												<th style="text-align: right;"></th>
+											</tr>
+							
+											<tr>
+												<td style="text-align: left;">Total ballot papers issued</td>
+												<td style="text-align: right;" class="ng-binding">
+												<span ng-init="vm.closedstation.tot_tend_ballots='0'">{{vm.closedstation.tot_tend_ballots}}</span>
+												</td>
+											</tr>
+											
+											<tr>
+												<td style="text-align: left;">Total spoilt tendered ballot papers</td>
+												<td style="text-align: right;" class="ng-binding">
+												<span ng-init="vm.closedstation.tot_tend_spoiled='0'">{{vm.closedstation.tot_tend_spoiled}}</span>
+												</td>
+											</tr>
+											
+											<tr>
+												<td style="text-align: left;">Total unused tendered ballot papers</td>
+												<td style="text-align: right;" class="ng-binding">
+												<span ng-init="vm.closedstation.tot_tend_unused='0'">{{vm.closedstation.tot_tend_unused}}</span>
+												</td>
+											</tr><tr></tr>
+											<tr>
+												<td></td>
+												<td></td>
+												
+											</tr>
+										</tbody>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			
+			<div class="row">
+				<div class="form-horizontal">
+					<div class="col-md-12">
+						<div class="row">					
+							<div class="col-md-12">					
+								<div class="form-group">
+									<div class="row col-sm-12">
+										<tbody ng-show="vm.typeResult.typecount==2">
+											<tr>
+												<th style="text-align: left;"> <i class="fa fa-file-text p-r-10 f-18"></i>{{vm.bpNames.paper2}}</th>
+												<th style="text-align: right;"></th>
+											</tr>
+											
+											<tr>
+												<th style="text-align: left;"> <i class="fa fa-file-text p-r-10 f-18"></i> Ordinary Ballot Papers</th>
+												<th style="text-align: right;"></th>
+											</tr>
+							
+											<tr>
+												<td  style="text-align: left;">Total ballot papers issued</td>
+												<td  style="text-align: right;" class="ng-binding"><span ng-init="vm.closedstation.tot_ballots='0'">{{vm.closedstation.tot_ballots2}}</span></td>
+											</tr>
+											
+											<tr>
+												<td style="text-align: left;" id="problem1">How many spoilt ballot papers did you issue replacements for?</td>
+												<td style="text-align: right;" class="ng-binding"><span ng-init="vm.closedstation.tot_spoiled_replaced='0'">{{vm.closedstation.tot_spolied_issued2}}</span>
+												</td>
+											</tr>
+											
+											<tr>
+												<td style="text-align: left;" id="problem2">Total ballot papers issued and not spoilt</td>
+												<td style="text-align: right;" class="ng-binding"><span>{{(vm.closedstation.tot_ballots2) - (vm.closedstation.tot_spolied_issued2)}}</span></td>
+											</tr>
+											
+											<tr>
+												<td style="text-align: left;" id="problem3">Total unused ballot papers</td>
+												<td style="text-align: right;" class="ng-binding">
+												<span ng-init="vm.closedstation.tot_unused='0'">{{vm.closedstation.tot_unused2}}</span>
+												</td>
+											</tr>
+										
+											<tr>
+												<th style="text-align: left;"> <i class="fa fa-file-text p-r-10 f-18"></i> Tendered Ballot Papers</th>
+												<th style="text-align: right;"></th>
+											</tr>
+							
+											<tr>
+												<td style="text-align: left;">Total ballot papers issued</td>
+												<td style="text-align: right;" class="ng-binding">
+												<span ng-init="vm.closedstation.tot_tend_ballots='0'">{{vm.closedstation.tot_tend_ballots2}}</span>
+												</td>
+											</tr>
+											
+											<tr>
+												<td style="text-align: left;">Total spoilt tendered ballot papers</td>
+												<td style="text-align: right;" class="ng-binding">
+												<span ng-init="vm.closedstation.tot_tend_spoiled='0'">{{vm.closedstation.tot_tend_spoiled2}}</span>
+												</td>
+											</tr>
+											
+											<tr>
+												<td style="text-align: left;">Total unused tendered ballot papers</td>
+												<td style="text-align: right;" class="ng-binding">
+												<span ng-init="vm.closedstation.tot_tend_unused='0'">{{vm.closedstation.tot_tend_unused2}}</span>
+												</td>
+											</tr><tr></tr>
+											<tr>
+												<td></td>
+												<td></td>
+												
+											</tr>
+										</tbody>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			
+			</table>
+			
+		</div>
+
+	</div>
+	
+	
+</div>
+
+				
+			</tabset>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,100 @@
+<div class="panel"
+	ng-controller="mdl.mobileweb.controller.orgsetup as vm" nv-file-drop=""
+	uploader="uploader" filters="queueLimit, customFilter">
+
+	<div class="panel-header panel-controls">
+		<h3>
+			<i class="icon-target"></i> <strong>Organization Setup </strong>
+		</h3>
+	</div>
+	<div class="row stationlist">
+		<div class="col-md-12">
+			<form class="form-horizontal ng-pristine ng-valid" role="form">
+				<div class="col-md-12">
+					<div class="form-group">
+						<div class="col-sm-3">Name</div>
+						<div class="col-sm-9">
+							<input type="text" placeholder="Name" ng-model='vm.orgSetup.name'
+								class="form-control" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3">Code</div>
+						<div class="col-sm-9">
+							<input type="text" placeholder="Code" ng-model='vm.orgSetup.code'
+								class="form-control" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3">Area Name</div>
+						<div class="col-sm-9">
+							<input type="text" placeholder="Area Name"
+								ng-model='vm.orgSetup.area' class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3">Address1</div>
+						<div class="col-sm-9">
+							<input type="text" placeholder="Address1"
+								ng-model='vm.orgSetup.address1' class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3">Addres2</div>
+						<div class="col-sm-9">
+							<input type="text" placeholder="Address2"
+								ng-model='vm.orgSetup.address2' class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3">Post Code</div>
+						<div class="col-sm-9">
+							<input type="text" placeholder="Post Code"
+								ng-model='vm.orgSetup.postcode' class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3">State</div>
+						<div class="col-sm-9">
+							<input type="text" placeholder="State"
+								ng-model='vm.orgSetup.state' class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3">Province</div>
+						<div class="col-sm-9">
+							<input type="text" placeholder="Province"
+								ng-model='vm.orgSetup.province' class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3">Email</div>
+						<div class="col-sm-9">
+							<input type="text" placeholder="Email"
+								ng-model='vm.orgSetup.email' class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3">Upload Logo</div>
+						<div class="col-sm-9">
+							<input type="file" nv-file-select="" uploader="uploader" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3">Current Logo</div>
+						<div class="col-sm-9">
+							<img src="" width="200" height="100" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3"></div>
+						<div class="col-sm-9">
+							<button class="btn btn-danger g_fr"
+								ng-click="vm.update(vm.orgSetup)" type="submit">Update</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

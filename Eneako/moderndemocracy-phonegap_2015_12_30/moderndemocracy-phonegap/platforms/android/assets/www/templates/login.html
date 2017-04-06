@@ -1,0 +1,33 @@
+
+<ion-view title="" hide-back-button="true">
+
+  <ion-content class="has-footer">   
+   <div class="logo" >
+   <img src="img/logo.png" width="250">
+   </div>
+    <form ng-submit="login()" ng-controller="LoginCtrl" class="contentWrapper"> 
+      <div class="content list login">
+        <p class="center">Please enter the username and password you were provided with</p> 
+        <label class="item item-input">
+          <span class="input-label">Username</span>
+          <input type="text" ng-model="username" required="required" placeholder="your username">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Password</span>
+          <input type="password" ng-model="password" required="required" placeholder="your password">
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">Login</button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+  <ion-footer-bar align-title="center" class="bar">
+   <div class="poweredBy">
+     <p>Powered By</p>
+     <img src="img/logo.png">
+   </div>
+  </ion-footer-bar>
+</div>
+</ion-view>
+

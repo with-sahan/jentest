@@ -1,0 +1,23 @@
+
+<header class="grid-wrap">
+    
+	<div class="grid-col">
+             <div id="navigation">
+			<div class="container">
+				<div class="button-right">
+					<button ng-click="Logout()">{{username}} | Logout</button>
+				</div>
+			</div>
+		</div>
+		<img ng-src="{{councilLogo}}" class="logo" >
+	</div>
+	<div class="grid-col-nopad navigation">
+		<nav  ng-controller="MainNavCtrl" id="mainNavigation">
+			<ul id="mainNavigationUl">
+                            	<li id="nav_blank"><a href="#"> </a></li>
+
+				<li ng-repeat="item in items" id="{{item.url == '/dashboard' ? 'dashboard' : ''}}" style="display:none"  ng-class="{active: item.active}"><a href="{{item.url}}">{{item.text}}</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>

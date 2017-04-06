@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="createvoter" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>createvoter</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="createvoter" useConfig="mdl_psm">
+    <sql>call psm.createvoter(?, ?, ?, ?, ?, ?);</sql>
+    <result outputType="json">{&#xD; "result":{&#xD;  "entry":[&#xD;   {"response":$response&#xD;   }&#xD;  ]&#xD; }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="polling_station_id" sqlType="INTEGER" />
+    <param name="voter_name" sqlType="STRING" />
+    <param name="phone_number" sqlType="STRING" />
+    <param name="companion_name" sqlType="STRING" />
+    <param name="companion_address" sqlType="STRING" />
+  </query>
+  <operation name="createvoter">
+    <description>createvoter</description>
+    <call-query href="createvoter">
+      <with-param name="token" query-param="token" />
+      <with-param name="polling_station_id" query-param="polling_station_id" />
+      <with-param name="voter_name" query-param="voter_name" />
+      <with-param name="phone_number" query-param="phone_number" />
+      <with-param name="companion_name" query-param="companion_name" />
+      <with-param name="companion_address" query-param="companion_address" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="createvoter">
+    <description>createvoter</description>
+    <call-query href="createvoter">
+      <with-param name="token" query-param="token" />
+      <with-param name="polling_station_id" query-param="polling_station_id" />
+      <with-param name="voter_name" query-param="voter_name" />
+      <with-param name="phone_number" query-param="phone_number" />
+      <with-param name="companion_name" query-param="companion_name" />
+      <with-param name="companion_address" query-param="companion_address" />
+    </call-query>
+  </resource>
+</data>

@@ -1,0 +1,44 @@
+<ion-view title="Photo" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    <a href="#/app/home"><button class="button button-icon icon ion-ios-home"></button></a>
+  </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+  </ion-nav-buttons>
+
+  <ion-content>
+    <div class="contentWrapper">
+  <div class="content list">
+
+	<div class="row row-center" style="margin-bottom: 8px;">
+
+
+		<div class= "col col-center" style = "text-align: center">
+
+		<img  style="max-width:75%" ng-src="{{photoURI.data || 'img/placeholder.jpg'}}" > </img>
+
+		</div>
+
+	</div>
+<div></div>
+
+      <div class="content list">
+        <polling-stations data="data"></polling-stations>
+      </div>
+
+    	<div style = "margin-top: 8px;" class="content list buttonBar row" ng-hide ="photoOK">
+
+		    <button class="col button button-modern onesie" ng-click="takePhoto()">Take Photo</button>
+    		<button class="col button button-calm onesie" ng-click="choosePhoto()">Choose Photo</button>
+
+    	</div>
+
+    	<div style = "margin-top: 8px;" class="content list buttonBar row" ng-hide ="!photoOK">
+    		<button class="col button button-modern onesie" ng-click="uploadPhoto()">Upload Photo</button>
+		    <button class="col button button-calm onesie" ng-click="resetPhoto()">Choose Another</button>
+    	</div>
+
+   </div>
+</div>
+  </ion-content>
+</ion-view>

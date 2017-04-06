@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getelectionbyid" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getelectionbyid</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getelectionbyid" useConfig="mdl_psm">
+    <sql>call psm.getelectionbyid (?,?)</sql>
+    <result outputType="json">{&#xD; "result":{&#xD;  "entry":[&#xD;   {"response":$response,&#xD;    "electionid":$electionid,&#xD;    "organization_id":$organization_id,&#xD;    "election_name":$election_name,&#xD;    "election_date":$election_date,&#xD;    "election_date_start":$election_date_start,&#xD;    "election_date_end":$election_date_end,&#xD;    "election_start_time":$election_start_time,&#xD;    "election_end_time":$election_end_time,&#xD;    "status":$status,&#xD;    "ballotboxno":$ballotboxno,&#xD;    "counting_center_name":$counting_center_name,&#xD;    "counting_center_id":$counting_center_id,&#xD;    "counting_center_address":$counting_center_address,&#xD;    "BPA_identifier":$BPA_identifier,&#xD;    "ballot_type_count":$ballot_type_count,&#xD;    "today_date":$today_date,&#xD;    "today_time":$today_time&#xD;   }&#xD;  ]&#xD; }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="election_Id" sqlType="INTEGER" />
+  </query>
+  <operation name="getelectionbyid">
+    <description>getelectionbyid</description>
+    <call-query href="getelectionbyid">
+      <with-param name="token" query-param="token" />
+      <with-param name="election_Id" query-param="election_Id" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getelectionbyid">
+    <description>getelectionbyid</description>
+    <call-query href="getelectionbyid">
+      <with-param name="token" query-param="token" />
+      <with-param name="election_Id" query-param="election_Id" />
+    </call-query>
+  </resource>
+</data>

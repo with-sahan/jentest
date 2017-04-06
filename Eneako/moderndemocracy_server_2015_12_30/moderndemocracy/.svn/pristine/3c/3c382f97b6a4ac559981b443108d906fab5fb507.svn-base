@@ -1,0 +1,65 @@
+package com.moderndemocracy.jetty.handler;
+
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+
+import org.apache.log4j.Logger;
+
+import com.anaeko.utils.http.Code;
+import com.moderndemocracy.dao.StationSetupStatusDao;
+import com.moderndemocracy.dao.UsersDao;
+import com.moderndemocracy.json.StationCloseMarshaler;
+import com.moderndemocracy.pojo.AuthenticatedUser;
+import com.moderndemocracy.pojo.StationClose;
+import com.moderndemocracy.pojo.User;
+
+public class StationCloseHandler extends ModernDemocracyHandler {
+
+	private static final Logger logger = Logger.getLogger(StationCloseHandler.class);
+
+	@Override
+	protected String getSupportedMethods() {
+		return "POST";
+	}
+
+
+	@Override
+	protected void handlePost(String target, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		// Update StationSetupStatus
+		try {
+			
+			// Unmarshal StationSetupState from request
+			StationCloseMarshaler stationCloseMarshaler = new StationCloseMarshaler();
+			StationClose StationClose = (StationClose) stationCloseMarshaler.unmarshal(request.getInputStream());
+			
+			// DAOs
+			UsersDao userDao = new UsersDao(getDataSource());
+			StationSetupStatusDao stationProgressDao = new StationSetupStatusDao(getDataSource());
+			
+			// Get session ID
+			String id = read(request).sessionId();
+			logger.debug("Session ID = " + id);
+					
+			// Get DefaultUser object for this user.
+			AuthenticatedUser currentUser = (AuthenticatedUser)getServiceContext().getUser(id);
+			
+			// Get StationId By UserId
+			User user = userDao.getById(currentUser.getId());
+			
+			// Update StationSetup status
+			DataSource source = getDataSource();
+			
+			logger.debug("POST StationClose - userId="+user.getId()+", stationId="+user.getStationId());
+			stationProgressDao.insertClosingUpdate(source, user.getStationId(), StationClose);
+			
+		} catch (Exception e) {
+			logger.error("Unexpected Exception", e);
+			send(request, response).status(Code.SERVER_ERROR_INTERNAL);
+		}
+	}
+
+}

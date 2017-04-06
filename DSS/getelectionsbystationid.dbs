@@ -1,0 +1,29 @@
+<data name="getelectionsbystationid" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+   <description>getelectionsbystationid</description>
+   <config id="mdl_psm">
+      <property name="driverClassName">com.mysql.jdbc.Driver</property>
+      <property name="url">jdbc:mysql://localhost:60804/psm</property>
+      <property name="username">root</property>
+      <property name="password">pass@123</property>
+   </config>
+   <query id="getelectionsbystationid" useConfig="mdl_psm">
+      <sql>call getelectionsbystationid(?,?)</sql>
+      <result outputType="json">{&#13;  "result": {&#13;    "entry": [&#13;      {&#13;        "response": "$response",&#13;        "electionid": $electionid,&#13;        "electionname": "$electionname",&#13;        "startdate": "$startdate",&#13;        "enddate": "$enddate",&#13;        "status": "$status",&#13;        "ballotboxno": "$ballotboxno",&#13;        "isopened": "$isopened",&#13;        "isclosed": "$isclosed",&#13;        "electionstarttime": "$electionstarttime",&#13;        "openedat": "$openedat",&#13;        "closedat": "$closedat"&#13;      }&#13;    ]&#13;  }&#13;}&#13;</result>
+      <param name="token" sqlType="STRING"/>
+      <param name="stationid" sqlType="INTEGER"/>
+   </query>
+   <operation name="getelectionsbystationid">
+      <description>getelectionsbystationid                                    &#13;                                    </description>
+      <call-query href="getelectionsbystationid">
+         <with-param name="token" query-param="token"/>
+         <with-param name="stationid" query-param="stationid"/>
+      </call-query>
+   </operation>
+   <resource method="POST" path="getelectionsbystationid">
+      <description>getelectionsbystationid                                    &#13;                                    </description>
+      <call-query href="getelectionsbystationid">
+         <with-param name="token" query-param="token"/>
+         <with-param name="stationid" query-param="stationid"/>
+      </call-query>
+   </resource>
+</data>

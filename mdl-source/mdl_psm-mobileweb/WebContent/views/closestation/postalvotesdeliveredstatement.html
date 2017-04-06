@@ -1,0 +1,69 @@
+<div class="panel"
+	ng-controller="mdl.mobileweb.controller.postalvotesdeliveredstatement as vm">
+	<ng-include src="template" ></ng-include>
+	<ng-include src="template2" ></ng-include>
+	<div class="panel-header panel-controls">
+		<h3>
+			<i class="icon-target"></i> <strong>Statement</strong> of Postal Votes
+		</h3>
+	</div>
+	<div class="row stationlist">
+		<div class="col-md-12">
+			<tabset class="tab-fade-in tab_left"> <tab
+				ng-repeat="station in vm.pollingStationList"
+				ng-click="vm.stationcheck(station.id)"> <tab-heading>
+			<b class="icons-education-science-18"> &nbsp;&nbsp;&nbsp;&nbsp;
+				{{station.name}} </b> </tab-heading> 
+			<tabset class="tab-fade-in" ng-if="vm.stationstatus"> <tab
+				ng-repeat="item in vm.electionlist"
+				ng-click="vm.getProgress(item.electionid,station.id)"
+				value="{{item.electionid}}"> <tab-heading> <b
+				class="icons-education-science-18"> &nbsp;&nbsp;&nbsp;&nbsp;
+				{{item.electionname}} </b> </tab-heading>
+			<div class="row">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Time</th>
+							<th>Number of Envelopes Handed Over</th>
+							<th>Name of Person Uplifting</th>
+						</tr>
+						
+					</thead>
+					<tbody>
+						<tr
+							ng-repeat="statDetails in vm.progressSummery" ng-show="vm.progressSummery.length>0"
+							ng-model="statDetails.collectedtime" value="{{statDetails.collectedtime}}">
+							<td>{{statDetails.collectedtime | date:"yyyy-MM-dd 'at' h:mma"}}</td>
+							<td>{{statDetails.collectedpacks}}</td>
+							<td>{{statDetails.person}}</td>
+						</tr>
+						<tr
+							ng-hide="vm.progressSummery.length>0"
+							ng-model="vm.progressSummery.collectedtime" value="{{vm.progressSummery.collectedtime}}">
+							<td>{{vm.progressSummery.collectedtime | date:"yyyy-MM-dd 'at' h:mma"}}</td>
+							<td>{{vm.progressSummery.collectedpacks}}</td>
+							<td>{{vm.progressSummery.person}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="form-group">
+                 <label class="col-sm-12 control-label">Number of Envelopes Remaining at Close of Poll: 0</label>
+                 <!-- <div class="col-sm-3">
+                     0
+                 </div> -->
+             </div>
+             
+             <div class="form-group">
+                 <div class="col-sm-12">
+                     <button class="btn btn-danger m-r-10" type="button" ng-click="vm.cancel();">
+                         Close
+                     </button>
+                 </div>
+             </div>              
+			</tabset></tabset>
+			</div>
+		</div>
+	</div>	

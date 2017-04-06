@@ -1,0 +1,113 @@
+
+	#-----------------------------------------------------------------------------
+	# If the locale cookie is not set assume en_GB is the locale
+	#-----------------------------------------------------------------------------
+	map $cookie_locale $user_locale {
+		default en_GB;
+		~^(?P<value>[\w-]+) $value;
+	}
+
+	types {
+        # here is additional types
+        application/vnd.ms-fontobject      eot;
+        application/x-font-ttf             ttf;
+        font/opentype                      ott;
+        application/font-woff              woff;
+        text/javascript-map                map;
+    }
+
+	#-----------------------------------------------------------------------------
+	# If connection is made on port 80 (HTTP) redirect to port 443 (HTTPS)
+	#-----------------------------------------------------------------------------
+	server {
+		location / {
+			rewrite     ^   https://$host$request_uri permanent;
+		}
+	}
+
+	#-----------------------------------------------------------------------------
+	# Main HTTPS server configuration
+	#-----------------------------------------------------------------------------
+	server{
+
+		#---------------------------------------------------------------------------
+		# Set up SSL, point to the local SSL cert and private key
+		# For development any self signed cert and accompanying key will do
+		#---------------------------------------------------------------------------
+		listen               443 ssl;
+		ssl	                 on;
+		ssl_certificate      /etc/ssl/certs/moderndemocracy.crt;
+		ssl_certificate_key  /etc/ssl/private/moderndemocracy.key;
+		ssl_protocols 		 TLSv1 TLSv1.1 TLSv1.2;
+		ssl_ciphers          ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4;
+		ssl_prefer_server_ciphers 	on;
+
+		#---------------------------------------------------------------------------
+		# Enable gzip support
+		#---------------------------------------------------------------------------
+		gzip on;
+        gzip_disable "msie6";
+
+        gzip_vary on;
+        gzip_proxied any;
+        gzip_comp_level 6;
+        gzip_buffers 16 8k;
+        gzip_http_version 1.1;
+        gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/rss+xml text/javascript image/svg+xml application/vnd.ms-fontobject application/x-font-ttf font/opentype text/javascript-map;
+
+		#---------------------------------------------------------------------------
+		# Define variables
+		#---------------------------------------------------------------------------
+		set $api_server				127.0.0.1;
+		set $api_server_port		8080;
+		set $static_root			/var/www;
+		root /var/www/moderndemocracy/$user_locale;
+		index index.html;
+
+		#---------------------------------------------------------------------------
+        # Reroute the basic HTML pages to index.html.
+        # On that way the one page app can reuse templates.
+        # Added cache headers.
+        #---------------------------------------------------------------------------
+		location / {
+			try_files $uri $uri/ /index.html?$args;
+			# Turn off cache in dev mode
+			#expires         7d;
+			#add_header      Cache-Control  public;
+			#ssi  			on;
+		}
+
+		# Temporary solution for faking POST data
+		error_page 405 = $uri;
+
+		#---------------------------------------------------------------------------
+		# Route the /api path to the moderndemocracy API services
+		# Note that the default port $api_server_port can be changed if required
+		#---------------------------------------------------------------------------
+		location ^~ /api {
+			proxy_pass             http://$api_server:$api_server_port$request_uri;
+			proxy_set_header       Host $http_host;
+			proxy_set_header       X-Real-IP $remote_addr;
+		}
+
+		#---------------------------------------------------------------------------
+		# Route the public services to moderndemocracy, e.g. login, register, etc.
+		#---------------------------------------------------------------------------
+	  	location ^~ /pub {
+			proxy_pass             http://$api_server:$api_server_port$request_uri;
+			proxy_set_header       Host $http_host;
+			proxy_set_header       X-Real-IP $remote_addr;
+		}
+
+		#---------------------------------------------------------------------------
+		# Configure the default NGINX error responses to point to the moderndemocracy
+		# HTML rather than use the built in HTML. Handling of errors SHOULD be done
+		# in the application itself, these are just fall back options.
+		#---------------------------------------------------------------------------
+		error_page	400	/400.html;
+		error_page	401	/401.html;
+		error_page	403	/403.html;
+		error_page	404	/404.html;
+		error_page	500	/500.html;
+		error_page	503	/503.html;
+	}

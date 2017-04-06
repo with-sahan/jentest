@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data name="getprogress" serviceNamespace="www.moderndemocracy.com/services/psm" transports="http https">
+  <description>getprogress</description>
+  <config id="mdl_psm">
+    <property name="carbon_datasource_name">mdl-psm-ds</property>
+  </config>
+  <query id="getprogress" useConfig="mdl_psm">
+    <sql>call getprogress(?,?,?)</sql>
+    <result outputType="json">{&#xD;    "result": {&#xD;        "entry": [&#xD;            {&#xD;                "ballotpapers": "$ballotpapers",&#xD;                "postalpacks": "$postalpacks",&#xD;                "postalpackscollected": "$postalpackscollected",&#xD;                "response": "$response"&#xD;            }&#xD;        ]&#xD;    }&#xD;}</result>
+    <param name="token" sqlType="STRING" />
+    <param name="electionid" sqlType="INTEGER" />
+    <param name="pollingstationid" sqlType="INTEGER" />
+  </query>
+  <operation name="getprogress">
+    <description>getprogress</description>
+    <call-query href="getprogress">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="pollingstationid" query-param="pollingstationid" />
+    </call-query>
+  </operation>
+  <resource method="POST" path="getprogress">
+    <description>getprogress</description>
+    <call-query href="getprogress">
+      <with-param name="token" query-param="token" />
+      <with-param name="electionid" query-param="electionid" />
+      <with-param name="pollingstationid" query-param="pollingstationid" />
+    </call-query>
+  </resource>
+</data>
