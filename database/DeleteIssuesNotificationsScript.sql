@@ -1,5 +1,6 @@
 SET @orgid = 9;
 
+
 delete FROM psm.chat where organizationid=@orgid;
 delete FROM psm.compliance_election where organization_id=@orgid;
 delete FROM psm.counting_center where organization_id=@orgid;
